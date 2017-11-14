@@ -26,7 +26,7 @@ class CreateAnnotationAssistanceRequestsTable extends Migration
             $table->increments('id');
 
             // The token for the single-use URL that the assistant receives.
-            $table->string('token')->unique();
+            $table->string('token', 64)->unique();
 
             // Email address of the assistant.
             $table->string('email');

@@ -57,4 +57,10 @@ class AnnotationAssistanceRequestTest extends ModelTestCase
         $this->setExpectedException('Illuminate\Database\QueryException');
         $this->model->save();
     }
+
+    public function testGenerateToken()
+    {
+        $token = AnnotationAssistanceRequest::generateToken();
+        $this->assertEquals(64, strlen($token));
+    }
 }
