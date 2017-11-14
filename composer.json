@@ -1,0 +1,13 @@
+{
+    "name": "biigle/ananas",
+    "require": {
+        "biigle/annotations": "~2.7"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Biigle\\Modules\\Ananas\\": "src"
+        }
+    }
+}
