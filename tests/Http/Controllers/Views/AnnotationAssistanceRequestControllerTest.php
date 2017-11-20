@@ -16,7 +16,6 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $annotation = AnnotationTest::create(['image_id' => $image->id]);
         $id = $annotation->id;
 
-
         $this->get("annotation-assistance-requests/create")->assertRedirect('login');
 
         $this->beGuest();
@@ -28,5 +27,23 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $this->get("annotation-assistance-requests/create?annotation_id={$id}")
             ->assertStatus(200)
             ->assertViewIs('ananas::create');
+    }
+
+    public function testShow()
+    {
+        $request = AnanasTest::create();
+
+        $this->get("annotation-assistance-requests/{$request->id}")
+            ->assertRedirect('login');
+
+        $this->beAdmin();
+        $this->get("annotation-assistance-requests/99999")->assertStatus(404);
+        $this->get("annotation-assistance-requests/{$request->id}")
+            ->assertStatus(403);
+
+        $this->be($request->user);
+        $this->get("annotation-assistance-requests/{$request->id}")
+            ->assertStatus(200)
+            ->assertViewIs('ananas::show');
     }
 }

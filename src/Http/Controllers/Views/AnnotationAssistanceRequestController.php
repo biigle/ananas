@@ -67,13 +67,29 @@ class AnnotationAssistanceRequestController extends Controller
     /**
      * Show an assistance request
      *
-     * @param Guard $auth
-     * @param Request $request
+     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Guard $auth)
+    public function show($id)
     {
-        //
+        $request = AnnotationAssistanceRequest::with('annotation.image.volume', 'annotation.shape')->findOrFail($id);
+        $this->authorize('access', $request);
+
+        return view('ananas::show', [
+            'request' => $request,
+        ]);
+    }
+
+    /**
+     * Respond to an assistance request
+     *
+     * @param string $token
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function respond($token)
+    {
+        // TODO
     }
 }

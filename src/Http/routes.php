@@ -21,4 +21,9 @@ $router->group([
         'as'   => 'create-assistance-request',
         'uses' => 'AnnotationAssistanceRequestController@create',
     ]);
+
+    $router->get('annotation-assistance-requests/{id}', [
+        'as'   => 'show-assistance-request',
+        'uses' => 'AnnotationAssistanceRequestController@show',
+    ]);
 });

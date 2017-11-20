@@ -25,6 +25,18 @@ class AnnotationAssistanceRequestPolicy
     }
 
     /**
+     * Determine if the given assistance request can be accessed by the user.
+     *
+     * @param  User  $user
+     * @param  AnnotationAssistanceRequest  $request
+     * @return bool
+     */
+    public function access(User $user, AnnotationAssistanceRequest $request)
+    {
+        return $request->user_id === $user->id;
+    }
+
+    /**
      * Determine if the given assistance request can be deleted by the user.
      *
      * @param  User  $user
@@ -33,6 +45,6 @@ class AnnotationAssistanceRequestPolicy
      */
     public function destroy(User $user, AnnotationAssistanceRequest $request)
     {
-        return $request->user_id === $user->id;
+        return $this->access($user, $request);
     }
 }
