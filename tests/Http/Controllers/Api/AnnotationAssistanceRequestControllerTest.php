@@ -89,6 +89,23 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $response->assertStatus(422);
     }
 
+    public function testStoreRedirect()
+    {
+        $image = ImageTest::create(['volume_id' => $this->volume()->id]);
+        $annotation = AnnotationTest::create(['image_id' => $image->id]);
+        $label = LabelTest::create();
+
+        $this->beEditor();
+        $response = $this->post('/api/v1/annotation-assistance-requests', [
+            'annotation_id' => $annotation->id,
+            'email' => 'joe@user.com',
+            'request_text' => 'Hi Joe!',
+        ]);
+
+        $ananas = AnnotationAssistanceRequest::first();
+        $response->assertRedirect("annotation-assistance-requests/{$ananas->id}");
+    }
+
     public function testUpdate()
     {
         $ananas = AnanasTest::create();

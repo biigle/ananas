@@ -94,6 +94,12 @@ class AnnotationAssistanceRequestController extends Controller
         }
 
         $assistanceRequest->save();
+
+        if (static::isAutomatedRequest($request)) {
+            return $assistanceRequest;
+        }
+
+        return redirect()->route('show-assistance-request', $assistanceRequest->id);
     }
 
     /**
