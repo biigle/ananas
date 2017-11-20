@@ -4,6 +4,7 @@ namespace Biigle\Modules\Ananas;
 
 use Biigle\Services\Modules;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
@@ -38,6 +39,8 @@ class AnanasServiceProvider extends ServiceProvider
         //         'manualTutorial',
         //     ],
         // ]);
+
+        Gate::policy(\Biigle\Modules\Ananas\AnnotationAssistanceRequest::class, \Biigle\Modules\Ananas\Policies\AnnotationAssistanceRequestPolicy::class);
     }
 
     /**

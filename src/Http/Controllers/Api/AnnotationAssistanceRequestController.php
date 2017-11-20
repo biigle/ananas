@@ -5,6 +5,7 @@ namespace Biigle\Modules\Ananas\Http\Controllers\Api;
 use DB;
 use Biigle\Role;
 use Biigle\Label;
+use Carbon\Carbon;
 use Biigle\Annotation;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
@@ -116,7 +117,27 @@ class AnnotationAssistanceRequestController extends Controller
      */
     public function update(Request $request, $token)
     {
+        $this->validate($request, AnnotationAssistanceRequest::$updateRules);
 
+        $assistanceRequest = AnnotationAssistanceRequest::where('token', $token)
+            ->whereNull('closed_at')
+            ->firstOrFail();
+
+        if ($request->has('response_label_id')) {
+            $id = $request->input('response_label_id');
+            $labels = collect($assistanceRequest->request_labels);
+            if (!$labels->pluck('id')->containsStrict($id)) {
+                return $this->buildFailedValidationResponse($request, [
+                    'response_label_id' => 'The response label ID must be picked from one of the request labels.',
+                ]);
+            }
+
+            $assistanceRequest->response_label_id = $id;
+        }
+
+        $assistanceRequest->response_text = $request->input('response_text');
+        $assistanceRequest->closed_at = new Carbon;
+        $assistanceRequest->save();
     }
 
     /**
@@ -129,13 +150,14 @@ class AnnotationAssistanceRequestController extends Controller
      *
      * @apiParam {Number} id ID of the assistance request
      *
-     * @param Guard $auth
      * @param int $id ID of the assistance request
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Guard $auth, $id)
+    public function destroy($id)
     {
-
+        $assistanceRequest = AnnotationAssistanceRequest::findOrFail($id);
+        $this->authorize('destroy', $assistanceRequest);
+        $assistanceRequest->delete();
     }
 }

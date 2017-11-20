@@ -44,6 +44,7 @@ class AnnotationAssistanceRequest extends Model
         'request_labels' => 'array',
         'response_label_id' => 'integer',
         'closed_at' => 'timestamp',
+        'user_id' => 'integer',
     ];
 
     /**
