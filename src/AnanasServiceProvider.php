@@ -20,12 +20,12 @@ class AnanasServiceProvider extends ServiceProvider
      */
     public function boot(Modules $modules, Router $router)
     {
-        // $this->loadViewsFrom(__DIR__.'/resources/views', 'ananas');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'ananas');
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
 
-        // $this->publishes([
-        //     __DIR__.'/public/assets' => public_path('vendor/ananas'),
-        // ], 'public');
+        $this->publishes([
+            __DIR__.'/public/assets' => public_path('vendor/ananas'),
+        ], 'public');
 
         $router->group([
             'namespace' => 'Biigle\Modules\Ananas\Http\Controllers',
@@ -34,11 +34,14 @@ class AnanasServiceProvider extends ServiceProvider
             require __DIR__.'/Http/routes.php';
         });
 
-        // $modules->register('ananas', [
-        //     'viewMixins' => [
-        //         'manualTutorial',
-        //     ],
-        // ]);
+        $modules->register('ananas', [
+            'viewMixins' => [
+                // 'manualTutorial',
+                'annotationsScripts',
+                'annotationsStyles',
+                'annotationsAnnotationsTab',
+            ],
+        ]);
 
         Gate::policy(\Biigle\Modules\Ananas\AnnotationAssistanceRequest::class, \Biigle\Modules\Ananas\Policies\AnnotationAssistanceRequestPolicy::class);
     }

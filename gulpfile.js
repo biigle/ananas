@@ -13,7 +13,7 @@ gulp.task('sass-main', function () {
 });
 
 gulp.task('js-main', function (cb) {
-    h.js('ananas/**/*.js', 'main.js', cb);
+    h.js('**/*.js', 'main.js', cb);
 });
 
 gulp.task('sass', ['sass-main']);
@@ -22,7 +22,7 @@ gulp.task('js', ['js-main']);
 
 gulp.task('watch', function () {
     gulp.watch(h.paths.sass + '**/*.scss', ['sass']);
-    gulp.watch(h.paths.js + 'ananas/**/*.js', ['js-main']);
+    gulp.watch(h.paths.js + '**/*.js', ['js-main']);
     gulp.watch(h.paths.public + '**/*', publish);
 });
 
