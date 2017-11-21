@@ -24,6 +24,9 @@ biigle.$viewModel('create-ananas-form', function (element) {
                     return label.selected;
                 });
             },
+            hasTooManySelectedLabels: function () {
+                return this.selectedLabels.length > 5;
+            },
         },
         methods: {
             close: function () {

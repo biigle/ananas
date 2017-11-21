@@ -134,7 +134,7 @@ class AnnotationAssistanceRequestController extends Controller
             $labels = collect($assistanceRequest->request_labels);
             if (!$labels->pluck('id')->containsStrict($id)) {
                 return $this->buildFailedValidationResponse($request, [
-                    'response_label_id' => 'The response label ID must be picked from one of the request labels.',
+                    'response_label_id' => ['The response label ID must be picked from one of the request labels.'],
                 ]);
             }
 

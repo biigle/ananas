@@ -9,9 +9,15 @@ $router->group([
     ]);
 });
 
-// This endpoint is public and protected by a token only known to the receiver of the
+// These endpoints are public and protected by a token only known to the receiver of the
 // assistance request.
 $router->put('api/v1/annotation-assistance-requests/{token}', 'Api\AnnotationAssistanceRequestController@update');
+$router->get('api/v1/annotation-assistance-requests/{token}/image', 'Api\ImageController@show');
+
+$router->get('annotation-assistance-requests/respond/{token}', [
+    'as'   => 'respond-assistance-request',
+    'uses' => 'Views\AnnotationAssistanceRequestController@respond',
+]);
 
 $router->group([
     'namespace' => 'Views',
@@ -27,3 +33,4 @@ $router->group([
         'uses' => 'AnnotationAssistanceRequestController@show',
     ]);
 });
+

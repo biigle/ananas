@@ -42,7 +42,8 @@
             </div>
 
             <div class="form-group{{ $errors->has('request_labels') ? ' has-error' : '' }}">
-                <label for="request_labels">Labels to suggest to the receiver of the assistance request (optional)</label>
+                <label for="request_labels">Labels to suggest to the receiver of the assistance request <span class="text-muted">(optional)</span></label>
+                <p v-if="hasTooManySelectedLabels" v-cloak class="text-info">Don't overwhelm the receiver of the assistance request with suggested labels. Pick only those you think most relevant.</p>
                 <div class="form-control request-labels-list" readonly>
                     <span v-for="label in selectedLabels" v-text="label.name"></span>
                 </div>

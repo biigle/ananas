@@ -43,7 +43,7 @@ class AnnotationAssistanceRequest extends Model
     protected $casts = [
         'request_labels' => 'array',
         'response_label_id' => 'integer',
-        'closed_at' => 'timestamp',
+        'closed_at' => 'datetime',
         'user_id' => 'integer',
     ];
 

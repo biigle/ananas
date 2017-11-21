@@ -29,6 +29,30 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
             ->assertViewIs('ananas::create');
     }
 
+    public function testRespond()
+    {
+        $request = AnanasTest::create();
+
+        $this->get("annotation-assistance-requests/respond/abcdef")
+            ->assertStatus(404);
+
+        $this->get("annotation-assistance-requests/respond/{$request->token}")
+            ->assertStatus(200)
+            ->assertViewIs('ananas::respond')
+            // Test if "secret" information like IDs is hidden from the view.
+            ->assertViewHas('annotation', collect([
+                'id' => 0,
+                'shape' => $request->annotation->shape->name,
+                'points' => $request->annotation->points,
+            ]));
+
+        $request->closed_at = new \Carbon\Carbon;
+        $request->save();
+
+        $this->get("annotation-assistance-requests/respond/{$request->token}")
+            ->assertStatus(404);
+    }
+
     public function testShow()
     {
         $request = AnanasTest::create();

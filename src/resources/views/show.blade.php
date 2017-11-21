@@ -13,8 +13,8 @@
 <script src="{{ cachebust_asset('vendor/ananas/scripts/main.js') }}"></script>
 <script type="text/javascript">
     biigle.$declare('annotations.imageFileUri', '{!! url('api/v1/images/{id}/file') !!}');
-    biigle.$declare('annotations.volumeIsRemote', @if($request->annotation->image->volume->isRemote()) true @else false @endif);
-    biigle.$declare('ananas.annotation', {!! $request->annotation !!});
+    biigle.$declare('annotations.volumeIsRemote', @if ($isRemote) true @else false @endif);
+    biigle.$declare('ananas.annotation', {!! $annotation !!});
 </script>
 @endpush
 
@@ -28,19 +28,19 @@
 <div class="navbar-text">
     Annotation assistance request from <strong>{{$request->user->firstname}} {{$request->user->lastname}}</strong> to <strong>{{$request->email}}</strong>.
     @if ($request->closed_at)
-        <span class="label label-success" title="{{$request->closed_at}}">
+        <span class="label label-default" title="{{$request->closed_at}}">
             Closed {{$request->closed_at->diffForHumans()}}
         </span>
     @else
         <span class="label label-info">
-            No response yet.
+            No response yet
         </span>
     @endif
 </div>
 @endsection
 
 @section('content')
-<div id="ananas-container" class="annotator-container" v-cloak>
+<div id="ananas-show-container" class="annotator-container" v-cloak>
     <div class="annotator-container__canvas">
         <loader-block :active="loading"></loader-block>
         <annotation-canvas
@@ -62,21 +62,26 @@
             <p>
                 Text:
             </p>
-            <p class="well well-sm">
-                {{$request->request_text}}
-            </p>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{$request->request_text}}
+                </div>
+            </div>
             @if ($request->request_labels)
                 <p>Suggested labels:</p>
-                <ul class="list-unstyled">
-                    @foreach ($request->request_labels as $label)
-                        <li class="annotations-tab-item__title">
-                            <span class="annotations-tab-item__color" style="background-color:#{{$label['color']}}"></span> {{$label['name']}}
-                        </li>
-                    @endforeach
-                </ul>
+                <div class="panel panel-default">
+                    <ul class="list-group">
+                        @foreach ($request->request_labels as $label)
+                            <li class="list-group-item suggested-label">
+                                <span class="suggested-label__color" style="background-color:#{{$label['color']}}"></span> {{$label['name']}}
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
+            <button type="button" class="btn btn-danger btn-block" title="Delete this annotation assistance request">Delete</button>
         </sidebar-tab>
-        <sidebar-tab name="response" icon="fa-comments" :disabled="true" title="The receiver of the assistance request has not responded yet">
+        <sidebar-tab name="response" icon="fa-comments" :disabled="true" title="{{$request->email}} has not responded yet">
 
         </sidebar-tab>
     </sidebar>

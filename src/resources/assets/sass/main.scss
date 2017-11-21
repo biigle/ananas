@@ -14,3 +14,18 @@
     // component works (fixed search field and scrollable label trees list).
     height: 300px;
 }
+
+.suggested-label {
+    position: relative;
+    padding-left: 2.25em;
+}
+
+.suggested-label__color {
+    position: absolute;
+    left: 1em;
+    top: 1em;
+    width: 1em;
+    height: 1em;
+    border: 2px solid white;
+    border-radius: 50%;
+}
