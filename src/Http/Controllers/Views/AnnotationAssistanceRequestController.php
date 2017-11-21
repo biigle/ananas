@@ -102,7 +102,11 @@ class AnnotationAssistanceRequestController extends Controller
         $request = AnnotationAssistanceRequest::where('token', $token)
             ->whereNull('closed_at')
             ->with('annotation.image.volume', 'annotation.shape')
-            ->firstOrFail();
+            ->first();
+
+        if (!$request) {
+            return response()->view('ananas::respond-not-found', [], 404);
+        }
 
         $isRemote = $request->annotation->image->volume->isRemote();
         $annotation = collect($request->annotation->toArray())

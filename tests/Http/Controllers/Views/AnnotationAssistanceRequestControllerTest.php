@@ -34,7 +34,8 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $request = AnanasTest::create();
 
         $this->get("annotation-assistance-requests/respond/abcdef")
-            ->assertStatus(404);
+            ->assertStatus(404)
+            ->assertViewIs('ananas::respond-not-found');
 
         $this->get("annotation-assistance-requests/respond/{$request->token}")
             ->assertStatus(200)
