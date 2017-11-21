@@ -156,14 +156,22 @@ class AnnotationAssistanceRequestController extends Controller
      *
      * @apiParam {Number} id ID of the assistance request
      *
+     * @param Request $request
      * @param int $id ID of the assistance request
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $assistanceRequest = AnnotationAssistanceRequest::findOrFail($id);
         $this->authorize('destroy', $assistanceRequest);
         $assistanceRequest->delete();
+
+        if (!static::isAutomatedRequest($request)) {
+            return redirect()
+                ->route('home')
+                ->with('message', 'Annotation assistance request was deleted')
+                ->with('messageType', 'success');
+        }
     }
 }

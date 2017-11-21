@@ -80,4 +80,22 @@ class AnnotationAssistanceRequest extends Model
     {
         return $this->belongsTo(Annotation::class);
     }
+
+    /**
+     * Get the chosen response label from the request labels array.
+     *
+     * @return array
+     */
+    public function getResponseLabelAttribute()
+    {
+        if ($this->response_label_id) {
+            foreach ($this->request_labels as $label) {
+                if ($label['id'] === $this->response_label_id) {
+                    return $label;
+                }
+            }
+        }
+
+        return null;
+    }
 }

@@ -29,3 +29,14 @@
     border: 2px solid white;
     border-radius: 50%;
 }
+
+.sidebar .sidebar__tab.sidebar-tab--flex {
+    &.sidebar__tab--open {
+        display: flex;
+        flex-flow: column;
+    }
+
+    .sidebar-tab__content {
+        flex: 1;
+    }
+}

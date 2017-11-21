@@ -180,4 +180,17 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
 
         $this->assertNull($ananas->fresh());
     }
+
+    public function testDestroyFormRequest()
+    {
+        $ananas = AnanasTest::create();
+        $id = $ananas->id;
+
+        $this->be($ananas->user);
+        $this->delete("/api/v1/annotation-assistance-requests/{$id}")
+            ->assertRedirect('/')
+            ->assertSessionHas('message', 'Annotation assistance request was deleted');
+
+        $this->assertNull($ananas->fresh());
+    }
 }

@@ -77,7 +77,7 @@
                     <textarea class="form-control" name="response_text" id="response_text" placeholder="Hi {{$request->user->firstname}}, I think this is..." v-model="responseText" :required="!hasPickedLabel" :disabled="hasDisabledControls"></textarea>
                 </div>
                 <p v-if="hasErrors" v-for="error in errors" class="text-danger" v-text="error" v-cloak></p>
-                <button v-if="!closed" type="submit" class="btn btn-success btn-block" :disabled="hasDisabledControls">Submit</button>
+                <button v-if="!closed" type="submit" class="btn btn-success btn-block btn-lg" :disabled="hasDisabledControls">Submit</button>
                 <div v-else v-cloak class="panel panel-success">
                     <div class="panel-body text-success text-center">
                         <strong>Thank you!</strong>

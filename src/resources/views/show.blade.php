@@ -15,6 +15,9 @@
     biigle.$declare('annotations.imageFileUri', '{!! url('api/v1/images/{id}/file') !!}');
     biigle.$declare('annotations.volumeIsRemote', @if ($isRemote) true @else false @endif);
     biigle.$declare('ananas.annotation', {!! $annotation !!});
+    biigle.$declare('ananas.userId', {!! $user->id !!});
+    biigle.$declare('ananas.suggestedLabelId', {!! $request->response_label_id !!});
+    biigle.$declare('ananas.labels', {!! $existingLabels !!});
 </script>
 @endpush
 
@@ -56,34 +59,99 @@
             </div>
         </annotation-canvas>
     </div>
-    <sidebar open-tab="request">
-        <sidebar-tab name="request" icon="fa-comment" title="Request information">
-            <p>Request created <span title="{{$request->created_at}}">{{$request->created_at->diffForHumans()}}</span>.</p>
-            <p>
-                Text:
-            </p>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {{$request->request_text}}
-                </div>
-            </div>
-            @if ($request->request_labels)
-                <p>Suggested labels:</p>
+    @if ($request->closed_at)
+        <sidebar open-tab="response" v-cloak>
+    @else
+        <sidebar open-tab="request" v-cloak>
+    @endif
+        <sidebar-tab name="request" icon="fa-comment" title="Request information" class="sidebar-tab--flex">
+            <div class="sidebar-tab__content">
+                <p>Request created <span title="{{$request->created_at}}">{{$request->created_at->diffForHumans()}}</span>.</p>
+                <p>
+                    Text:
+                </p>
                 <div class="panel panel-default">
-                    <ul class="list-group">
-                        @foreach ($request->request_labels as $label)
-                            <li class="list-group-item suggested-label">
-                                <span class="suggested-label__color" style="background-color:#{{$label['color']}}"></span> {{$label['name']}}
-                            </li>
-                        @endforeach
-                    </ul>
+                    <div class="panel-body">
+                        {{$request->request_text}}
+                    </div>
                 </div>
-            @endif
-            <button type="button" class="btn btn-danger btn-block" title="Delete this annotation assistance request">Delete</button>
+                @if ($request->request_labels)
+                    <p>Suggested labels:</p>
+                    <div class="panel panel-default">
+                        <ul class="list-group">
+                            @foreach ($request->request_labels as $label)
+                                <li class="list-group-item suggested-label">
+                                    <span class="suggested-label__color" style="background-color:#{{$label['color']}}"></span> {{$label['name']}}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
+            <div class="sidebar-tab__foot">
+                <form method="POST" action="{{url('api/v1/annotation-assistance-requests/'.$request->id)}}">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger btn-block" title="Delete this annotation assistance request" @unless ($request->closed_at) onclick="return confirm('Are you sure you want to delete this unanswered assistance request?')" @endunless>Delete this request</button>
+                </form>
+            </div>
         </sidebar-tab>
-        <sidebar-tab name="response" icon="fa-comments" :disabled="true" title="{{$request->email}} has not responded yet">
-
-        </sidebar-tab>
+        @if ($request->closed_at)
+            <sidebar-tab name="response" icon="fa-comments" title="Response information" class="sidebar-tab--flex">
+                <div class="sidebar-tab__content">
+                    @if ($request->response_text)
+                        <p>
+                            {{$request->email}} responded:
+                        </p>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                {{$request->response_text}}
+                            </div>
+                        </div>
+                    @endif
+                    @if ($request->response_label)
+                        @if ($request->response_text)
+                            <p>They chose the following suggested label:</p>
+                        @else
+                            <p>{{$request->email}} chose the following suggested label:</p>
+                        @endif
+                        <div class="panel panel-default">
+                            <ul class="list-group">
+                                <li class="list-group-item suggested-label">
+                                    <span class="suggested-label__color" style="background-color:#{{$request->response_label['color']}}"></span> {{$request->response_label['name']}}
+                                </li>
+                            </ul>
+                            @if (!$responseLabelExists)
+                                <div class="panel-body text-danger">
+                                    This label does not exist any more!
+                                </div>
+                            @else
+                                <div v-if="attachedSuggestedLabel" v-cloak class="panel-body text-success">
+                                    This label is attached!
+                                </div>
+                            @endif
+                        </div>
+                        @if ($responseLabelExists)
+                            <button v-if="!attachedSuggestedLabel" v-cloak type="button" class="btn btn-success btn-block" title="Attach the chosen label to the annotation" v-on:click="attach">Attach this label</button>
+                        @endif
+                    @endif
+                    @if (!$request->response_label || !$responseLabelExists)
+                        <p>
+                            <a href="{{route('show-annotation', $request->annotation_id)}}" class="btn btn-default btn-block" title="View the annotation in the annotation tool">View in annotation tool</a>
+                        </p>
+                    @endif
+                </div>
+                <div class="sidebar-tab__foot">
+                    <form method="POST" action="{{url('api/v1/annotation-assistance-requests/'.$request->id)}}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-danger btn-block" title="Delete this annotation assistance request">Delete this request</button>
+                    </form>
+                </div>
+            </sidebar-tab>
+        @else
+            <sidebar-tab name="response" icon="fa-comments" :disabled="true" title="{{$request->email}} has not responded yet"></sidebar-tab>
+        @endif
     </sidebar>
 </div>
 @endsection

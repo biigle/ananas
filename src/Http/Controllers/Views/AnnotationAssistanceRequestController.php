@@ -4,6 +4,7 @@ namespace Biigle\Modules\Ananas\Http\Controllers\Views;
 
 use DB;
 use Biigle\Role;
+use Biigle\Label;
 use Biigle\LabelTree;
 use Biigle\Annotation;
 use Illuminate\Http\Request;
@@ -83,11 +84,20 @@ class AnnotationAssistanceRequestController extends Controller
         // Preprocess the shape name for usage in the JS client.
         $annotation['shape'] = $annotation['shape']['name'];
 
-        return view('ananas::show', [
-            'request' => $request,
-            'isRemote' => $isRemote,
-            'annotation' => $annotation,
-        ]);
+        $responseLabelExists = Label::where('id', $request->response_label_id)->exists();
+
+        $existingLabels = $request->annotation->labels()
+            ->without('user', 'label')
+            ->select('label_id', 'user_id')
+            ->get();
+
+        return view('ananas::show', compact(
+            'request',
+            'isRemote',
+            'annotation',
+            'responseLabelExists',
+            'existingLabels'
+        ));
     }
 
     /**
