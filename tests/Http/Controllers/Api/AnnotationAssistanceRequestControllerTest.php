@@ -6,8 +6,10 @@ use ApiTestCase;
 use Biigle\Tests\LabelTest;
 use Biigle\Tests\ImageTest;
 use Biigle\Tests\AnnotationTest;
+use Illuminate\Support\Facades\Notification;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
+use Biigle\Modules\Ananas\Notifications\AnnotationAssistanceResponse as ResponseNotification;
 
 class AnnotationAssistanceRequestControllerTest extends ApiTestCase
 {
@@ -115,38 +117,38 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
             ->assertStatus(422);
 
         $this->json('PUT', "/api/v1/annotation-assistance-requests/abcdef", [
-            'response_text' => 'This is a stone.',
-        ])
-        ->assertStatus(404);
+                'response_text' => 'This is a stone.',
+            ])
+            ->assertStatus(404);
 
         $this->json('PUT', "/api/v1/annotation-assistance-requests/{$token}", [
-            'response_text' => 'This is a stone.',
-        ])
-        ->assertStatus(200);
+                'response_text' => 'This is a stone.',
+            ])
+            ->assertStatus(200);
 
         $this->assertEquals('This is a stone.', $ananas->fresh()->response_text);
 
         $this->json('PUT', "/api/v1/annotation-assistance-requests/{$token}", [
-            'response_text' => 'This is a stone.',
-        ])
-        ->assertStatus(404);
+                'response_text' => 'This is a stone.',
+            ])
+            ->assertStatus(404);
 
         $ananas = AnanasTest::create();
         $token = $ananas->token;
 
         $this->json('PUT', "/api/v1/annotation-assistance-requests/{$token}", [
-            'response_label_id' => 9999,
-        ])
-        // Label ID must be from the request_labels array.
-        ->assertStatus(422);
+                'response_label_id' => 9999,
+            ])
+            // Label ID must be from the request_labels array.
+            ->assertStatus(422);
 
         $ananas->request_labels = [['id' => 9999]];
         $ananas->save();
 
         $this->json('PUT', "/api/v1/annotation-assistance-requests/{$token}", [
-            'response_label_id' => 9999,
-        ])
-        ->assertStatus(200);
+                'response_label_id' => 9999,
+            ])
+            ->assertStatus(200);
 
         $this->assertEquals(9999, $ananas->fresh()->response_label_id);
 
@@ -154,13 +156,27 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $token = $ananas->token;
 
         $this->json('PUT', "/api/v1/annotation-assistance-requests/{$token}", [
-            'response_text' => 'This is a stone.',
-            'response_label_id' => 9999,
-        ])
-        ->assertStatus(200);
+                'response_text' => 'This is a stone.',
+                'response_label_id' => 9999,
+            ])
+            ->assertStatus(200);
 
         $this->assertEquals('This is a stone.', $ananas->fresh()->response_text);
         $this->assertEquals(9999, $ananas->fresh()->response_label_id);
+    }
+
+    public function testUpdateNotification()
+    {
+        $ananas = AnanasTest::create(['request_labels' => [['id' => 9999]]]);
+        $token = $ananas->token;
+
+        Notification::fake();
+        $this->json('PUT', "/api/v1/annotation-assistance-requests/{$token}", [
+                'response_label_id' => 9999,
+            ])
+            ->assertStatus(200);
+
+        Notification::assertSentTo($ananas->user, ResponseNotification::class);
     }
 
     public function testDestroy()

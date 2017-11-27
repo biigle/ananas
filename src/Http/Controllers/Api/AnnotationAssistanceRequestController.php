@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Biigle\Http\Controllers\Api\Controller;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
+use Biigle\Modules\Ananas\Notifications\AnnotationAssistanceResponse as ResponseNotification;
 
 class AnnotationAssistanceRequestController extends Controller
 {
@@ -51,12 +52,12 @@ class AnnotationAssistanceRequestController extends Controller
         $this->authorize('update', $annotation);
         $user = $auth->user();
 
-        $assistanceRequest = new AnnotationAssistanceRequest;
-        $assistanceRequest->token = AnnotationAssistanceRequest::generateToken();
-        $assistanceRequest->email = $request->input('email');
-        $assistanceRequest->request_text = $request->input('request_text');
-        $assistanceRequest->annotation_id = $request->input('annotation_id');
-        $assistanceRequest->user()->associate($user);
+        $ananas = new AnnotationAssistanceRequest;
+        $ananas->token = AnnotationAssistanceRequest::generateToken();
+        $ananas->email = $request->input('email');
+        $ananas->request_text = $request->input('request_text');
+        $ananas->annotation_id = $request->input('annotation_id');
+        $ananas->user()->associate($user);
 
         if ($request->has('request_labels')) {
             // Check if the user has access to all labels they want to suggest for this
@@ -90,16 +91,16 @@ class AnnotationAssistanceRequestController extends Controller
                 ]);
             }
 
-            $assistanceRequest->request_labels = $labels;
+            $ananas->request_labels = $labels;
         }
 
-        $assistanceRequest->save();
+        $ananas->save();
 
         if (static::isAutomatedRequest($request)) {
-            return $assistanceRequest;
+            return $ananas;
         }
 
-        return redirect()->route('show-assistance-request', $assistanceRequest->id);
+        return redirect()->route('show-assistance-request', $ananas->id);
     }
 
     /**
@@ -125,25 +126,26 @@ class AnnotationAssistanceRequestController extends Controller
     {
         $this->validate($request, AnnotationAssistanceRequest::$updateRules);
 
-        $assistanceRequest = AnnotationAssistanceRequest::where('token', $token)
+        $ananas = AnnotationAssistanceRequest::where('token', $token)
             ->whereNull('closed_at')
             ->firstOrFail();
 
         if ($request->has('response_label_id')) {
             $id = $request->input('response_label_id');
-            $labels = collect($assistanceRequest->request_labels);
+            $labels = collect($ananas->request_labels);
             if (!$labels->pluck('id')->containsStrict($id)) {
                 return $this->buildFailedValidationResponse($request, [
                     'response_label_id' => ['The response label ID must be picked from one of the request labels.'],
                 ]);
             }
 
-            $assistanceRequest->response_label_id = $id;
+            $ananas->response_label_id = $id;
         }
 
-        $assistanceRequest->response_text = $request->input('response_text');
-        $assistanceRequest->closed_at = new Carbon;
-        $assistanceRequest->save();
+        $ananas->response_text = $request->input('response_text');
+        $ananas->closed_at = new Carbon;
+        $ananas->save();
+        $ananas->user->notify(new ResponseNotification($ananas));
     }
 
     /**
@@ -163,9 +165,9 @@ class AnnotationAssistanceRequestController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $assistanceRequest = AnnotationAssistanceRequest::findOrFail($id);
-        $this->authorize('destroy', $assistanceRequest);
-        $assistanceRequest->delete();
+        $ananas = AnnotationAssistanceRequest::findOrFail($id);
+        $this->authorize('destroy', $ananas);
+        $ananas->delete();
 
         if (!static::isAutomatedRequest($request)) {
             return redirect()
