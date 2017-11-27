@@ -7,6 +7,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
+use Biigle\Modules\Ananas\Observers\AnnotationAssistanceRequestObserver;
 
 class AnanasServiceProvider extends ServiceProvider
 {
@@ -42,6 +43,8 @@ class AnanasServiceProvider extends ServiceProvider
                 'annotationsAnnotationsTab',
             ],
         ]);
+
+        AnnotationAssistanceRequest::observe(new AnnotationAssistanceRequestObserver);
 
         Gate::policy(\Biigle\Modules\Ananas\AnnotationAssistanceRequest::class, \Biigle\Modules\Ananas\Policies\AnnotationAssistanceRequestPolicy::class);
     }
