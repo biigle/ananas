@@ -37,7 +37,7 @@ class AnanasServiceProvider extends ServiceProvider
 
         $modules->register('ananas', [
             'viewMixins' => [
-                // 'manualTutorial',
+                'manualTutorial',
                 'annotationsScripts',
                 'annotationsStyles',
                 'annotationsAnnotationsTab',
