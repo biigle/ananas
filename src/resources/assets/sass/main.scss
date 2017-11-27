@@ -42,12 +42,6 @@
     }
 }
 
-.form-open {
-    .list-group--ananas .list-group-item, .panel--ananas, .form-group--ananas textarea {
-        border-color: $brand-info;
-    }
-}
-
 @media screen and (max-width: 768px) {
     .navbar-text--ananas {
         display: none;

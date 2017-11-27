@@ -62,7 +62,7 @@
                     {{$request->request_text}}
                 </div>
             </div>
-            <form v-on:submit.prevent="submit" :class="{'form-open':!closed}">
+            <form v-on:submit.prevent="submit">
                 @if ($request->request_labels)
                     <p>{{$request->user->firstname}} suggests these labels: <span v-if="!hasPickedLabel" class="text-muted">(select one)</span></p>
                     <div class="panel panel-default panel--ananas">
@@ -78,7 +78,7 @@
                     <textarea class="form-control" name="response_text" id="response_text" placeholder="Hi {{$request->user->firstname}}, I think this is..." v-model="responseText" :required="!hasPickedLabel" :disabled="hasDisabledControls"></textarea>
                 </div>
                 <p v-if="hasErrors" v-for="error in errors" class="text-danger" v-text="error" v-cloak></p>
-                <button v-if="!closed" type="submit" class="btn btn-info btn-block" :disabled="hasDisabledControls">Submit</button>
+                <button v-if="!closed" type="submit" class="btn btn-success btn-block" :disabled="hasDisabledControls">Submit</button>
                 <div v-else v-cloak class="panel panel-success">
                     <div class="panel-body text-success text-center">
                         <strong>Thank you!</strong>
