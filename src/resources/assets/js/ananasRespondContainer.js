@@ -13,6 +13,7 @@ biigle.$viewModel('ananas-respond-container', function (element) {
             responseText: '',
             closed: false,
             errors: [],
+            showMinimap: true,
         },
         computed: {
             hasPickedLabel: function () {
@@ -68,6 +69,17 @@ biigle.$viewModel('ananas-respond-container', function (element) {
                     this.errors.push(response.body[key][0]);
                 }
             },
+            checkForMobile: function () {
+                if (window.innerWidth < 1000) {
+                    this.showMinimap = false;
+                } else {
+                    this.showMinimap = true;
+                }
+            },
+        },
+        created: function () {
+            this.checkForMobile();
+            window.addEventListener('resize', this.checkForMobile);
         },
     });
 });

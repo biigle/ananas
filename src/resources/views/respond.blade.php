@@ -26,23 +26,24 @@
 @endpush
 
 @section('navbar')
-<div class="navbar-text">
+<div class="navbar-text navbar-text--ananas">
     Annotation assistance request from <strong>{{$request->user->firstname}} {{$request->user->lastname}}</strong> to <strong>{{$request->email}}</strong>.
 </div>
 @endsection
 
 @section('content')
-<div id="ananas-respond-container" class="annotator-container" v-cloak>
+<div id="ananas-respond-container" class="annotator-container annotator-container--ananas" v-cloak>
     <div class="annotator-container__canvas">
         <loader-block :active="loading"></loader-block>
         <annotation-canvas
             :editable="false"
             :image="image"
             :annotations="annotations"
+            :show-minimap="showMinimap"
             ref="canvas"
             inline-template>
             <div class="annotation-canvas">
-                <minimap :extent="extent" :projection="projection" inline-template>
+                <minimap v-if="showMinimap" :extent="extent" :projection="projection" v-cloak inline-template>
                     <div class="annotation-canvas__minimap"></div>
                 </minimap>
             </div>
@@ -61,23 +62,23 @@
                     {{$request->request_text}}
                 </div>
             </div>
-            <form v-on:submit.prevent="submit">
+            <form v-on:submit.prevent="submit" :class="{'form-open':!closed}">
                 @if ($request->request_labels)
-                    <p>{{$request->user->firstname}} suggests these labels: <span v-if="!hasPickedLabel" class="text-muted">(pick one)</span></p>
-                    <div class="panel panel-default">
-                        <div class="list-group">
+                    <p>{{$request->user->firstname}} suggests these labels: <span v-if="!hasPickedLabel" class="text-muted">(select one)</span></p>
+                    <div class="panel panel-default panel--ananas">
+                        <div class="list-group list-group--ananas">
                             @foreach ($request->request_labels as $label)
-                                <button type="button" class="list-group-item" :class="{active: pickedLabel==={{$label['id']}}, disabled: hasDisabledControls}" v-on:click="pickLabel({{$label['id']}})">{{$label['name']}}</button>
+                                <button type="button" class="list-group-item text-success" :class="{active: pickedLabel==={{$label['id']}}, disabled: hasDisabledControls}" v-on:click="pickLabel({{$label['id']}})">{{$label['name']}}</button>
                             @endforeach
                         </div>
                     </div>
                 @endif
                 <p>Your response: <span v-if="hasPickedLabel" class="text-muted" v-cloak>(optional)</span></p>
-                <div class="form-group">
+                <div class="form-group form-group--ananas">
                     <textarea class="form-control" name="response_text" id="response_text" placeholder="Hi {{$request->user->firstname}}, I think this is..." v-model="responseText" :required="!hasPickedLabel" :disabled="hasDisabledControls"></textarea>
                 </div>
                 <p v-if="hasErrors" v-for="error in errors" class="text-danger" v-text="error" v-cloak></p>
-                <button v-if="!closed" type="submit" class="btn btn-success btn-block btn-lg" :disabled="hasDisabledControls">Submit</button>
+                <button v-if="!closed" type="submit" class="btn btn-info btn-block" :disabled="hasDisabledControls">Submit</button>
                 <div v-else v-cloak class="panel panel-success">
                     <div class="panel-body text-success text-center">
                         <strong>Thank you!</strong>
