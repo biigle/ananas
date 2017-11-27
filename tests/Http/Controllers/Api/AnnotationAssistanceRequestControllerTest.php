@@ -73,6 +73,33 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $this->assertNotNull($assistanceRequest->token);
     }
 
+    public function testStoreRateLimiting()
+    {
+        $ananas = AnanasTest::create(['user_id' => $this->editor()->id]);
+
+        $image = ImageTest::create(['volume_id' => $this->volume()->id]);
+        $annotation = AnnotationTest::create(['image_id' => $image->id]);
+
+        $this->beEditor();
+        $response = $this->json('POST', '/api/v1/annotation-assistance-requests', [
+            'annotation_id' => $annotation->id,
+            'email' => 'joe@user.com',
+            'request_text' => 'Hi Joe!',
+        ]);
+        // Denied because User already created a request within the last minute.
+        $response->assertStatus(422);
+
+        $ananas->created_at = (new \Carbon\Carbon)->subSeconds(61);
+        $ananas->save();
+
+        $response = $this->json('POST', '/api/v1/annotation-assistance-requests', [
+            'annotation_id' => $annotation->id,
+            'email' => 'joe@user.com',
+            'request_text' => 'Hi Joe!',
+        ]);
+        $response->assertStatus(200);
+    }
+
     public function testStoreVerifyVolumeLabels()
     {
         $image = ImageTest::create(['volume_id' => $this->volume()->id]);

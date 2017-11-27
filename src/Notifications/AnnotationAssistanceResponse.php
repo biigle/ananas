@@ -10,13 +10,6 @@ use Biigle\Modules\Ananas\AnnotationAssistanceRequest as Ananas;
 class AnnotationAssistanceResponse extends Notification implements ShouldQueue
 {
     /**
-     * The assistance request.
-     *
-     * @var Ananas
-     */
-    public $request;
-
-    /**
      * Create a new notification instance.
      *
      * @return void
@@ -30,7 +23,5 @@ class AnnotationAssistanceResponse extends Notification implements ShouldQueue
             'View it here',
             route('show-assistance-request', $request->id)
         );
-
-        $this->request = $request;
     }
 }

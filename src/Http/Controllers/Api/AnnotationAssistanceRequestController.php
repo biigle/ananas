@@ -52,6 +52,16 @@ class AnnotationAssistanceRequestController extends Controller
         $this->authorize('update', $annotation);
         $user = $auth->user();
 
+        $rateLimit = AnnotationAssistanceRequest::where('user_id', $user->id)
+            ->where('created_at', '>', Carbon::now()->subMinute())
+            ->exists();
+
+        if ($rateLimit) {
+            return $this->buildFailedValidationResponse($request, [
+                'email' => 'You are not allowed to send more than one assistance request per minute.',
+            ]);
+        }
+
         $ananas = new AnnotationAssistanceRequest;
         $ananas->token = AnnotationAssistanceRequest::generateToken();
         $ananas->email = $request->input('email');
