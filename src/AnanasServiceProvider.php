@@ -41,6 +41,7 @@ class AnanasServiceProvider extends ServiceProvider
                 'annotationsScripts',
                 'annotationsStyles',
                 'annotationsAnnotationsTab',
+                'notificationTabs',
             ],
         ]);
 

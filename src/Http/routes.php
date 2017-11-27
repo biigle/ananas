@@ -32,5 +32,10 @@ $router->group([
         'as'   => 'show-assistance-request',
         'uses' => 'AnnotationAssistanceRequestController@show',
     ]);
+
+    $router->get('annotation-assistance-requests', [
+        'as'   => 'index-assistance-requests',
+        'uses' => 'AnnotationAssistanceRequestController@index',
+    ]);
 });
 

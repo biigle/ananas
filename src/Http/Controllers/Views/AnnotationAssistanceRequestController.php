@@ -132,4 +132,32 @@ class AnnotationAssistanceRequestController extends Controller
             'annotation' => $annotation,
         ]);
     }
+
+    /**
+     * Show the list of all assistance requests of the user
+     *
+     * @param Guard $auth
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Guard $auth, Request $request)
+    {
+        $type = $request->input('t');
+        if (!in_array($type, ['open', 'closed', null])) {
+            $type = null;
+        }
+
+        $requests = AnnotationAssistanceRequest::where('user_id', $auth->user()->id)
+            ->orderBy('created_at', 'desc')
+            ->when($type === 'open', function ($query) {
+                return $query->whereNull('closed_at');
+            })
+            ->when($type === 'closed', function ($query) {
+                return $query->whereNotNull('closed_at');
+            })
+            ->get();
+
+        return view('ananas::index', compact('requests', 'type'));
+    }
 }

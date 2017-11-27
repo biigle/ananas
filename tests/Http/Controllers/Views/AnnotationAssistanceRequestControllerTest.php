@@ -71,4 +71,42 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
             ->assertStatus(200)
             ->assertViewIs('ananas::show');
     }
+
+    public function testIndex()
+    {
+        $request = AnanasTest::create();
+
+        $this->get("annotation-assistance-requests")
+            ->assertRedirect('login');
+
+        $this->beUser();
+        $this->get("annotation-assistance-requests")
+            ->assertStatus(200)
+            ->assertViewIs('ananas::index')
+            ->assertDontSeeText($request->email);
+
+        $this->be($request->user);
+        $this->get("annotation-assistance-requests")
+            ->assertStatus(200)
+            ->assertViewIs('ananas::index')
+            ->assertSeeText($request->email);
+
+        $this->get("annotation-assistance-requests?t=open")
+            ->assertStatus(200)
+            ->assertViewIs('ananas::index')
+            ->assertSeeText($request->email);
+
+        $this->get("annotation-assistance-requests?t=closed")
+            ->assertStatus(200)
+            ->assertViewIs('ananas::index')
+            ->assertDontSeeText($request->email);
+
+        $request->closed_at = new \Carbon\Carbon;
+        $request->save();
+
+        $this->get("annotation-assistance-requests?t=closed")
+            ->assertStatus(200)
+            ->assertViewIs('ananas::index')
+            ->assertSeeText($request->email);
+    }
 }
