@@ -39,6 +39,9 @@
                     </li>
                 @endforelse
             </ul>
+            <nav class="text-center">
+                {{$requests->links()}}
+            </nav>
         </div>
     </div>
 </div>

@@ -156,7 +156,11 @@ class AnnotationAssistanceRequestController extends Controller
             ->when($type === 'closed', function ($query) {
                 return $query->whereNotNull('closed_at');
             })
-            ->get();
+            ->paginate(10);
+
+        // Add the URL parameter to the paginator so the pagination links are
+        // constructed properly.
+        $requests->appends('t', $type);
 
         return view('ananas::index', compact('requests', 'type'));
     }
