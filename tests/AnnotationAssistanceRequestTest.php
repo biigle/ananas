@@ -3,6 +3,7 @@
 namespace Biigle\Tests\Modules\Ananas;
 
 use ModelTestCase;
+use Illuminate\Notifications\Notifiable;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 
 class AnnotationAssistanceRequestTest extends ModelTestCase

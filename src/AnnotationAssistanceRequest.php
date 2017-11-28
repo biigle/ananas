@@ -6,6 +6,7 @@ use Biigle\User;
 use Biigle\Annotation;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * With an annotation assistance request a BIIGLE user can consult some externa
@@ -13,6 +14,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AnnotationAssistanceRequest extends Model
 {
+    // If an assistance request is "notified", an email is sent to the receiver of the
+    // request.
+    use Notifiable;
+
     /**
      * Validation rules for creating a new assistance request.
      *

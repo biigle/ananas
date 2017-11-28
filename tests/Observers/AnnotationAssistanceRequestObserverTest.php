@@ -14,11 +14,6 @@ class AnnotationAssistanceRequestObserverTest extends TestCase
     {
         Notification::fake();
         $ananas = AnanasTest::create();
-        $tempUser = (new User)->forceFill(['email' => $ananas->email]);
-
-        Notification::assertSentTo($tempUser, AnanasNotification::class, function ($notification, $channels) use ($ananas, $tempUser) {
-                return $notification->request->token === $ananas->token;
-            }
-        );
+        Notification::assertSentTo($ananas, AnanasNotification::class);
     }
 }

@@ -15,9 +15,6 @@ class AnnotationAssistanceRequestObserver
      */
     public function saved(Ananas $request)
     {
-        // The receiver of this notification does not have to be an actual Biigle user.
-        // We create (and don't save) a temporary user instead.
-        $tmpUser = (new User)->forceFill(['email' => $request->email]);
-        $tmpUser->notify(new AnanasNotification($request));
+        $request->notify(new AnanasNotification);
     }
 }

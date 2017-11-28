@@ -13,23 +13,6 @@ class AnnotationAssistanceRequest extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * The assistance request.
-     *
-     * @var Ananas
-     */
-    public $request;
-
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct(Ananas $request)
-    {
-        $this->request = $request;
-    }
-
-    /**
      * Get the notification's delivery channels.
      *
      * @param  mixed  $notifiable
@@ -43,16 +26,16 @@ class AnnotationAssistanceRequest extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed  $notifiable  The assistance request
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        $name = $this->request->user->firstname.' '.$this->request->user->lastname;
+        $name = $notifiable->user->firstname.' '.$notifiable->user->lastname;
 
         return (new MailMessage)
             ->greeting('Hello!')
             ->line("{$name} asks you for assistance with an annotation in BIIGLE.")
-            ->action("Help {$name}", route('respond-assistance-request', $this->request->token));
+            ->action("Help {$name}", route('respond-assistance-request', $notifiable->token));
     }
 }
