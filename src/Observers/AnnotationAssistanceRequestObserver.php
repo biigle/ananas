@@ -13,7 +13,7 @@ class AnnotationAssistanceRequestObserver
      *
      * @param Ananas $request
      */
-    public function saved(Ananas $request)
+    public function created(Ananas $request)
     {
         $request->notify(new AnanasNotification);
     }
