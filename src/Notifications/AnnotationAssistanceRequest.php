@@ -34,8 +34,9 @@ class AnnotationAssistanceRequest extends Notification implements ShouldQueue
         $name = $notifiable->user->firstname.' '.$notifiable->user->lastname;
 
         return (new MailMessage)
+            ->subject("Annotation Assistance Request from {$name}")
             ->greeting('Hello!')
             ->line("{$name} asks you for assistance with an annotation in BIIGLE.")
-            ->action("Help {$name}", route('respond-assistance-request', $notifiable->token));
+            ->action("Help {$notifiable->user->firstname}", route('respond-assistance-request', $notifiable->token));
     }
 }
