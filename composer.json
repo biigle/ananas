@@ -1,7 +1,7 @@
 {
     "name": "biigle/ananas",
     "require": {
-        "biigle/annotations": "~2.7"
+        "biigle/annotations": ">=2.7"
     },
     "require-dev": {
     },
