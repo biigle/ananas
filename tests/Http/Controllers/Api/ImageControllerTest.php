@@ -10,7 +10,10 @@ class ImageControllerTest extends ApiTestCase
 {
     public function testShow()
     {
-        $token = AnanasTest::create()->token;
+        $ananas = AnanasTest::create();
+        $ananas->annotation->image->mimetype = 'image/jpeg';
+        $ananas->annotation->image->save();
+        $token = $ananas->token;
 
         $response = $this->get("/api/v1/annotation-assistance-requests/abcdef/image");
         $response->assertStatus(404);
