@@ -3,6 +3,7 @@
 namespace Biigle\Tests\Modules\Ananas;
 
 use ModelTestCase;
+use Illuminate\Database\QueryException;
 use Illuminate\Notifications\Notifiable;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 
@@ -27,35 +28,35 @@ class AnnotationAssistanceRequestTest extends ModelTestCase
     public function testNameRequired()
     {
         $this->model->token = null;
-        $this->setExpectedException('Illuminate\Database\QueryException');
+        $this->expectException(QueryException::class);
         $this->model->save();
     }
 
     public function testEmailRequired()
     {
         $this->model->email = null;
-        $this->setExpectedException('Illuminate\Database\QueryException');
+        $this->expectException(QueryException::class);
         $this->model->save();
     }
 
     public function testRequestTextRequired()
     {
         $this->model->request_text = null;
-        $this->setExpectedException('Illuminate\Database\QueryException');
+        $this->expectException(QueryException::class);
         $this->model->save();
     }
 
     public function testAnnotationRequired()
     {
         $this->model->annotation()->dissociate();
-        $this->setExpectedException('Illuminate\Database\QueryException');
+        $this->expectException(QueryException::class);
         $this->model->save();
     }
 
     public function testUserRequired()
     {
         $this->model->user()->dissociate();
-        $this->setExpectedException('Illuminate\Database\QueryException');
+        $this->expectException(QueryException::class);
         $this->model->save();
     }
 
