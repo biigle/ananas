@@ -10,6 +10,7 @@ use Biigle\Annotation;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Biigle\Http\Controllers\Api\Controller;
+use Illuminate\Validation\ValidationException;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Modules\Ananas\Notifications\AnnotationAssistanceResponse as ResponseNotification;
 
@@ -57,7 +58,7 @@ class AnnotationAssistanceRequestController extends Controller
             ->exists();
 
         if ($rateLimit) {
-            return $this->buildFailedValidationResponse($request, [
+            throw ValidationException::withMessages([
                 'email' => 'You are not allowed to send more than one assistance request per minute.',
             ]);
         }
@@ -96,7 +97,7 @@ class AnnotationAssistanceRequestController extends Controller
                 ->get();
 
             if ($labels->count() !== count($request->input('request_labels'))) {
-                return $this->buildFailedValidationResponse($request, [
+                throw ValidationException::withMessages([
                     'request_labels' => 'Some request labels belong to label trees that are not available for the annotation.',
                 ]);
             }
@@ -144,7 +145,7 @@ class AnnotationAssistanceRequestController extends Controller
             $id = $request->input('response_label_id');
             $labels = collect($ananas->request_labels);
             if (!$labels->pluck('id')->containsStrict($id)) {
-                return $this->buildFailedValidationResponse($request, [
+                throw ValidationException::withMessages([
                     'response_label_id' => ['The response label ID must be picked from one of the request labels.'],
                 ]);
             }
