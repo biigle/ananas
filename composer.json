@@ -9,12 +9,5 @@
         "psr-4": {
             "Biigle\\Modules\\Ananas\\": "src"
         }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Biigle\\Modules\\Ananas\\AnanasServiceProvider"
-            ]
-        }
     }
 }
