@@ -70,7 +70,7 @@ class AnnotationAssistanceRequestController extends Controller
         $ananas->annotation_id = $request->input('annotation_id');
         $ananas->user()->associate($user);
 
-        if ($request->has('request_labels')) {
+        if ($request->filled('request_labels')) {
             // Check if the user has access to all labels they want to suggest for this
             // assistance request.
 
@@ -141,7 +141,7 @@ class AnnotationAssistanceRequestController extends Controller
             ->whereNull('closed_at')
             ->firstOrFail();
 
-        if ($request->has('response_label_id')) {
+        if ($request->filled('response_label_id')) {
             $id = $request->input('response_label_id');
             $labels = collect($ananas->request_labels);
             if (!$labels->pluck('id')->containsStrict($id)) {
