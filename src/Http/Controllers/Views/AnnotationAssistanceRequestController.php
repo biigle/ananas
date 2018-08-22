@@ -29,8 +29,8 @@ class AnnotationAssistanceRequestController extends Controller
 
         $user = $auth->user();
 
-        if ($user->isAdmin) {
-            // admins have no restrictions
+        if ($user->can('sudo')) {
+            // Global admins have no restrictions.
             $projectIds = DB::table('project_volume')
                 ->where('volume_id', $annotation->image->volume_id)
                 ->pluck('project_id');
