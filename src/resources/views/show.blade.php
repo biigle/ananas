@@ -65,7 +65,7 @@
     @else
         <sidebar open-tab="request" v-cloak>
     @endif
-        <sidebar-tab name="request" icon="fa-comment" title="Request information" class="sidebar-tab--flex">
+        <sidebar-tab name="request" icon="comment" title="Request information" class="sidebar-tab--flex">
             <div class="sidebar-tab__content">
                 <p>Request created <span title="{{$request->created_at}}">{{$request->created_at->diffForHumans()}}</span>.</p>
                 <p>
@@ -98,7 +98,7 @@
             </div>
         </sidebar-tab>
         @if ($request->closed_at)
-            <sidebar-tab name="response" icon="fa-comments" title="Response information" class="sidebar-tab--flex">
+            <sidebar-tab name="response" icon="comments" title="Response information" class="sidebar-tab--flex">
                 <div class="sidebar-tab__content">
                     @if ($request->response_text)
                         <p>
@@ -151,7 +151,7 @@
                 </div>
             </sidebar-tab>
         @else
-            <sidebar-tab name="response" icon="fa-comments" :disabled="true" title="{{$request->email}} has not responded yet"></sidebar-tab>
+            <sidebar-tab name="response" icon="comments" :disabled="true" title="{{$request->email}} has not responded yet"></sidebar-tab>
         @endif
     </sidebar>
 </div>

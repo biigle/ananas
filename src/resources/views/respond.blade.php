@@ -51,7 +51,7 @@
         </annotation-canvas>
     </div>
     <sidebar open-tab="response" :show-buttons="false">
-        <sidebar-tab name="response" icon="fa-comments">
+        <sidebar-tab name="response" icon="comments">
             <div v-if="!closed" class="panel panel-info">
                 <div class="panel-body text-info">
                     <strong>Please help {{$request->user->firstname}} {{$request->user->lastname}} to identify this annotation!</strong>
