@@ -2,9 +2,8 @@
 
 namespace Biigle\Modules\Ananas\Http\Controllers\Views;
 
-use DB;
-use Biigle\Role;
 use Biigle\Label;
+use Biigle\Project;
 use Biigle\LabelTree;
 use Biigle\Annotation;
 use Illuminate\Http\Request;
@@ -37,20 +36,7 @@ class AnnotationAssistanceRequestController extends Controller
         } else {
             // Array of all project IDs that the user and the image have in common
             // and where the user is editor, expert or admin.
-            $projectIds = DB::table('project_user')
-                ->where('user_id', $user->id)
-                ->whereIn('project_id', function ($query) use ($annotation) {
-                    $query->select('project_volume.project_id')
-                        ->from('project_volume')
-                        ->join('project_user', 'project_volume.project_id', '=', 'project_user.project_id')
-                        ->where('project_volume.volume_id', $annotation->image->volume_id)
-                        ->whereIn('project_user.project_role_id', [
-                            Role::$editor->id,
-                            Role::$expert->id,
-                            Role::$admin->id,
-                        ]);
-                })
-                ->pluck('project_id');
+            $projectIds = Project::inCommon($user, $annotation->image->volume_id)->pluck('id');
         }
 
         // all label trees that are used by all projects which are visible to the user
