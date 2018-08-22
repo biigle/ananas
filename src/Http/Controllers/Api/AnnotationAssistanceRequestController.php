@@ -75,7 +75,7 @@ class AnnotationAssistanceRequestController extends Controller
             // assistance request.
 
             // Array of all project IDs that the user and the annotation have in common
-            // and where the user is editor or admin.
+            // and where the user is editor, expert or admin.
             $projectIds = DB::table('project_user')
                 ->where('user_id', $user->id)
                 ->whereIn('project_id', function ($query) use ($annotation) {
@@ -83,7 +83,11 @@ class AnnotationAssistanceRequestController extends Controller
                         ->from('project_volume')
                         ->join('project_user', 'project_volume.project_id', '=', 'project_user.project_id')
                         ->where('project_volume.volume_id', $annotation->image->volume_id)
-                        ->whereIn('project_user.project_role_id', [Role::$editor->id, Role::$admin->id]);
+                        ->whereIn('project_user.project_role_id', [
+                            Role::$editor->id,
+                            Role::$expert->id,
+                            Role::$admin->id,
+                        ]);
                 })
                 ->pluck('project_id');
 
