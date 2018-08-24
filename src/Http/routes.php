@@ -1,4 +1,5 @@
 <?php
+
 $router->group([
     'namespace' => 'Api',
     'prefix' => 'api/v1',
@@ -38,4 +39,3 @@ $router->group([
         'uses' => 'AnnotationAssistanceRequestController@index',
     ]);
 });
-

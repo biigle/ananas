@@ -52,7 +52,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         ]);
         $response->assertStatus(200);
 
-        $assistanceRequest =AnnotationAssistanceRequest::first();
+        $assistanceRequest = AnnotationAssistanceRequest::first();
         $this->assertEquals($annotation->id, $assistanceRequest->annotation_id);
         $this->assertEquals('joe@user.com', $assistanceRequest->email);
         $this->assertEquals('Hi Joe!', $assistanceRequest->request_text);
@@ -61,12 +61,12 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
             [
                 'id' => $this->labelRoot()->id,
                 'name' => $this->labelRoot()->name,
-                'color' => $this->labelRoot()->color
+                'color' => $this->labelRoot()->color,
             ],
             [
                 'id' => $this->labelChild()->id,
                 'name' => $this->labelChild()->name,
-                'color' => $this->labelChild()->color
+                'color' => $this->labelChild()->color,
             ],
         ];
         $this->assertEquals($labels, $assistanceRequest->request_labels);
@@ -143,7 +143,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $this->json('PUT', "/api/v1/annotation-assistance-requests/{$token}")
             ->assertStatus(422);
 
-        $this->json('PUT', "/api/v1/annotation-assistance-requests/abcdef", [
+        $this->json('PUT', '/api/v1/annotation-assistance-requests/abcdef', [
                 'response_text' => 'This is a stone.',
             ])
             ->assertStatus(404);

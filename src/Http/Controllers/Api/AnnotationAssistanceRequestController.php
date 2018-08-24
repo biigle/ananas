@@ -20,7 +20,7 @@ class AnnotationAssistanceRequestController extends Controller
      */
 
     /**
-     * Create a new annotation assistance request
+     * Create a new annotation assistance request.
      *
      * @api {post} annotation-assistance-requests Create a new annotation assistance request
      * @apiGroup AnnotationAssistanceRequests
@@ -103,7 +103,7 @@ class AnnotationAssistanceRequestController extends Controller
     }
 
     /**
-     * Close an annotation assistance request
+     * Close an annotation assistance request.
      *
      * @api {put} annotation-assistance-requests/:token
      * @apiGroup AnnotationAssistanceRequests
@@ -148,7 +148,7 @@ class AnnotationAssistanceRequestController extends Controller
     }
 
     /**
-     * Delete an annotation assistance request
+     * Delete an annotation assistance request.
      *
      * @api {delete} annotation-assistance-requests/:id
      * @apiGroup AnnotationAssistanceRequests

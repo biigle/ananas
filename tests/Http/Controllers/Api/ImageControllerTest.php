@@ -3,7 +3,6 @@
 namespace Biigle\Tests\Modules\Ananas\Http\Controllers\Api;
 
 use ApiTestCase;
-use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
 
 class ImageControllerTest extends ApiTestCase
@@ -15,7 +14,7 @@ class ImageControllerTest extends ApiTestCase
         $ananas->annotation->image->save();
         $token = $ananas->token;
 
-        $response = $this->get("/api/v1/annotation-assistance-requests/abcdef/image");
+        $response = $this->get('/api/v1/annotation-assistance-requests/abcdef/image');
         $response->assertStatus(404);
 
         $response = $this->get("/api/v1/annotation-assistance-requests/{$token}/image");

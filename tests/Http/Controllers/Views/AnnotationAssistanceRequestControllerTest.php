@@ -5,7 +5,6 @@ namespace Biigle\Tests\Modules\Ananas\Http\Controllers\Views;
 use ApiTestCase;
 use Biigle\Tests\ImageTest;
 use Biigle\Tests\AnnotationTest;
-use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
 
 class AnnotationAssistanceRequestControllerTest extends ApiTestCase
@@ -16,10 +15,10 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $annotation = AnnotationTest::create(['image_id' => $image->id]);
         $id = $annotation->id;
 
-        $this->get("annotation-assistance-requests/create")->assertRedirect('login');
+        $this->get('annotation-assistance-requests/create')->assertRedirect('login');
 
         $this->beGuest();
-        $this->get("annotation-assistance-requests/create")->assertStatus(404);
+        $this->get('annotation-assistance-requests/create')->assertStatus(404);
         $this->get("annotation-assistance-requests/create?annotation_id={$id}")
             ->assertStatus(403);
 
@@ -33,7 +32,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
     {
         $request = AnanasTest::create();
 
-        $this->get("annotation-assistance-requests/respond/abcdef")
+        $this->get('annotation-assistance-requests/respond/abcdef')
             ->assertStatus(404)
             ->assertViewIs('ananas::respond-not-found');
 
@@ -62,7 +61,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
             ->assertRedirect('login');
 
         $this->beAdmin();
-        $this->get("annotation-assistance-requests/99999")->assertStatus(404);
+        $this->get('annotation-assistance-requests/99999')->assertStatus(404);
         $this->get("annotation-assistance-requests/{$request->id}")
             ->assertStatus(403);
 
@@ -76,27 +75,27 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
     {
         $request = AnanasTest::create();
 
-        $this->get("annotation-assistance-requests")
+        $this->get('annotation-assistance-requests')
             ->assertRedirect('login');
 
         $this->beUser();
-        $this->get("annotation-assistance-requests")
+        $this->get('annotation-assistance-requests')
             ->assertStatus(200)
             ->assertViewIs('ananas::index')
             ->assertDontSeeText($request->email);
 
         $this->be($request->user);
-        $this->get("annotation-assistance-requests")
+        $this->get('annotation-assistance-requests')
             ->assertStatus(200)
             ->assertViewIs('ananas::index')
             ->assertSeeText($request->email);
 
-        $this->get("annotation-assistance-requests?t=open")
+        $this->get('annotation-assistance-requests?t=open')
             ->assertStatus(200)
             ->assertViewIs('ananas::index')
             ->assertSeeText($request->email);
 
-        $this->get("annotation-assistance-requests?t=closed")
+        $this->get('annotation-assistance-requests?t=closed')
             ->assertStatus(200)
             ->assertViewIs('ananas::index')
             ->assertDontSeeText($request->email);
@@ -104,7 +103,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $request->closed_at = new \Carbon\Carbon;
         $request->save();
 
-        $this->get("annotation-assistance-requests?t=closed")
+        $this->get('annotation-assistance-requests?t=closed')
             ->assertStatus(200)
             ->assertViewIs('ananas::index')
             ->assertSeeText($request->email);

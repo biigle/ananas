@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Biigle\Modules\Ananas\AnnotationAssistanceRequest as Ananas;
 
 class AnnotationAssistanceRequest extends Notification implements ShouldQueue
 {

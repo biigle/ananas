@@ -13,7 +13,7 @@ use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 class AnnotationAssistanceRequestController extends Controller
 {
     /**
-     * Create a new annotation assistance request
+     * Create a new annotation assistance request.
      *
      * @param Request $request
      *
@@ -54,7 +54,7 @@ class AnnotationAssistanceRequestController extends Controller
     }
 
     /**
-     * Show an assistance request
+     * Show an assistance request.
      *
      * @param int $id
      *
@@ -89,7 +89,7 @@ class AnnotationAssistanceRequestController extends Controller
     }
 
     /**
-     * Respond to an assistance request
+     * Respond to an assistance request.
      *
      * @param string $token
      *
@@ -122,7 +122,7 @@ class AnnotationAssistanceRequestController extends Controller
     }
 
     /**
-     * Show the list of all assistance requests of the user
+     * Show the list of all assistance requests of the user.
      *
      * @param Request $request
      *

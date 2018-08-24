@@ -8,7 +8,7 @@ use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 class ImageController extends Controller
 {
     /**
-     * Shows the image file that belongs to the assistance request
+     * Shows the image file that belongs to the assistance request.
      *
      * @param string $token Token of the assistance request
      *

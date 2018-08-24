@@ -101,6 +101,6 @@ class AnnotationAssistanceRequest extends Model
             }
         }
 
-        return null;
+        return;
     }
 }

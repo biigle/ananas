@@ -3,7 +3,6 @@
 namespace Biigle\Modules\Ananas\Notifications;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Biigle\Notifications\InAppNotification as Notification;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest as Ananas;
 

@@ -10,6 +10,6 @@ $factory->define(Biigle\Modules\Ananas\AnnotationAssistanceRequest::class, funct
         },
         'user_id' => function () {
             return factory(Biigle\User::class)->create()->id;
-        }
+        },
     ];
 });
