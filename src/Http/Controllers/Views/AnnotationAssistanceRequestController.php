@@ -7,7 +7,6 @@ use Biigle\Project;
 use Biigle\LabelTree;
 use Biigle\Annotation;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Auth\Guard;
 use Biigle\Http\Controllers\Views\Controller;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 
@@ -16,17 +15,16 @@ class AnnotationAssistanceRequestController extends Controller
     /**
      * Create a new annotation assistance request
      *
-     * @param Guard $auth
      * @param Request $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Guard $auth, Request $request)
+    public function create(Request $request)
     {
         $annotation = Annotation::findOrFail($request->input('annotation_id'));
         $this->authorize('add-annotation', $annotation->image);
 
-        $user = $auth->user();
+        $user = $request->user();
 
         if ($user->can('sudo')) {
             // Global admins have no restrictions.
@@ -126,19 +124,18 @@ class AnnotationAssistanceRequestController extends Controller
     /**
      * Show the list of all assistance requests of the user
      *
-     * @param Guard $auth
      * @param Request $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Guard $auth, Request $request)
+    public function index(Request $request)
     {
         $type = $request->input('t');
         if (!in_array($type, ['open', 'closed', null])) {
             $type = null;
         }
 
-        $requests = AnnotationAssistanceRequest::where('user_id', $auth->user()->id)
+        $requests = AnnotationAssistanceRequest::where('user_id', $request->user()->id)
             ->orderBy('created_at', 'desc')
             ->when($type === 'open', function ($query) {
                 return $query->whereNull('closed_at');

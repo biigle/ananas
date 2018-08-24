@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Biigle\Project;
 use Biigle\Annotation;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Auth\Guard;
 use Biigle\Http\Controllers\Api\Controller;
 use Illuminate\Validation\ValidationException;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
@@ -41,16 +40,15 @@ class AnnotationAssistanceRequestController extends Controller
      * request_labels: [55, 56]
      *
      * @param Request $request
-     * @param Guard $auth
      * @param int $id Volume ID
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Guard $auth)
+    public function store(Request $request)
     {
         $this->validate($request, AnnotationAssistanceRequest::$createRules);
         $annotation = Annotation::with('image')->findOrFail($request->input('annotation_id'));
         $this->authorize('update', $annotation);
-        $user = $auth->user();
+        $user = $request->user();
 
         $rateLimit = AnnotationAssistanceRequest::where('user_id', $user->id)
             ->where('created_at', '>', Carbon::now()->subMinute())
