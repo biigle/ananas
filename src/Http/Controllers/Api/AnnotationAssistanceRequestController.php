@@ -2,6 +2,7 @@
 
 namespace Biigle\Modules\Ananas\Http\Controllers\Api;
 
+use Biigle\Role;
 use Biigle\Label;
 use Carbon\Carbon;
 use Biigle\Project;
@@ -73,7 +74,11 @@ class AnnotationAssistanceRequestController extends Controller
 
             // Array of all project IDs that the user and the annotation have in common
             // and where the user is editor, expert or admin.
-            $projectIds = Project::inCommon($user, $annotation->image->volume_id)->pluck('id');
+            $projectIds = Project::inCommon($user, $annotation->image->volume_id, [
+                Role::$editor->id,
+                Role::$expert->id,
+                Role::$admin->id,
+            ])->pluck('id');
 
             $labels = Label::select('id', 'name', 'color')
                 ->whereIn('id', $request->input('request_labels'))
