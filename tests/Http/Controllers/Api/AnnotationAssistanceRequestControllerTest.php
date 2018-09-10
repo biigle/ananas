@@ -22,23 +22,23 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
 
         $this->beGuest();
         $response = $this->json('POST', '/api/v1/annotation-assistance-requests');
-        // missing arguments
-        $response->assertStatus(422);
+        // Missing arguments. Not authorized to use an unknown annotation.
+        $response->assertStatus(403);
 
         $response = $this->json('POST', '/api/v1/annotation-assistance-requests', [
             'annotation_id' => 9999,
             'email' => 'joe@user.com',
             'request_text' => 'Hi Joe!',
         ]);
-        // annotation does not exist
-        $response->assertStatus(422);
+        // Annotation does not exist. Not authorized to use an unknown annotation.
+        $response->assertStatus(403);
 
         $response = $this->json('POST', '/api/v1/annotation-assistance-requests', [
             'annotation_id' => $annotation->id,
             'email' => 'joe@user.com',
             'request_text' => 'Hi Joe!',
         ]);
-        // no permissions as guest for that annotation
+        // No permissions as guest for that annotation.
         $response->assertStatus(403);
 
         $this->assertNull(AnnotationAssistanceRequest::first());

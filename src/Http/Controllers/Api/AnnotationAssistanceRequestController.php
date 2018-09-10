@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Biigle\Http\Controllers\Api\Controller;
 use Illuminate\Validation\ValidationException;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
+use Biigle\Modules\Ananas\Http\Requests\StoreAnnotationAssistanceRequest;
+use Biigle\Modules\Ananas\Http\Requests\UpdateAnnotationAssistanceRequest;
 use Biigle\Modules\Ananas\Notifications\AnnotationAssistanceResponse as ResponseNotification;
 
 class AnnotationAssistanceRequestController extends Controller
@@ -40,62 +42,20 @@ class AnnotationAssistanceRequestController extends Controller
      * request_text: 'Hi Joe, is this a Holothuroidea?'
      * request_labels: [55, 56]
      *
-     * @param Request $request
-     * @param int $id Volume ID
+     * @param StoreAnnotationAssistanceRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAnnotationAssistanceRequest $request)
     {
-        $this->validate($request, AnnotationAssistanceRequest::$createRules);
-        $annotation = Annotation::with('image')->findOrFail($request->input('annotation_id'));
-        $this->authorize('update', $annotation);
-        $user = $request->user();
-
-        $rateLimit = AnnotationAssistanceRequest::where('user_id', $user->id)
-            ->where('created_at', '>', Carbon::now()->subMinute())
-            ->exists();
-
-        if ($rateLimit) {
-            throw ValidationException::withMessages([
-                'email' => 'You are not allowed to send more than one assistance request per minute.',
-            ]);
-        }
-
         $ananas = new AnnotationAssistanceRequest;
         $ananas->token = AnnotationAssistanceRequest::generateToken();
         $ananas->email = $request->input('email');
         $ananas->request_text = $request->input('request_text');
         $ananas->annotation_id = $request->input('annotation_id');
-        $ananas->user()->associate($user);
+        $ananas->user()->associate($request->user());
 
         if ($request->filled('request_labels')) {
-            // Check if the user has access to all labels they want to suggest for this
-            // assistance request.
-
-            // Array of all project IDs that the user and the annotation have in common
-            // and where the user is editor, expert or admin.
-            $projectIds = Project::inCommon($user, $annotation->image->volume_id, [
-                Role::$editor->id,
-                Role::$expert->id,
-                Role::$admin->id,
-            ])->pluck('id');
-
-            $labels = Label::select('id', 'name', 'color')
-                ->whereIn('id', $request->input('request_labels'))
-                ->whereIn('label_tree_id', function ($query) use ($projectIds) {
-                    $query->select('label_tree_id')
-                        ->from('label_tree_project')
-                        ->whereIn('label_tree_project.project_id', $projectIds);
-                })
-                ->get();
-
-            if ($labels->count() !== count($request->input('request_labels'))) {
-                throw ValidationException::withMessages([
-                    'request_labels' => 'Some request labels belong to label trees that are not available for the annotation.',
-                ]);
-            }
-
-            $ananas->request_labels = $labels;
+            $ananas->request_labels = $request->input('request_labels');
         }
 
         $ananas->save();
@@ -121,29 +81,15 @@ class AnnotationAssistanceRequestController extends Controller
      *
      * @apiDescription Either `response_text` or `response_label_id` or both must be specified to close an assistance request.
      *
-     * @param Request $request
-     * @param string $token Token of the assistance request
+     * @param UpdateAnnotationAssistanceRequest $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $token)
+    public function update(UpdateAnnotationAssistanceRequest $request)
     {
-        $this->validate($request, AnnotationAssistanceRequest::$updateRules);
-
-        $ananas = AnnotationAssistanceRequest::where('token', $token)
-            ->whereNull('closed_at')
-            ->firstOrFail();
-
+        $ananas = $request->ananas;
         if ($request->filled('response_label_id')) {
-            $id = $request->input('response_label_id');
-            $labels = collect($ananas->request_labels);
-            if (!$labels->pluck('id')->containsStrict($id)) {
-                throw ValidationException::withMessages([
-                    'response_label_id' => ['The response label ID must be picked from one of the request labels.'],
-                ]);
-            }
-
-            $ananas->response_label_id = $id;
+            $ananas->response_label_id = $request->input('response_label_id');
         }
 
         $ananas->response_text = $request->input('response_text');

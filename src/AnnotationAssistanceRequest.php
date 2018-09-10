@@ -19,28 +19,6 @@ class AnnotationAssistanceRequest extends Model
     use Notifiable;
 
     /**
-     * Validation rules for creating a new assistance request.
-     *
-     * @var array
-     */
-    public static $createRules = [
-        'annotation_id' => 'required|exists:annotations,id',
-        'email' => 'required|email',
-        'request_text' => 'required',
-        'request_labels' => 'array',
-    ];
-
-    /**
-     * Validation rules for updating/closing an assistance request.
-     *
-     * @var array
-     */
-    public static $updateRules = [
-        'response_text' => 'required_without:response_label_id',
-        'response_label_id' => 'required_without:response_text',
-    ];
-
-    /**
      * The attributes that should be casted to native types.
      *
      * @var array
