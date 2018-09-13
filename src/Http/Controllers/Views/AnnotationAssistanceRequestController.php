@@ -2,6 +2,7 @@
 
 namespace Biigle\Modules\Ananas\Http\Controllers\Views;
 
+use DB;
 use Biigle\Role;
 use Biigle\Label;
 use Biigle\Project;
