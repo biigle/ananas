@@ -39,7 +39,7 @@ class StoreAnnotationAssistanceRequest extends FormRequest
 
         return [
             'annotation_id' => 'required|exists:annotations,id',
-            'email' => 'required|email',
+            'receiver_id' => 'nullable|exists:users,id',
             'request_text' => 'required',
             'request_labels' => 'array',
         ];
@@ -93,7 +93,7 @@ class StoreAnnotationAssistanceRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             if ($this->rateLimitApplies()) {
-                $validator->errors()->add('email', 'You are not allowed to send more than one assistance request per minute.');
+                $validator->errors()->add('request_text', 'You are not allowed to send more than one assistance request per minute.');
             }
 
             if ($this->invalidLabels()) {

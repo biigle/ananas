@@ -2,22 +2,41 @@
 
 namespace Biigle\Modules\Ananas\Notifications;
 
+use Biigle\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Biigle\Modules\Ananas\AnnotationAssistanceRequest as Ananas;
 
 class AnnotationAssistanceRequest extends Notification implements ShouldQueue
 {
     use Queueable;
 
     /**
+     * The annotation assistance request.
+     *
+     * @var Ananas
+     */
+    public $request;
+
+    /**
+     * Create a new instance.
+     *
+     * @param Ananas $request
+     */
+    public function __construct(Ananas $request)
+    {
+        $this->request = $request;
+    }
+
+    /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param  User  $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via(User $notifiable)
     {
         return ['mail'];
     }
@@ -25,18 +44,18 @@ class AnnotationAssistanceRequest extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable  The assistance request
+     * @param  User  $notifiable  The assistance request
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(User $notifiable)
     {
-        $name = $notifiable->user->firstname.' '.$notifiable->user->lastname;
+        $name = $this->request->user->firstname.' '.$this->request->user->lastname;
 
         return (new MailMessage)
-            ->replyTo($notifiable->user->email, $name)
+            ->replyTo($this->request->user->email, $name)
             ->subject("Annotation Assistance Request from {$name}")
-            ->greeting('Hello!')
+            ->greeting("Hello {$notifiable->firstname}!")
             ->line("{$name} asks you for assistance with an annotation in BIIGLE.")
-            ->action("Help {$notifiable->user->firstname}", route('respond-assistance-request', $notifiable->token));
+            ->action("Help {$this->request->user->firstname}", route('respond-assistance-request', $this->request->token));
     }
 }

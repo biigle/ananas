@@ -70,9 +70,8 @@ class AnnotationAssistanceRequestController extends Controller
     {
         $request = AnnotationAssistanceRequest::findOrFail($id);
         $this->authorize('access', $request);
-        $request->load('annotation.image.volume', 'annotation.shape');
+        $request->load('annotation.image.volume', 'annotation.shape', 'receiver');
 
-        $isRemote = $request->annotation->image->volume->isRemote();
         $annotation = collect($request->annotation->toArray())
             ->only('id', 'shape', 'points', 'image_id');
         // Preprocess the shape name for usage in the JS client.
@@ -87,7 +86,6 @@ class AnnotationAssistanceRequestController extends Controller
 
         return view('ananas::show', compact(
             'request',
-            'isRemote',
             'annotation',
             'responseLabelExists',
             'existingLabels'
@@ -112,9 +110,7 @@ class AnnotationAssistanceRequestController extends Controller
             return response()->view('ananas::respond-not-found', [], 404);
         }
 
-        $isRemote = $request->annotation->image->volume->isRemote();
-        $annotation = collect($request->annotation->toArray())
-            ->only('shape', 'points');
+        $annotation = collect($request->annotation->toArray())->only('shape', 'points');
         // Hide the actual annotation ID from the external user.
         $annotation['id'] = 0;
         // Preprocess the shape name for usage in the JS client.
@@ -122,7 +118,6 @@ class AnnotationAssistanceRequestController extends Controller
 
         return view('ananas::respond', [
             'request' => $request,
-            'isRemote' => $isRemote,
             'annotation' => $annotation,
         ]);
     }

@@ -17,7 +17,7 @@
             <ul class="list-unstyled">
                 @forelse ($requests as $request)
                     <li>
-                        <strong><a href="{{route('show-assistance-request', $request->id)}}">{{$request->email}}</a></strong>
+                        <strong><a href="{{route('show-assistance-request', $request->id)}}">Created <span title="{{$request->created_at}}">{{$request->created_at->diffForHumans()}}</span></a></strong>
                         @unless($type)
                             @if ($request->closed_at)
                                 <span class="label label-default" title="{{$request->closed_at}}">Closed</span>
@@ -25,9 +25,7 @@
                                 <span class="label label-info">Open</span>
                             @endif
                         @endunless
-                        <p class="text-muted">
-                            Created <span title="{{$request->created_at}}">{{$request->created_at->diffForHumans()}}</span>
-                        </p>
+                        <p class="text-muted">{{$request->request_text}}</p>
                     </li>
                 @empty
                     <li class="text-muted">

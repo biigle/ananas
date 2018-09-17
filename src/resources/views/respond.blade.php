@@ -14,7 +14,6 @@
 <script type="text/javascript">
     biigle.$declare('annotations.imageFileUri', '{!! url("api/v1/annotation-assistance-requests/{$request->token}/image") !!}');
     biigle.$declare('annotations.tilesUri', '{{ asset(config('image.tiles.uri')) }}/{uuid}/');
-    biigle.$declare('annotations.volumeIsRemote', @if($isRemote) true @else false @endif);
     biigle.$declare('ananas.annotation', {!! $annotation !!});
     biigle.$declare('ananas.token', '{!! $request->token !!}');
 </script>
@@ -28,7 +27,7 @@
 
 @section('navbar')
 <div class="navbar-text navbar-text--ananas">
-    Annotation assistance request from <strong>{{$request->user->firstname}} {{$request->user->lastname}}</strong> to <strong>{{$request->email}}</strong>.
+    Annotation assistance request from <strong>{{$request->user->firstname}} {{$request->user->lastname}}</strong>.
 </div>
 @endsection
 

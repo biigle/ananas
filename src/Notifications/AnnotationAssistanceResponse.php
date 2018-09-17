@@ -17,7 +17,7 @@ class AnnotationAssistanceResponse extends Notification implements ShouldQueue
     {
         parent::__construct(
             'Annotation Assistance Response',
-            "{$request->email} responded to your annotation assistance request!",
+            'You got a response to your annotation assistance request!',
             null,
             'View it here',
             route('show-assistance-request', $request->id)

@@ -31,14 +31,14 @@ class AnnotationAssistanceRequestController extends Controller
      * @apiPermission projectMember
      *
      * @apiParam (Required arguments) {Number} annotation_id ID of the annotation to which the assistance request should belong.
-     * @apiParam (Required arguments) {String} email Email address to which the assistance request should be sent.
      * @apiParam (Required arguments) {String} request_text Text with a short explanation or question that is shown to the receiver of the assistance request.
      *
+     * @apiParam (Optional arguments) {Number} receiver_id ID of the Biigle user who should get an automatic notification on the assistance request.
      * @apiParam (Optional arguments) {Array} request_labels Array of label IDs that should be suggested to the receiver of the assistance request.
      *
      * @apiParamExample {String} Request example:
      * annotation_id: 123
-     * email: 'joe@user.com'
+     * receiver_id: 12
      * request_text: 'Hi Joe, is this a Holothuroidea?'
      * request_labels: [55, 56]
      *
@@ -49,7 +49,7 @@ class AnnotationAssistanceRequestController extends Controller
     {
         $ananas = new AnnotationAssistanceRequest;
         $ananas->token = AnnotationAssistanceRequest::generateToken();
-        $ananas->email = $request->input('email');
+        $ananas->receiver_id = $request->input('receiver_id');
         $ananas->request_text = $request->input('request_text');
         $ananas->annotation_id = $request->input('annotation_id');
         $ananas->user()->associate($request->user());

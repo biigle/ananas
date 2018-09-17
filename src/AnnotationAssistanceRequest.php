@@ -6,7 +6,6 @@ use Biigle\User;
 use Biigle\Annotation;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 
 /**
  * With an annotation assistance request a BIIGLE user can consult some externa
@@ -14,10 +13,6 @@ use Illuminate\Notifications\Notifiable;
  */
 class AnnotationAssistanceRequest extends Model
 {
-    // If an assistance request is "notified", an email is sent to the receiver of the
-    // request.
-    use Notifiable;
-
     /**
      * The attributes that should be casted to native types.
      *
@@ -28,6 +23,7 @@ class AnnotationAssistanceRequest extends Model
         'response_label_id' => 'integer',
         'closed_at' => 'datetime',
         'user_id' => 'integer',
+        'receiver_id' => 'integer',
     ];
 
     /**
@@ -50,6 +46,16 @@ class AnnotationAssistanceRequest extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * The (optional) user that should receive the assistance request.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function receiver()
     {
         return $this->belongsTo(User::class);
     }

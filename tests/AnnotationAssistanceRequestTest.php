@@ -3,6 +3,7 @@
 namespace Biigle\Tests\Modules\Ananas;
 
 use ModelTestCase;
+use Biigle\Tests\UserTest;
 use Illuminate\Database\QueryException;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 
@@ -16,7 +17,6 @@ class AnnotationAssistanceRequestTest extends ModelTestCase
     public function testAttributes()
     {
         $this->assertNotNull($this->model->token);
-        $this->assertNotNull($this->model->email);
         $this->assertNotNull($this->model->request_text);
         $this->assertNotNull($this->model->annotation_id);
         $this->assertNotNull($this->model->user_id);
@@ -27,13 +27,6 @@ class AnnotationAssistanceRequestTest extends ModelTestCase
     public function testNameRequired()
     {
         $this->model->token = null;
-        $this->expectException(QueryException::class);
-        $this->model->save();
-    }
-
-    public function testEmailRequired()
-    {
-        $this->model->email = null;
         $this->expectException(QueryException::class);
         $this->model->save();
     }
@@ -57,6 +50,14 @@ class AnnotationAssistanceRequestTest extends ModelTestCase
         $this->model->user()->dissociate();
         $this->expectException(QueryException::class);
         $this->model->save();
+    }
+
+    public function testReceiverOptional()
+    {
+        $this->assertNull($this->model->reveiver_id);
+        $this->model->receiver()->associate(UserTest::create());
+        $this->model->save();
+        $this->assertNotNull($this->model->fresh()->receiver_id);
     }
 
     public function testGenerateToken()

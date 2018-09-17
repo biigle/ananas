@@ -14,7 +14,6 @@
 <script type="text/javascript">
     biigle.$declare('annotations.imageFileUri', '{!! url('api/v1/images/{id}/file') !!}');
     biigle.$declare('annotations.tilesUri', '{{ asset(config('image.tiles.uri')) }}/{uuid}/');
-    biigle.$declare('annotations.volumeIsRemote', @if ($isRemote) true @else false @endif);
     biigle.$declare('ananas.annotation', {!! $annotation !!});
     biigle.$declare('ananas.userId', {!! $user->id !!});
     biigle.$declare('ananas.suggestedLabelId', {!! $request->response_label_id !!});
@@ -30,7 +29,10 @@
 
 @section('navbar')
 <div class="navbar-text">
-    Annotation assistance request from <strong>{{$request->user->firstname}} {{$request->user->lastname}}</strong> to <strong>{{$request->email}}</strong>.
+    Annotation assistance request from <strong>{{$request->user->firstname}} {{$request->user->lastname}}</strong>
+    @if ($request->receiver)
+        to <strong>{{$request->receiver->firstname}} {{$request->receiver->lastname}}</strong>.
+    @endif
     @if ($request->closed_at)
         <span class="label label-default" title="{{$request->closed_at}}">
             Closed {{$request->closed_at->diffForHumans()}}
@@ -69,6 +71,10 @@
             <div class="sidebar-tab__content">
                 <p>Request created <span title="{{$request->created_at}}">{{$request->created_at->diffForHumans()}}</span>.</p>
                 <p>
+                    Request URL:
+                </p>
+                <pre @unless($request->closed_at)class="text-info"@endunless>{{route('respond-assistance-request', $request->token)}}</pre>
+                <p>
                     Text:
                 </p>
                 <div class="panel panel-default">
@@ -102,7 +108,7 @@
                 <div class="sidebar-tab__content">
                     @if ($request->response_text)
                         <p>
-                            {{$request->email}} responded:
+                            The response is:
                         </p>
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -111,11 +117,7 @@
                         </div>
                     @endif
                     @if ($request->response_label)
-                        @if ($request->response_text)
-                            <p>They chose the following suggested label:</p>
-                        @else
-                            <p>{{$request->email}} chose the following suggested label:</p>
-                        @endif
+                        <p>The following suggested label was chosen:</p>
                         <div class="panel panel-default">
                             <ul class="list-group">
                                 <li class="list-group-item suggested-label">
@@ -151,7 +153,7 @@
                 </div>
             </sidebar-tab>
         @else
-            <sidebar-tab name="response" icon="comments" :disabled="true" title="{{$request->email}} has not responded yet"></sidebar-tab>
+            <sidebar-tab name="response" icon="comments" :disabled="true" title="No response yet"></sidebar-tab>
         @endif
     </sidebar>
 </div>

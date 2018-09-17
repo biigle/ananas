@@ -10,6 +10,9 @@
     @if (old('request_labels'))
         biigle.$declare('ananas.oldLabels', {!! json_encode(old('request_labels')) !!});
     @endif
+    @if (old('receiver_id'))
+        biigle.$declare('ananas.oldReceiverId', {{old('receiver_id')}});
+    @endif
 </script>
 @endpush
 
@@ -25,19 +28,30 @@
         <form id="create-ananas-form" role="form" method="POST" action="{{url('api/v1/annotation-assistance-requests')}}">
             <input type="hidden" name="annotation_id" value="{{ $annotation->id }}">
 
-            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                <label for="email">Receiver email of the annotation assistance request</label>
-                <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}" placeholder="expert@example.com" required>
-                @if ($errors->has('email'))
-                   <span class="help-block">{{ $errors->first('email') }}</span>
-                @endif
-            </div>
-
             <div class="form-group{{ $errors->has('request_text') ? ' has-error' : '' }}">
                 <label for="request_text">Short text to describe your request</label>
                 <textarea class="form-control" name="request_text" id="request_text" placeholder="Hey Expert, can you tell me the correct label for this annotation?" required>{{ old('request_text') }}</textarea>
                 @if ($errors->has('request_text'))
                    <span class="help-block">{{ $errors->first('request_text') }}</span>
+                @endif
+            </div>
+
+            <div class="form-group{{ $errors->has('receiver_id') ? ' has-error' : '' }}">
+                <label for="receiver_id">BIIGLE user who should receive the annotation assistance request <span class="text-muted">(optional)</span></label>
+                <typeahead v-if="!selectedUser" class="typeahead--block" :items="users" title="Add a new user to the session" placeholder="Joe User" v-on:select="selectUser" :clear-on-select="true" :template="typeaheadTemplate"></typeahead>
+                <div v-else v-cloak class="input-group">
+                    <input class="form-control" type="text" readonly :value="receiverName">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" title="Clear selected user" v-on:click="clearSelectedUser"><i class="fa fa-times"></i></button>
+                    </span>
+                </div>
+                <input type="hidden" name="receiver_id" id="receiver_id" :value="receiverId">
+                @if ($errors->has('receiver_id'))
+                   <span class="help-block">{{ $errors->first('receiver_id') }}</span>
+                @else
+                    <span class="help-block">
+                        This user will get a notification when the annotation assistance request has been created.
+                    </span>
                 @endif
             </div>
 

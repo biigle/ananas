@@ -14,6 +14,8 @@ class AnnotationAssistanceRequestObserver
      */
     public function created(Ananas $request)
     {
-        $request->notify(new AnanasNotification);
+        if ($request->receiver_id !== null) {
+            $request->receiver->notify(new AnanasNotification($request));
+        }
     }
 }

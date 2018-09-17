@@ -27,7 +27,6 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
 
         $response = $this->json('POST', '/api/v1/annotation-assistance-requests', [
             'annotation_id' => 9999,
-            'email' => 'joe@user.com',
             'request_text' => 'Hi Joe!',
         ]);
         // Annotation does not exist. Not authorized to use an unknown annotation.
@@ -35,7 +34,6 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
 
         $response = $this->json('POST', '/api/v1/annotation-assistance-requests', [
             'annotation_id' => $annotation->id,
-            'email' => 'joe@user.com',
             'request_text' => 'Hi Joe!',
         ]);
         // No permissions as guest for that annotation.
@@ -46,7 +44,6 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $this->beEditor();
         $response = $this->json('POST', '/api/v1/annotation-assistance-requests', [
             'annotation_id' => $annotation->id,
-            'email' => 'joe@user.com',
             'request_text' => 'Hi Joe!',
             'request_labels' => [$this->labelRoot()->id, $this->labelChild()->id],
         ]);
@@ -54,7 +51,6 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
 
         $assistanceRequest = AnnotationAssistanceRequest::first();
         $this->assertEquals($annotation->id, $assistanceRequest->annotation_id);
-        $this->assertEquals('joe@user.com', $assistanceRequest->email);
         $this->assertEquals('Hi Joe!', $assistanceRequest->request_text);
         $this->assertEquals($this->editor()->id, $assistanceRequest->user_id);
         $labels = [
@@ -73,6 +69,22 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $this->assertNotNull($assistanceRequest->token);
     }
 
+    public function testStoreReceiver()
+    {
+        $image = ImageTest::create(['volume_id' => $this->volume()->id]);
+        $annotation = AnnotationTest::create(['image_id' => $image->id]);
+
+        $this->beEditor();
+        $response = $this->json('POST', '/api/v1/annotation-assistance-requests', [
+            'annotation_id' => $annotation->id,
+            'receiver_id' => $this->user()->id,
+            'request_text' => 'Hi Joe!',
+        ]);
+        $response->assertStatus(200);
+        $assistanceRequest = AnnotationAssistanceRequest::first();
+        $this->assertEquals($this->user()->id, $assistanceRequest->receiver_id);
+    }
+
     public function testStoreRateLimiting()
     {
         $ananas = AnanasTest::create(['user_id' => $this->editor()->id]);
@@ -83,7 +95,6 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $this->beEditor();
         $response = $this->json('POST', '/api/v1/annotation-assistance-requests', [
             'annotation_id' => $annotation->id,
-            'email' => 'joe@user.com',
             'request_text' => 'Hi Joe!',
         ]);
         // Denied because User already created a request within the last minute.
@@ -94,7 +105,6 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
 
         $response = $this->json('POST', '/api/v1/annotation-assistance-requests', [
             'annotation_id' => $annotation->id,
-            'email' => 'joe@user.com',
             'request_text' => 'Hi Joe!',
         ]);
         $response->assertStatus(200);
@@ -109,7 +119,6 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $this->beEditor();
         $response = $this->json('POST', '/api/v1/annotation-assistance-requests', [
             'annotation_id' => $annotation->id,
-            'email' => 'joe@user.com',
             'request_text' => 'Hi Joe!',
             'request_labels' => [$this->labelRoot()->id, $label->id],
         ]);
@@ -127,7 +136,6 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $this->beEditor();
         $response = $this->post('/api/v1/annotation-assistance-requests', [
             'annotation_id' => $annotation->id,
-            'email' => 'joe@user.com',
             'request_text' => 'Hi Joe!',
         ]);
 
