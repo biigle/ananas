@@ -38,6 +38,16 @@ class AnnotationAssistanceRequest extends Notification implements ShouldQueue
      */
     public function via(User $notifiable)
     {
+        $settings = config('ananas.notifications.default_settings');
+
+        if (config('ananas.notifications.allow_user_settings') === true) {
+            $settings = $notifiable->getSettings('ananas_notifications', $settings);
+        }
+
+        if ($settings === 'web') {
+            return ['database'];
+        }
+
         return ['mail'];
     }
 
@@ -57,5 +67,23 @@ class AnnotationAssistanceRequest extends Notification implements ShouldQueue
             ->greeting("Hello {$notifiable->firstname}!")
             ->line("{$name} asks you for assistance with an annotation in BIIGLE.")
             ->action("Help {$this->request->user->firstname}", route('respond-assistance-request', $this->request->token));
+    }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  User  $notifiable
+     * @return array
+     */
+    public function toArray(User $notifiable)
+    {
+        $name = $this->request->user->firstname.' '.$this->request->user->lastname;
+
+        return [
+            'title' => "Annotation Assistance Request from {$name}",
+            'message' => "{$name} asks you for assistance with an annotation.",
+            'action' => "Help {$this->request->user->firstname}",
+            'actionLink' => route('respond-assistance-request', $this->request->token),
+        ];
     }
 }

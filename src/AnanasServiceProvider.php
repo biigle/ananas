@@ -45,6 +45,10 @@ class AnanasServiceProvider extends ServiceProvider
             ],
         ]);
 
+        if (config('ananas.notifications.allow_user_settings')) {
+            $modules->registerViewMixin('ananas', 'settings.notifications');
+        }
+
         AnnotationAssistanceRequest::observe(new AnnotationAssistanceRequestObserver);
 
         Gate::policy(\Biigle\Modules\Ananas\AnnotationAssistanceRequest::class, \Biigle\Modules\Ananas\Policies\AnnotationAssistanceRequestPolicy::class);
@@ -57,6 +61,8 @@ class AnanasServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(__DIR__.'/config/ananas.php', 'ananas');
+
         $this->app->singleton('command.ananas.publish', function ($app) {
             return new \Biigle\Modules\Ananas\Console\Commands\Publish();
         });
