@@ -70,10 +70,12 @@
         <sidebar-tab name="request" icon="comment" title="Request information" class="sidebar-tab--flex">
             <div class="sidebar-tab__content">
                 <p>Request created <span title="{{$request->created_at}}">{{$request->created_at->diffForHumans()}}</span>.</p>
-                <p>
-                    Request URL:
-                </p>
-                <pre @unless($request->closed_at)class="text-info"@endunless>{{route('respond-assistance-request', $request->token)}}</pre>
+                @unless ($request->closed_at)
+                    <p>
+                        Request URL:
+                    </p>
+                    <pre class="text-info">{{route('respond-assistance-request', $request->token)}}</pre>
+                @endunless
                 <p>
                     Text:
                 </p>
