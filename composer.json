@@ -1,5 +1,11 @@
 {
     "name": "biigle/ananas",
+    "authors": [
+        {
+            "name": "Martin Zurowietz",
+            "email": "martin@cebitec.uni-bielefeld.de"
+        }
+    ],
     "require": {
         "biigle/annotations": ">=2.7"
     },
