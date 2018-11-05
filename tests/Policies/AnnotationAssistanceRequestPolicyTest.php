@@ -13,7 +13,7 @@ class AnnotationAssistanceRequestPolicyTest extends TestCase
     {
         $ananas = AnanasTest::create();
         $user = UserTest::create();
-        $admin = UserTest::create(['role_id' => Role::$admin->id]);
+        $admin = UserTest::create(['role_id' => Role::adminId()]);
 
         $this->assertFalse($user->can('access', $ananas));
         $this->assertTrue($admin->can('access', $ananas));
@@ -24,7 +24,7 @@ class AnnotationAssistanceRequestPolicyTest extends TestCase
     {
         $ananas = AnanasTest::create();
         $user = UserTest::create();
-        $admin = UserTest::create(['role_id' => Role::$admin->id]);
+        $admin = UserTest::create(['role_id' => Role::adminId()]);
 
         $this->assertFalse($user->can('destroy', $ananas));
         $this->assertTrue($admin->can('destroy', $ananas));

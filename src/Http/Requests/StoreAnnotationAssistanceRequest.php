@@ -62,7 +62,7 @@ class StoreAnnotationAssistanceRequest extends FormRequest
             $projectIds = Project::inCommon(
                     $this->user(),
                     $this->annotation->image->volume_id,
-                    [Role::$editor->id, Role::$expert->id, Role::$admin->id]
+                    [Role::editorId(), Role::expertId(), Role::adminId()]
                 )->pluck('id');
 
             $labels = Label::select('id', 'name', 'color')
