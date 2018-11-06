@@ -46,8 +46,8 @@
 @endsection
 
 @section('content')
-<div id="ananas-show-container" class="annotator-container" v-cloak>
-    <div class="annotator-container__canvas">
+<div id="ananas-show-container" class="sidebar-container" v-cloak>
+    <div class="sidebar-container__content">
         <loader-block :active="loading"></loader-block>
         <annotation-canvas
             :editable="false"
