@@ -60,11 +60,11 @@ class AnnotationAssistanceRequestController extends Controller
 
         $ananas->save();
 
-        if (static::isAutomatedRequest($request)) {
+        if ($this->isAutomatedRequest()) {
             return $ananas;
         }
 
-        return redirect()->route('show-assistance-request', $ananas->id);
+        return $this->fuzzyRedirect('show-assistance-request', $ananas->id);
     }
 
     /**
@@ -119,9 +119,8 @@ class AnnotationAssistanceRequestController extends Controller
         $this->authorize('destroy', $ananas);
         $ananas->delete();
 
-        if (!static::isAutomatedRequest($request)) {
-            return redirect()
-                ->route('home')
+        if (!$this->isAutomatedRequest()) {
+            return $this->fuzzyRedirect('home')
                 ->with('message', 'Annotation assistance request was deleted')
                 ->with('messageType', 'success');
         }
