@@ -50,7 +50,6 @@
     <div class="sidebar-container__content">
         <loader-block :active="loading"></loader-block>
         <annotation-canvas
-            :editable="false"
             :image="image"
             :annotations="annotations"
             ref="canvas"
