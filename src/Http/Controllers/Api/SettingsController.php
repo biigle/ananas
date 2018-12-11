@@ -11,7 +11,7 @@ class SettingsController extends Controller
     /**
      * Update the user settings for annotation assistance requests.
      *
-     * @api {post} users/my/settings/ananas Update the user settings for ananas
+     * @api {post} users/my/settings/ananas Update annotation assistance request settings
      * @apiGroup Users
      * @apiName StoreUsersAnanasSettings
      * @apiPermission user

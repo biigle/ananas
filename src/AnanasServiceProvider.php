@@ -43,6 +43,7 @@ class AnanasServiceProvider extends ServiceProvider
                 'annotationsAnnotationsTab',
                 'notificationTabs',
             ],
+            'apidoc' => [__DIR__.'/Http/Controllers/Api/'],
         ]);
 
         if (config('ananas.notifications.allow_user_settings')) {

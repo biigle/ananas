@@ -25,8 +25,8 @@ class AnnotationAssistanceRequestController extends Controller
     /**
      * Create a new annotation assistance request.
      *
-     * @api {post} annotation-assistance-requests Create a new annotation assistance request
-     * @apiGroup AnnotationAssistanceRequests
+     * @api {post} annotation-assistance-requests Create an assistance request
+     * @apiGroup Annotation_Assistance_Requests
      * @apiName StoreAnnotationAssistanceRequests
      * @apiPermission projectMember
      *
@@ -70,8 +70,8 @@ class AnnotationAssistanceRequestController extends Controller
     /**
      * Close an annotation assistance request.
      *
-     * @api {put} annotation-assistance-requests/:token
-     * @apiGroup AnnotationAssistanceRequests
+     * @api {put} annotation-assistance-requests/:token Close an assistance request
+     * @apiGroup Annotation_Assistance_Requests
      * @apiName UpdateAnnotationAssistanceRequests
      *
      * @apiParam {String} token The token that is associated with the assistance request.
@@ -101,8 +101,8 @@ class AnnotationAssistanceRequestController extends Controller
     /**
      * Delete an annotation assistance request.
      *
-     * @api {delete} annotation-assistance-requests/:id
-     * @apiGroup AnnotationAssistanceRequests
+     * @api {delete} annotation-assistance-requests/:id Delete an assistance request
+     * @apiGroup Annotation_Assistance_Requests
      * @apiName DestroyAnnotationAssistanceRequests
      * @apiPermission ananasOwner
      *
