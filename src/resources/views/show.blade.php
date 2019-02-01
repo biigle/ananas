@@ -55,9 +55,7 @@
             ref="canvas"
             inline-template>
             <div class="annotation-canvas">
-                <minimap :extent="extent" :projection="projection" inline-template>
-                    <div class="annotation-canvas__minimap"></div>
-                </minimap>
+                <minimap :extent="extent"></minimap>
             </div>
         </annotation-canvas>
     </div>

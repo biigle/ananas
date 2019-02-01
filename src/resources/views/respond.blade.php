@@ -42,9 +42,7 @@
             ref="canvas"
             inline-template>
             <div class="annotation-canvas">
-                <minimap v-if="showMinimap" :extent="extent" :projection="projection" v-cloak inline-template>
-                    <div class="annotation-canvas__minimap"></div>
-                </minimap>
+                <minimap v-if="showMinimap" :extent="extent" v-cloak></minimap>
             </div>
         </annotation-canvas>
     </div>
