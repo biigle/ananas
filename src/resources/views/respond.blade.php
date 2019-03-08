@@ -13,7 +13,7 @@
 <script src="{{ cachebust_asset('vendor/ananas/scripts/main.js') }}"></script>
 <script type="text/javascript">
     biigle.$declare('annotations.imageFileUri', '{!! url("api/v1/annotation-assistance-requests/{$request->token}/image") !!}');
-    biigle.$declare('annotations.tilesUri', '{{ asset(config('image.tiles.uri')) }}/{uuid}/');
+    biigle.$declare('annotations.tilesUri', '{{ asset(config('image.tiles.uri')) }}/:uuid/');
     biigle.$declare('ananas.annotation', {!! $annotation !!});
     biigle.$declare('ananas.token', '{!! $request->token !!}');
 </script>
