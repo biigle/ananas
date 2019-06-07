@@ -44,8 +44,8 @@ class AnnotationAssistanceRequestController extends Controller
         }
 
         // All label trees that are used by all projects in which the user can edit in.
-        $labelTrees = LabelTree::with('labels')
-            ->select('id', 'name')
+        $labelTrees = LabelTree::select('id', 'name', 'version_id')
+            ->with('labels', 'version')
             ->whereIn('id', function ($query) use ($projectIds) {
                 $query->select('label_tree_id')
                     ->from('label_tree_project')
