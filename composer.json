@@ -1,5 +1,13 @@
 {
     "name": "biigle/ananas",
+    "description": "BIIGLE module to create annotation assistance requests.",
+    "keywords": ["biigle", "biigle-module"],
+    "license": "GPL-3.0-only",
+    "support": {
+        "source": "https://github.com/biigle/ananas",
+        "issues": "https://github.com/biigle/ananas/issues"
+    },
+    "homepage": "https://biigle.de",
     "authors": [
         {
             "name": "Martin Zurowietz",
@@ -8,8 +16,6 @@
     ],
     "require": {
         "biigle/annotations": ">=2.7"
-    },
-    "require-dev": {
     },
     "autoload": {
         "psr-4": {
