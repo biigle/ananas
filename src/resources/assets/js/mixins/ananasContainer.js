@@ -6,7 +6,7 @@
 biigle.$component('ananas.mixins.ananasContainer', {
     mixins: [biigle.$require('core.mixins.loader')],
     components: {
-        sidebar: biigle.$require('annotations.components.sidebar'),
+        sidebar: biigle.$require('core.components.sidebar'),
         sidebarTab: biigle.$require('core.components.sidebarTab'),
         annotationCanvas: biigle.$require('annotations.components.annotationCanvas'),
     },
