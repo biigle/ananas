@@ -47,7 +47,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
             'request_text' => 'Hi Joe!',
             'request_labels' => [$this->labelRoot()->id, $this->labelChild()->id],
         ]);
-        $response->assertStatus(200);
+        $response->assertSuccessful();
 
         $assistanceRequest = AnnotationAssistanceRequest::first();
         $this->assertEquals($annotation->id, $assistanceRequest->annotation_id);
@@ -80,7 +80,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
             'receiver_id' => $this->user()->id,
             'request_text' => 'Hi Joe!',
         ]);
-        $response->assertStatus(200);
+        $response->assertSuccessful();
         $assistanceRequest = AnnotationAssistanceRequest::first();
         $this->assertEquals($this->user()->id, $assistanceRequest->receiver_id);
     }
@@ -107,7 +107,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
             'annotation_id' => $annotation->id,
             'request_text' => 'Hi Joe!',
         ]);
-        $response->assertStatus(200);
+        $response->assertSuccessful();
     }
 
     public function testStoreVerifyVolumeLabels()
