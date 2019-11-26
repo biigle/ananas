@@ -1,5 +1,7 @@
 # BIIGLE Ananas Module
 
+[![Test status](https://github.com/biigle/ananas/workflows/Tests/badge.svg)](https://github.com/biigle/ananas/actions?query=workflow%3ATests)
+
 This is the BIIGLE module to create annotation assistance requests.
 
 ## Installation
