@@ -1,6 +1,6 @@
 <?php
 
-namespace Biigle\Tests\Modules\Ananas\Http\Controllers;
+namespace Biigle\Tests\Modules\Ananas\Http\Controllers\Api;
 
 use ApiTestCase;
 

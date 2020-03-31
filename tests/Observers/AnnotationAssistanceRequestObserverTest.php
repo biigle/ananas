@@ -1,6 +1,6 @@
 <?php
 
-namespace Biigle\Tests\Modules\Ananas;
+namespace Biigle\Tests\Modules\Ananas\Observers;
 
 use TestCase;
 use Biigle\Tests\UserTest;
