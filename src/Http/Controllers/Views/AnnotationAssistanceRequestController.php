@@ -3,6 +3,7 @@
 namespace Biigle\Modules\Ananas\Http\Controllers\Views;
 
 use DB;
+use Storage;
 use Biigle\Role;
 use Biigle\Label;
 use Biigle\Project;
@@ -84,11 +85,14 @@ class AnnotationAssistanceRequestController extends Controller
             ->select('label_id', 'user_id')
             ->get();
 
+        $tilesUriTemplate = Storage::disk(config('image.tiles.disk'))->url(':uuid/');
+
         return view('ananas::show', compact(
             'request',
             'annotation',
             'responseLabelExists',
-            'existingLabels'
+            'existingLabels',
+            'tilesUriTemplate'
         ));
     }
 
@@ -116,9 +120,12 @@ class AnnotationAssistanceRequestController extends Controller
         // Preprocess the shape name for usage in the JS client.
         $annotation['shape'] = $annotation['shape']['name'];
 
+        $tilesUriTemplate = Storage::disk(config('image.tiles.disk'))->url(':uuid/');
+
         return view('ananas::respond', [
             'request' => $request,
             'annotation' => $annotation,
+            'tilesUriTemplate' => $tilesUriTemplate,
         ]);
     }
 

@@ -9,7 +9,7 @@
 <script src="{{ cachebust_asset('vendor/ananas/scripts/main.js') }}"></script>
 <script type="text/javascript">
     biigle.$declare('annotations.imageFileUri', '{!! url('api/v1/images/:id/file') !!}');
-    biigle.$declare('annotations.tilesUri', '{{ asset(config('image.tiles.uri')) }}/:uuid/');
+    biigle.$declare('annotations.tilesUri', '{{ $tilesUriTemplate }}');
     biigle.$declare('ananas.annotation', {!! $annotation !!});
     biigle.$declare('ananas.userId', {!! $user->id !!});
     biigle.$declare('ananas.suggestedLabelId', {!! $request->response_label_id !!});
