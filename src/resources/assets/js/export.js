@@ -1,2 +1,3 @@
-// TODO
-// Similar to the export.js file of core.
+// import AnanasApi from './api/ananas';
+
+// biigle.$declare('api.ananas', AnanasApi);

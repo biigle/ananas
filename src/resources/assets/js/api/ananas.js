@@ -14,9 +14,9 @@
 
  * @type {Vue.resource}
  */
-biigle.$declare('api.ananas', Vue.resource('api/v1/annotation-assistance-requests{/id}', {}, {
+export default Vue.resource('api/v1/annotation-assistance-requests{/id}', {}, {
     respond: {
         method: 'PUT',
         url: 'api/v1/annotation-assistance-requests{/token}',
     },
-}));
+});

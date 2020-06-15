@@ -1,3 +1,4 @@
 require('./import');
 require('./export');
-// TODO
+require('./components/annotationsTabPlugin');
+require('./mounts');

@@ -1,7 +1,11 @@
-// TODO
-// Get all required modules of other BIIGLE modules or core and export them for use in
-// this module. Example:
-//
-// let AnnotationsApi = biigle.$require('api.annotations');
-
-// export {AnnotationsApi};
+export let AnnotationCanvasComponent = biigle.$require('annotations.components.annotationCanvas');
+export let AnnotationsApi = biigle.$require('api.annotations');
+export let AnnotationsTabPlugins = biigle.$require('annotations.components.annotationsTabPlugins');
+export let ImagesStore = biigle.$require('annotations.stores.images');
+export let LabelTrees = biigle.$require('labelTrees.components.labelTrees');
+export let LoaderMixin = biigle.$require('core.mixins.loader');
+export let Messages = biigle.$require('messages.store');
+export let SidebarComponent = biigle.$require('core.components.sidebar');
+export let SidebarTabComponent = biigle.$require('core.components.sidebarTab');
+export let Typeahead = biigle.$require('core.components.typeahead');;
+export let UsersApi = biigle.$require('api.users');

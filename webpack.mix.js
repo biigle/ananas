@@ -17,7 +17,6 @@ mix.disableSuccessNotifications();
 mix.setPublicPath('src/public');
 
 mix.js('src/resources/assets/js/main.js', 'assets/scripts')
-    .extract()
     .sass('src/resources/assets/sass/main.scss', 'assets/styles')
     .publish({provider: 'Biigle\\Modules\\Ananas\\AnanasServiceProvider'});
 

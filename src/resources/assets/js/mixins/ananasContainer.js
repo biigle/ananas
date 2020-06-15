@@ -1,43 +1,49 @@
+import {LoaderMixin} from '../import';
+import {SidebarComponent} from '../import';
+import {SidebarTabComponent} from '../import';
+import {AnnotationCanvasComponent} from '../import';
+import {Messages} from '../import';
+import {ImagesStore} from '../import';
+
 /**
  * A mixin for the annotation assistance respond and show view models
  *
  * @type {Object}
  */
-biigle.$component('ananas.mixins.ananasContainer', {
-    mixins: [biigle.$require('core.mixins.loader')],
+export default {
+    mixins: [LoaderMixin],
     components: {
-        sidebar: biigle.$require('core.components.sidebar'),
-        sidebarTab: biigle.$require('core.components.sidebarTab'),
-        annotationCanvas: biigle.$require('annotations.components.annotationCanvas'),
+        sidebar: SidebarComponent,
+        sidebarTab: SidebarTabComponent,
+        annotationCanvas: AnnotationCanvasComponent,
     },
     data: {
         image: null,
         annotations: [],
     },
     computed: {
-        annotation: function () {
+        annotation() {
             return biigle.$require('ananas.annotation');
         },
     },
     methods: {
-        setImageAndAnnotation: function (image) {
+        setImageAndAnnotation(image) {
             this.image = image;
             this.annotations.push(this.annotation);
         },
-        focusAnnotation: function () {
+        focusAnnotation() {
             this.$refs.canvas.focusAnnotation(this.annotation, true);
         },
-        handleLoadingError: function (message) {
-            biigle.$require('messages.store').danger(message);
+        handleLoadingError(message) {
+            Messages.danger(message);
         },
     },
-    created: function () {
+    mounted() {
         this.startLoading();
-        biigle.$require('annotations.stores.images')
-            .fetchAndDrawImage(this.annotation.image_id)
+        ImagesStore.fetchAndDrawImage(this.annotation.image_id)
             .then(this.setImageAndAnnotation)
             .then(this.focusAnnotation)
             .catch(this.handleLoadingError)
             .finally(this.finishLoading);
     },
-});
+};
