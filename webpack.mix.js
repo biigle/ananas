@@ -13,6 +13,7 @@ require('laravel-mix-artisan-publish');
  */
 
 mix.disableSuccessNotifications();
+mix.options({processCssUrls: false});
 
 mix.setPublicPath('src/public');
 
