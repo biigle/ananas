@@ -12,6 +12,7 @@ export default new Vue({
         closed: false,
         errors: [],
         showMinimap: true,
+        token: '',
     },
     computed: {
         hasPickedLabel() {
@@ -25,9 +26,6 @@ export default new Vue({
         },
         hasErrors() {
             return this.errors.length > 0;
-        },
-        token() {
-            return biigle.$require('ananas.token');
         },
     },
     methods: {
@@ -51,7 +49,7 @@ export default new Vue({
 
             this.startLoading();
 
-            AnanasApi.respond({token: token}, payload)
+            AnanasApi.respond({token: this.token}, payload)
                 .finally(this.clearErrors)
                 .then(this.handleSuccess, this.handleError)
                 .finally(this.finishLoading);
@@ -81,5 +79,7 @@ export default new Vue({
     mounted() {
         this.checkForMobile();
         window.addEventListener('resize', this.checkForMobile);
+
+        this.token = biigle.$require('ananas.token');
     },
 });

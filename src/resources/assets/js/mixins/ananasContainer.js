@@ -20,11 +20,7 @@ export default {
     data: {
         image: null,
         annotations: [],
-    },
-    computed: {
-        annotation() {
-            return biigle.$require('ananas.annotation');
-        },
+        annotation: null,
     },
     methods: {
         setImageAndAnnotation(image) {
@@ -39,6 +35,8 @@ export default {
         },
     },
     mounted() {
+        this.annotation = biigle.$require('ananas.annotation');
+
         this.startLoading();
         ImagesStore.fetchAndDrawImage(this.annotation.image_id)
             .then(this.setImageAndAnnotation)

@@ -8,6 +8,11 @@ import {AnnotationsApi} from './import';
 
 export default new Vue({
     mixins: [AnanasContainer],
+    data: {
+        existingLabels: [],
+        userId: null,
+        suggestedLabelId: null,
+    },
     computed: {
         attachedSuggestedLabel() {
             let labels = this.existingLabels;
@@ -18,18 +23,6 @@ export default new Vue({
             }
 
             return false;
-        },
-        existingLabels() {
-            return biigle.$require('ananas.labels');
-        },
-        annotation() {
-            return biigle.$require('ananas.annotation');
-        },
-        userId() {
-            return biigle.$require('ananas.userId');
-        },
-        suggestedLabelId() {
-            return biigle.$require('ananas.suggestedLabelId');
         },
     },
     methods: {
@@ -45,5 +38,10 @@ export default new Vue({
         handleAttachSuccess() {
             this.existingLabels.push({label_id: this.suggestedLabelId, user_id: this.userId});
         },
-    }
+    },
+    mounted() {
+        this.existingLabels = biigle.$require('ananas.labels');
+        this.userId = biigle.$require('ananas.userId');
+        this.suggestedLabelId = biigle.$require('ananas.suggestedLabelId');
+    },
 });

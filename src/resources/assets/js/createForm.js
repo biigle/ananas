@@ -15,6 +15,7 @@ export default new Vue({
         typeaheadTemplate: '<span v-text="item.name"></span><br><small v-text="item.affiliation"></small>',
         users: [],
         selectedUser: null,
+        labelTrees: [],
     },
     computed: {
         flatLabels() {
@@ -39,9 +40,6 @@ export default new Vue({
         receiverName() {
             return this.selectedUser ? this.selectedUser.name : '';
         },
-        labelTrees() {
-            return biigle.$require('ananas.labelTrees');
-        },
     },
     methods: {
         close() {
@@ -64,7 +62,7 @@ export default new Vue({
             this.selectedUser = null;
         },
     },
-    created() {
+    mounted() {
         // Select the previously selected labels if there was a validation error.
         let oldLabels = biigle.$require('ananas.oldLabels');
         if (Array.isArray(oldLabels)) {
@@ -92,5 +90,7 @@ export default new Vue({
                 }
             });
         }
+
+        this.labelTrees = biigle.$require('ananas.labelTrees');
     }
 });
