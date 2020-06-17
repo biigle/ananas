@@ -6,7 +6,7 @@ import {Typeahead} from './import';
 /**
  * View model for the form to create a new assistance request
  */
-export default new Vue({
+export default {
     components: {
         labelTrees: LabelTrees,
         typeahead: Typeahead,
@@ -62,7 +62,7 @@ export default new Vue({
             this.selectedUser = null;
         },
     },
-    mounted() {
+    created() {
         // Select the previously selected labels if there was a validation error.
         let oldLabels = biigle.$require('ananas.oldLabels');
         if (Array.isArray(oldLabels)) {
@@ -93,4 +93,4 @@ export default new Vue({
 
         this.labelTrees = biigle.$require('ananas.labelTrees');
     }
-});
+};

@@ -4,7 +4,7 @@ import AnanasContainer from './mixins/ananasContainer';
 /**
  * View model for the annotation assistance respond view
  */
-export default new Vue({
+export default {
     mixins: [AnanasContainer],
     data: {
         pickedLabel: null,
@@ -76,10 +76,10 @@ export default new Vue({
             }
         },
     },
-    mounted() {
+    created() {
         this.checkForMobile();
         window.addEventListener('resize', this.checkForMobile);
 
         this.token = biigle.$require('ananas.token');
     },
-});
+};

@@ -6,7 +6,7 @@ import AnanasContainer from './mixins/ananasContainer';
 import {handleErrorResponse} from './import';
 import {AnnotationsApi} from './import';
 
-export default new Vue({
+export default {
     mixins: [AnanasContainer],
     data: {
         existingLabels: [],
@@ -39,9 +39,9 @@ export default new Vue({
             this.existingLabels.push({label_id: this.suggestedLabelId, user_id: this.userId});
         },
     },
-    mounted() {
+    created() {
         this.existingLabels = biigle.$require('ananas.labels');
         this.userId = biigle.$require('ananas.userId');
         this.suggestedLabelId = biigle.$require('ananas.suggestedLabelId');
     },
-});
+};
