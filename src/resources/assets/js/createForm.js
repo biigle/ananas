@@ -1,4 +1,4 @@
-import {Messages} from './import';
+import {handleErrorResponse} from './import';
 import {UsersApi} from './import';
 import {LabelTrees} from './import';
 import {Typeahead} from './import';
@@ -46,7 +46,7 @@ export default new Vue({
             window.close();
         },
         loadUsers() {
-            return UsersApi.query().then(this.usersLoaded, Messages.handleErrorResponse);
+            return UsersApi.query().then(this.usersLoaded, handleErrorResponse);
         },
         usersLoaded: function (response) {
             // Assemble full username that can be used for searching in the typeahead.

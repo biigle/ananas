@@ -1,10 +1,11 @@
 export let AnnotationCanvasComponent = biigle.$require('annotations.components.annotationCanvas');
 export let AnnotationsApi = biigle.$require('api.annotations');
 export let AnnotationsTabPlugins = biigle.$require('annotations.components.annotationsTabPlugins');
+export let handleErrorResponse = biigle.$require('messages').handleErrorResponse;
 export let ImagesStore = biigle.$require('annotations.stores.images');
 export let LabelTrees = biigle.$require('labelTrees.components.labelTrees');
 export let LoaderMixin = biigle.$require('core.mixins.loader');
-export let Messages = biigle.$require('messages.store');
+export let Messages = biigle.$require('messages');
 export let SidebarComponent = biigle.$require('core.components.sidebar');
 export let SidebarTabComponent = biigle.$require('core.components.sidebarTab');
 export let Typeahead = biigle.$require('core.components.typeahead');;

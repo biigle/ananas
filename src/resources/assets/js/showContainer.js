@@ -3,7 +3,7 @@
  */
 
 import AnanasContainer from './mixins/ananasContainer';
-import {Messages} from './import';
+import {handleErrorResponse} from './import';
 import {AnnotationsApi} from './import';
 
 export default new Vue({
@@ -32,7 +32,7 @@ export default new Vue({
                     label_id: this.suggestedLabelId,
                     confidence: 1.0,
                 })
-                .then(this.handleAttachSuccess, Messages.handleErrorResponse)
+                .then(this.handleAttachSuccess, handleErrorResponse)
                 .finally(this.finishLoading);
         },
         handleAttachSuccess() {
