@@ -1,9 +1,9 @@
+import {AnnotationCanvasComponent} from '../import';
+import {ImagesStore} from '../import';
 import {LoaderMixin} from '../import';
+import {Messages} from '../import';
 import {SidebarComponent} from '../import';
 import {SidebarTabComponent} from '../import';
-import {AnnotationCanvasComponent} from '../import';
-import {Messages} from '../import';
-import {ImagesStore} from '../import';
 
 /**
  * A mixin for the annotation assistance respond and show view models
@@ -34,9 +34,10 @@ export default {
             Messages.danger(message);
         },
     },
-    mounted() {
+    created() {
         this.annotation = biigle.$require('ananas.annotation');
-
+    },
+    mounted() {
         this.startLoading();
         ImagesStore.fetchAndDrawImage(this.annotation.image_id)
             .then(this.setImageAndAnnotation)

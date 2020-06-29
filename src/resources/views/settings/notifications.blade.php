@@ -22,7 +22,7 @@
 
 @push('scripts')
 <script type="text/javascript">
-    biigle.$mount('ananas-notification-settings', new Vue({
+    biigle.$mount('ananas-notification-settings', {
         mixins: [biigle.$require('core.mixins.loader')],
         data: {
             settings: '{!! $user->getSettings('ananas_notifications', config('ananas.notifications.default_settings')) !!}',
@@ -37,7 +37,7 @@
             handleError: function (response) {
                 this.saved = false;
                 this.error = true;
-                biigle.$require('messages.store').handleErrorResponse(response);
+                biigle.$require('messages').handleErrorResponse(response);
             },
         },
         watch: {
@@ -50,6 +50,6 @@
                     .finally(this.finishLoading);
             },
         },
-    }));
+    });
 </script>
 @endpush
