@@ -27,9 +27,7 @@ export default {
             return labels;
         },
         selectedLabels() {
-            return this.flatLabels.filter(function (label) {
-                return label.selected;
-            });
+            return this.flatLabels.filter((label) => label.selected);
         },
         hasTooManySelectedLabels() {
             return this.selectedLabels.length > 5;

@@ -6,28 +6,28 @@ import {AnnotationsTabPlugins} from '../import';
  *
  * @type {Object}
  */
-AnnotationsTabPlugins.assistanceRequest = {
-    props: {
-        annotations: {
-            type: Array,
-            required: true,
+if (AnnotationsTabPlugins) {
+    AnnotationsTabPlugins.assistanceRequest = {
+        props: {
+            annotations: {
+                type: Array,
+                required: true,
+            },
+            url: {
+                type: String,
+                required: true,
+            },
         },
-        url: {
-            type: String,
-            required: true,
+        computed: {
+            selectedAnnotations() {
+                return this.annotations.filter((a) => a.selected);
+            },
+            isDisabled() {
+                return this.selectedAnnotations.length !== 1;
+            },
+            href() {
+                return this.url + this.selectedAnnotations[0].id;
+            },
         },
-    },
-    computed: {
-        selectedAnnotations() {
-            return this.annotations.filter(function (a) {
-                return a.selected;
-            });
-        },
-        isDisabled() {
-            return this.selectedAnnotations.length !== 1;
-        },
-        href() {
-            return this.url + this.selectedAnnotations[0].id;
-        },
-    },
-};
+    };
+}
