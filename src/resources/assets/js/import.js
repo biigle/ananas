@@ -8,5 +8,5 @@ export let LoaderMixin = biigle.$require('core.mixins.loader');
 export let Messages = biigle.$require('messages');
 export let SidebarComponent = biigle.$require('core.components.sidebar');
 export let SidebarTabComponent = biigle.$require('core.components.sidebarTab');
-export let Typeahead = biigle.$require('core.components.typeahead');;
+export let Typeahead = biigle.$require('core.components.typeahead');
 export let UsersApi = biigle.$require('api.users');
