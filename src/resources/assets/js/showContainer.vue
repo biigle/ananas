@@ -1,17 +1,19 @@
-/**
- * View model for the annotation assistance show view
- */
-
+<script>
 import AnanasContainer from './mixins/ananasContainer';
 import {handleErrorResponse} from './import';
 import {AnnotationsApi} from './import';
 
+/**
+ * View model for the annotation assistance show view
+ */
 export default {
     mixins: [AnanasContainer],
-    data: {
-        existingLabels: [],
-        userId: null,
-        suggestedLabelId: null,
+    data() {
+        return {
+            existingLabels: [],
+            userId: null,
+            suggestedLabelId: null,
+        };
     },
     computed: {
         attachedSuggestedLabel() {
@@ -45,3 +47,4 @@ export default {
         this.suggestedLabelId = biigle.$require('ananas.suggestedLabelId');
     },
 };
+</script>

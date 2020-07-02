@@ -1,3 +1,4 @@
+<script>
 import AnanasApi from './api/ananas';
 import AnanasContainer from './mixins/ananasContainer';
 
@@ -6,13 +7,15 @@ import AnanasContainer from './mixins/ananasContainer';
  */
 export default {
     mixins: [AnanasContainer],
-    data: {
-        pickedLabel: null,
-        responseText: '',
-        closed: false,
-        errors: [],
-        showMinimap: true,
-        token: '',
+    data() {
+        return {
+            pickedLabel: null,
+            responseText: '',
+            closed: false,
+            errors: [],
+            showMinimap: true,
+            token: '',
+        };
     },
     computed: {
         hasPickedLabel() {
@@ -83,3 +86,4 @@ export default {
         this.token = biigle.$require('ananas.token');
     },
 };
+</script>

@@ -1,3 +1,4 @@
+<script>
 import {AnnotationCanvasComponent} from '../import';
 import {ImagesStore} from '../import';
 import {LoaderMixin} from '../import';
@@ -17,10 +18,12 @@ export default {
         sidebarTab: SidebarTabComponent,
         annotationCanvas: AnnotationCanvasComponent,
     },
-    data: {
-        image: null,
-        annotations: [],
-        annotation: null,
+    data() {
+        return {
+            image: null,
+            annotations: [],
+            annotation: null,
+        };
     },
     methods: {
         setImageAndAnnotation(image) {
@@ -46,3 +49,4 @@ export default {
             .finally(this.finishLoading);
     },
 };
+</script>

@@ -1,3 +1,4 @@
+<script>
 import {handleErrorResponse} from './import';
 import {UsersApi} from './import';
 import {LabelTrees} from './import';
@@ -11,11 +12,13 @@ export default {
         labelTrees: LabelTrees,
         typeahead: Typeahead,
     },
-    data: {
-        typeaheadTemplate: '<span v-text="item.name"></span><br><small v-text="item.affiliation"></small>',
-        users: [],
-        selectedUser: null,
-        labelTrees: [],
+    data() {
+        return {
+            typeaheadTemplate: '<span v-text="item.name"></span><br><small v-text="item.affiliation"></small>',
+            users: [],
+            selectedUser: null,
+            labelTrees: [],
+        };
     },
     computed: {
         flatLabels() {
@@ -92,3 +95,4 @@ export default {
         this.labelTrees = biigle.$require('ananas.labelTrees');
     }
 };
+</script>
