@@ -1,4 +1,4 @@
-import './components/annotationsTabPlugin';
+import './annotationsTabPlugins';
 import CreateForm from './createForm';
 import RespondContainer from './respondContainer';
 import ShowContainer from './showContainer';
