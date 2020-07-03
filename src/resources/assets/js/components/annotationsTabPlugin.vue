@@ -1,10 +1,11 @@
+<script>
 /**
  * The plugin component showing a button to create a new annotation assistance request
  * in the annotations tab.
  *
  * @type {Object}
  */
-biigle.$require('annotations.components.annotationsTabPlugins').assistanceRequest = {
+export default {
     props: {
         annotations: {
             type: Array,
@@ -16,16 +17,15 @@ biigle.$require('annotations.components.annotationsTabPlugins').assistanceReques
         },
     },
     computed: {
-        selectedAnnotations: function () {
-            return this.annotations.filter(function (a) {
-                return a.selected;
-            });
+        selectedAnnotations() {
+            return this.annotations.filter((a) => a.selected);
         },
-        isDisabled: function () {
+        isDisabled() {
             return this.selectedAnnotations.length !== 1;
         },
-        href: function () {
+        href() {
             return this.url + this.selectedAnnotations[0].id;
         },
     },
 };
+</script>

@@ -4,7 +4,6 @@
 @section('title', "Annotation Assistance Request")
 
 @push('scripts')
-<script src="{{ cachebust_asset('vendor/annotations/scripts/ol.js') }}"></script>
 <script src="{{ cachebust_asset('vendor/annotations/scripts/main.js') }}"></script>
 <script src="{{ cachebust_asset('vendor/ananas/scripts/main.js') }}"></script>
 <script type="text/javascript">
@@ -18,7 +17,6 @@
 @endpush
 
 @push('styles')
-<link href="{{ cachebust_asset('vendor/annotations/styles/ol.css') }}" rel="stylesheet">
 <link href="{{ cachebust_asset('vendor/annotations/styles/main.css') }}" rel="stylesheet">
 <link href="{{ cachebust_asset('vendor/ananas/styles/main.css') }}" rel="stylesheet">
 @endpush
