@@ -14,9 +14,6 @@
             "email": "martin@cebitec.uni-bielefeld.de"
         }
     ],
-    "require": {
-        "biigle/annotations": ">=2.7"
-    },
     "autoload": {
         "psr-4": {
             "Biigle\\Modules\\Ananas\\": "src"
