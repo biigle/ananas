@@ -4,7 +4,6 @@
 @section('title', "Annotation Assistance Request")
 
 @push('scripts')
-<script src="{{ cachebust_asset('vendor/annotations/scripts/main.js') }}"></script>
 <script src="{{ cachebust_asset('vendor/ananas/scripts/main.js') }}"></script>
 <script type="text/javascript">
     biigle.$declare('annotations.imageFileUri', '{!! url("api/v1/annotation-assistance-requests/{$request->token}/image") !!}');
@@ -15,7 +14,6 @@
 @endpush
 
 @push('styles')
-<link href="{{ cachebust_asset('vendor/annotations/styles/main.css') }}" rel="stylesheet">
 <link href="{{ cachebust_asset('vendor/ananas/styles/main.css') }}" rel="stylesheet">
 @endpush
 

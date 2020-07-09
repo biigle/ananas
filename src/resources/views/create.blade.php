@@ -3,7 +3,6 @@
 @section('title', 'New Annotation Assistance Request')
 
 @push('scripts')
-<script src="{{ cachebust_asset('vendor/label-trees/scripts/main.js') }}"></script>
 <script src="{{ cachebust_asset('vendor/ananas/scripts/main.js') }}"></script>
 <script type="text/javascript">
     biigle.$declare('ananas.labelTrees', {!! $labelTrees !!});
@@ -17,7 +16,6 @@
 @endpush
 
 @push('styles')
-<link href="{{ cachebust_asset('vendor/label-trees/styles/main.css') }}" rel="stylesheet">
 <link href="{{ cachebust_asset('vendor/ananas/styles/main.css') }}" rel="stylesheet">
 @endpush
 
