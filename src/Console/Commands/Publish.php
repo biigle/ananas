@@ -2,8 +2,8 @@
 
 namespace Biigle\Modules\Ananas\Console\Commands;
 
-use Illuminate\Console\Command;
 use Biigle\Modules\Ananas\AnanasServiceProvider as ServiceProvider;
+use Illuminate\Console\Command;
 
 class Publish extends Command
 {

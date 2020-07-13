@@ -2,13 +2,13 @@
 
 namespace Biigle\Modules\Ananas\Http\Requests;
 
-use Biigle\Role;
-use Biigle\Label;
-use Carbon\Carbon;
-use Biigle\Project;
 use Biigle\Annotation;
-use Illuminate\Foundation\Http\FormRequest;
+use Biigle\Label;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
+use Biigle\Project;
+use Biigle\Role;
+use Carbon\Carbon;
+use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAnnotationAssistanceRequest extends FormRequest
 {
@@ -60,10 +60,10 @@ class StoreAnnotationAssistanceRequest extends FormRequest
             // Array of all project IDs that the user and the annotation have in common
             // and where the user is editor, expert or admin.
             $projectIds = Project::inCommon(
-                    $this->user(),
-                    $this->annotation->image->volume_id,
-                    [Role::editorId(), Role::expertId(), Role::adminId()]
-                )->pluck('id');
+                $this->user(),
+                $this->annotation->image->volume_id,
+                [Role::editorId(), Role::expertId(), Role::adminId()]
+            )->pluck('id');
 
             $labels = Label::select('id', 'name', 'color')
                 ->whereIn('id', $this->input('request_labels'))

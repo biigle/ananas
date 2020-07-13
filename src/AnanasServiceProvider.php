@@ -2,12 +2,12 @@
 
 namespace Biigle\Modules\Ananas;
 
+use Biigle\Modules\Ananas\Observers\AnnotationAssistanceRequestObserver;
 use Biigle\Services\Modules;
+use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory as EloquentFactory;
-use Biigle\Modules\Ananas\Observers\AnnotationAssistanceRequestObserver;
 
 class AnanasServiceProvider extends ServiceProvider
 {

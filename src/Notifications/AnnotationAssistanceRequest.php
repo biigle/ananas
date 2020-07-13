@@ -2,12 +2,12 @@
 
 namespace Biigle\Modules\Ananas\Notifications;
 
+use Biigle\Modules\Ananas\AnnotationAssistanceRequest as Ananas;
 use Biigle\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Biigle\Modules\Ananas\AnnotationAssistanceRequest as Ananas;
+use Illuminate\Notifications\Notification;
 
 class AnnotationAssistanceRequest extends Notification implements ShouldQueue
 {

@@ -2,10 +2,10 @@
 
 namespace Biigle\Modules\Ananas;
 
-use Biigle\User;
 use Biigle\Annotation;
-use Illuminate\Support\Str;
+use Biigle\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * With an annotation assistance request a BIIGLE user can consult some externa

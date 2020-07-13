@@ -2,10 +2,10 @@
 
 namespace Biigle\TestsModules\Ananas\Policies;
 
-use TestCase;
 use Biigle\Role;
-use Biigle\Tests\UserTest;
 use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
+use Biigle\Tests\UserTest;
+use TestCase;
 
 class AnnotationAssistanceRequestPolicyTest extends TestCase
 {

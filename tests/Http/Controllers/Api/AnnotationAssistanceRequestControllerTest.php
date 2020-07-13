@@ -3,13 +3,13 @@
 namespace Biigle\Tests\Modules\Ananas\Http\Controllers\Api;
 
 use ApiTestCase;
-use Biigle\Tests\LabelTest;
-use Biigle\Tests\ImageTest;
-use Biigle\Tests\AnnotationTest;
-use Illuminate\Support\Facades\Notification;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
-use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
 use Biigle\Modules\Ananas\Notifications\AnnotationAssistanceResponse as ResponseNotification;
+use Biigle\Tests\AnnotationTest;
+use Biigle\Tests\ImageTest;
+use Biigle\Tests\LabelTest;
+use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
+use Illuminate\Support\Facades\Notification;
 
 class AnnotationAssistanceRequestControllerTest extends ApiTestCase
 {

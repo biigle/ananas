@@ -2,9 +2,9 @@
 
 namespace Biigle\Modules\Ananas\Policies;
 
+use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 
 class AnnotationAssistanceRequestPolicy
 {

@@ -2,18 +2,18 @@
 
 namespace Biigle\Modules\Ananas\Http\Controllers\Api;
 
-use Biigle\Role;
-use Biigle\Label;
-use Carbon\Carbon;
-use Biigle\Project;
 use Biigle\Annotation;
-use Illuminate\Http\Request;
 use Biigle\Http\Controllers\Api\Controller;
-use Illuminate\Validation\ValidationException;
+use Biigle\Label;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Modules\Ananas\Http\Requests\StoreAnnotationAssistanceRequest;
 use Biigle\Modules\Ananas\Http\Requests\UpdateAnnotationAssistanceRequest;
 use Biigle\Modules\Ananas\Notifications\AnnotationAssistanceResponse as ResponseNotification;
+use Biigle\Project;
+use Biigle\Role;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class AnnotationAssistanceRequestController extends Controller
 {

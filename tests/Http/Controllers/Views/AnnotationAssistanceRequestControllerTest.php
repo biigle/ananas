@@ -3,8 +3,8 @@
 namespace Biigle\Tests\Modules\Ananas\Http\Controllers\Views;
 
 use ApiTestCase;
-use Biigle\Tests\ImageTest;
 use Biigle\Tests\AnnotationTest;
+use Biigle\Tests\ImageTest;
 use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
 
 class AnnotationAssistanceRequestControllerTest extends ApiTestCase

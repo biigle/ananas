@@ -2,16 +2,16 @@
 
 namespace Biigle\Modules\Ananas\Http\Controllers\Views;
 
-use DB;
-use Storage;
-use Biigle\Role;
-use Biigle\Label;
-use Biigle\Project;
-use Biigle\LabelTree;
 use Biigle\Annotation;
-use Illuminate\Http\Request;
 use Biigle\Http\Controllers\Views\Controller;
+use Biigle\Label;
+use Biigle\LabelTree;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
+use Biigle\Project;
+use Biigle\Role;
+use DB;
+use Illuminate\Http\Request;
+use Storage;
 
 class AnnotationAssistanceRequestController extends Controller
 {

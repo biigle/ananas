@@ -2,10 +2,10 @@
 
 namespace Biigle\Tests\Modules\Ananas;
 
-use ModelTestCase;
+use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Tests\UserTest;
 use Illuminate\Database\QueryException;
-use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
+use ModelTestCase;
 
 class AnnotationAssistanceRequestTest extends ModelTestCase
 {

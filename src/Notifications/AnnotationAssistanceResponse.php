@@ -2,9 +2,9 @@
 
 namespace Biigle\Modules\Ananas\Notifications;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Biigle\Notifications\InAppNotification as Notification;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest as Ananas;
+use Biigle\Notifications\InAppNotification as Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class AnnotationAssistanceResponse extends Notification implements ShouldQueue
 {

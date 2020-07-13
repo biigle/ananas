@@ -2,11 +2,11 @@
 
 namespace Biigle\Tests\Modules\Ananas\Observers;
 
-use TestCase;
+use Biigle\Modules\Ananas\Notifications\AnnotationAssistanceRequest as AnanasNotification;
+use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
 use Biigle\Tests\UserTest;
 use Illuminate\Support\Facades\Notification;
-use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
-use Biigle\Modules\Ananas\Notifications\AnnotationAssistanceRequest as AnanasNotification;
+use TestCase;
 
 class AnnotationAssistanceRequestObserverTest extends TestCase
 {
