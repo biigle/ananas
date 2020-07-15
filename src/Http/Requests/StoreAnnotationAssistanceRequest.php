@@ -2,7 +2,7 @@
 
 namespace Biigle\Modules\Ananas\Http\Requests;
 
-use Biigle\Annotation;
+use Biigle\ImageAnnotation;
 use Biigle\Label;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Project;
@@ -15,7 +15,7 @@ class StoreAnnotationAssistanceRequest extends FormRequest
     /**
      * The annotation to create the request for.
      *
-     * @var Annotation
+     * @var ImageAnnotation
      */
     public $annotation;
 
@@ -37,7 +37,7 @@ class StoreAnnotationAssistanceRequest extends FormRequest
     public function rules()
     {
         return [
-            'annotation_id' => 'required|id|exists:annotations,id',
+            'annotation_id' => 'required|id|exists:image_annotations,id',
             'receiver_id' => 'nullable|id|exists:users,id',
             'request_text' => 'required',
             'request_labels' => 'array',
@@ -51,7 +51,7 @@ class StoreAnnotationAssistanceRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        $this->annotation = Annotation::find($this->input('annotation_id'));
+        $this->annotation = ImageAnnotation::find($this->input('annotation_id'));
 
         if ($this->filled('request_labels') && $this->annotation) {
             // Check if the user has access to all labels they want to suggest for this

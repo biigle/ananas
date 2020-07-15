@@ -2,8 +2,8 @@
 
 namespace Biigle\Modules\Ananas\Http\Controllers\Views;
 
-use Biigle\Annotation;
 use Biigle\Http\Controllers\Views\Controller;
+use Biigle\ImageAnnotation;
 use Biigle\Label;
 use Biigle\LabelTree;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
@@ -24,7 +24,7 @@ class AnnotationAssistanceRequestController extends Controller
      */
     public function create(Request $request)
     {
-        $annotation = Annotation::findOrFail($request->input('annotation_id'));
+        $annotation = ImageAnnotation::findOrFail($request->input('annotation_id'));
         $this->authorize('add-annotation', $annotation->image);
 
         $user = $request->user();

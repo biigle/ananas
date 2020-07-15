@@ -2,7 +2,6 @@
 
 namespace Biigle\Modules\Ananas\Http\Controllers\Api;
 
-use Biigle\Annotation;
 use Biigle\Http\Controllers\Api\Controller;
 use Biigle\Label;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;

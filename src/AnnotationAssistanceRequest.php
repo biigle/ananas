@@ -2,7 +2,7 @@
 
 namespace Biigle\Modules\Ananas;
 
-use Biigle\Annotation;
+use Biigle\ImageAnnotation;
 use Biigle\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -67,7 +67,7 @@ class AnnotationAssistanceRequest extends Model
      */
     public function annotation()
     {
-        return $this->belongsTo(Annotation::class);
+        return $this->belongsTo(ImageAnnotation::class);
     }
 
     /**
