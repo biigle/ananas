@@ -29,7 +29,7 @@ class AnnotationAssistanceRequestController extends Controller
      * @apiName StoreAnnotationAssistanceRequests
      * @apiPermission projectMember
      *
-     * @apiParam (Required arguments) {Number} annotation_id ID of the annotation to which the assistance request should belong.
+     * @apiParam (Required arguments) {Number} annotation_id ID of the image annotation to which the assistance request should belong.
      * @apiParam (Required arguments) {String} request_text Text with a short explanation or question that is shown to the receiver of the assistance request.
      *
      * @apiParam (Optional arguments) {Number} receiver_id ID of the Biigle user who should get an automatic notification on the assistance request.
