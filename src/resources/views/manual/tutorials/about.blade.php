@@ -5,10 +5,10 @@
 @section('manual-content')
 <div class="row">
     <p class="lead">
-        Learn how to ask any person for advice on the label of an annotation.
+        Learn how to ask any person for advice on the label of an image annotation.
     </p>
     <p>
-        Sometimes while annotating images, you may not be sure which label is correct for a particular object or region on the image. Although you are certain that the object or region is of interest, you can't decide between a few candidate labels or can't identify it at all but you know just the right expert who might help you. This is where annotation assistance requests come in. With an annotation assistance request you can ask any person for help with a particular annotation. BIIGLE handles all the details to make the information exchange efficient and easy.
+        Sometimes while annotating images, you may not be sure which label is correct for a particular object or region on the image. Although you are certain that the object or region is of interest, you can't decide between a few candidate labels or can't identify it at all but you know just the right expert who might help you. This is where annotation assistance requests come in. With an annotation assistance request you can ask any person for help with a particular image annotation. BIIGLE handles all the details to make the information exchange efficient and easy. Annotation assistance requests are not available for video annotations.
     </p>
     <p>
         Annotation assistance requests (or just "assistance requests") can be created by project editors, experts or admins. To do so, open the <a href="{{route('manual-tutorials', ['annotations', 'sidebar'])}}#annotations-tab"><i class="fa fa-map-marker-alt"></i> annotations tab</a> in the image annotation tool and then select an annotation. At the bottom of the annotations tab, you will now see the active button <button class="btn btn-default btn-xs">Request annotation assistance</button>. Click this button to create a new assistance request for the selected annotation. An annotation assistance request can only be created for a single annotation. If the annotation is deleted, the assistance request is deleted, too.
