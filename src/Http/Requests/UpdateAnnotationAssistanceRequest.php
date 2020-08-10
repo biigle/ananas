@@ -2,7 +2,6 @@
 
 namespace Biigle\Modules\Ananas\Http\Requests;
 
-use Biigle\Annotation;
 use Biigle\Label;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Project;

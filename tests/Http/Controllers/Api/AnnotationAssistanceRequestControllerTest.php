@@ -5,7 +5,7 @@ namespace Biigle\Tests\Modules\Ananas\Http\Controllers\Api;
 use ApiTestCase;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Modules\Ananas\Notifications\AnnotationAssistanceResponse as ResponseNotification;
-use Biigle\Tests\AnnotationTest;
+use Biigle\Tests\ImageAnnotationTest;
 use Biigle\Tests\ImageTest;
 use Biigle\Tests\LabelTest;
 use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
@@ -16,7 +16,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
     public function testStore()
     {
         $image = ImageTest::create(['volume_id' => $this->volume()->id]);
-        $annotation = AnnotationTest::create(['image_id' => $image->id]);
+        $annotation = ImageAnnotationTest::create(['image_id' => $image->id]);
 
         $this->doTestApiRoute('POST', '/api/v1/annotation-assistance-requests');
 
@@ -72,7 +72,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
     public function testStoreReceiver()
     {
         $image = ImageTest::create(['volume_id' => $this->volume()->id]);
-        $annotation = AnnotationTest::create(['image_id' => $image->id]);
+        $annotation = ImageAnnotationTest::create(['image_id' => $image->id]);
 
         $this->beEditor();
         $response = $this->json('POST', '/api/v1/annotation-assistance-requests', [
@@ -90,7 +90,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $ananas = AnanasTest::create(['user_id' => $this->editor()->id]);
 
         $image = ImageTest::create(['volume_id' => $this->volume()->id]);
-        $annotation = AnnotationTest::create(['image_id' => $image->id]);
+        $annotation = ImageAnnotationTest::create(['image_id' => $image->id]);
 
         $this->beEditor();
         $response = $this->json('POST', '/api/v1/annotation-assistance-requests', [
@@ -113,7 +113,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
     public function testStoreVerifyVolumeLabels()
     {
         $image = ImageTest::create(['volume_id' => $this->volume()->id]);
-        $annotation = AnnotationTest::create(['image_id' => $image->id]);
+        $annotation = ImageAnnotationTest::create(['image_id' => $image->id]);
         $label = LabelTest::create();
 
         $this->beEditor();
@@ -130,7 +130,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
     public function testStoreRedirect()
     {
         $image = ImageTest::create(['volume_id' => $this->volume()->id]);
-        $annotation = AnnotationTest::create(['image_id' => $image->id]);
+        $annotation = ImageAnnotationTest::create(['image_id' => $image->id]);
         $label = LabelTest::create();
 
         $this->beEditor();

@@ -3,7 +3,7 @@
 namespace Biigle\Tests\Modules\Ananas\Http\Controllers\Views;
 
 use ApiTestCase;
-use Biigle\Tests\AnnotationTest;
+use Biigle\Tests\ImageAnnotationTest;
 use Biigle\Tests\ImageTest;
 use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
 
@@ -12,7 +12,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
     public function testCreate()
     {
         $image = ImageTest::create(['volume_id' => $this->volume()->id]);
-        $annotation = AnnotationTest::create(['image_id' => $image->id]);
+        $annotation = ImageAnnotationTest::create(['image_id' => $image->id]);
         $id = $annotation->id;
 
         $this->get('annotation-assistance-requests/create')->assertRedirect('login');
