@@ -8,10 +8,6 @@ $router->group([
     $router->resource('annotation-assistance-requests', 'AnnotationAssistanceRequestController', [
         'only' => ['store', 'destroy'],
     ]);
-
-    $router->post('users/my/settings/ananas', [
-        'uses' => 'SettingsController@store',
-    ]);
 });
 
 // These endpoints are public and protected by a token only known to the receiver of the

@@ -2,6 +2,7 @@
 
 namespace Biigle\Modules\Ananas;
 
+use Biigle\Http\Requests\UpdateUserSettings;
 use Biigle\Modules\Ananas\Observers\AnnotationAssistanceRequestObserver;
 use Biigle\Services\Modules;
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
@@ -48,6 +49,7 @@ class AnanasServiceProvider extends ServiceProvider
 
         if (config('ananas.notifications.allow_user_settings')) {
             $modules->registerViewMixin('ananas', 'settings.notifications');
+            UpdateUserSettings::addRule('ananas_notifications', 'filled|in:email,web');
         }
 
         AnnotationAssistanceRequest::observe(new AnnotationAssistanceRequestObserver);
