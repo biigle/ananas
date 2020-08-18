@@ -65,7 +65,8 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
                 'color' => $this->labelChild()->color,
             ],
         ];
-        $this->assertEquals($labels, $assistanceRequest->request_labels);
+        $this->assertContains($labels[0], $assistanceRequest->request_labels);
+        $this->assertContains($labels[1], $assistanceRequest->request_labels);
         $this->assertNotNull($assistanceRequest->token);
     }
 
