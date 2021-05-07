@@ -14,7 +14,6 @@ export default {
     },
     data() {
         return {
-            typeaheadTemplate: '<span v-text="item.name"></span><br><small v-text="item.affiliation"></small>',
             users: [],
             selectedUser: null,
             labelTrees: [],
