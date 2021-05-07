@@ -36,7 +36,7 @@
 
             <div class="form-group{{ $errors->has('receiver_id') ? ' has-error' : '' }}">
                 <label for="receiver_id">BIIGLE user who should receive the annotation assistance request <span class="text-muted">(optional)</span></label>
-                <typeahead v-if="!selectedUser" class="typeahead--block" :items="users" title="Add a new user to the session" placeholder="Joe User" v-on:select="selectUser" :clear-on-select="true" :template="typeaheadTemplate"></typeahead>
+                <typeahead v-if="!selectedUser" class="typeahead--block" :items="users" title="Add a new user to the session" placeholder="Joe User" v-on:select="selectUser" :clear-on-select="true" more-info="affiliation"></typeahead>
                 <div v-else v-cloak class="input-group">
                     <input class="form-control" type="text" readonly :value="receiverName">
                     <span class="input-group-btn">
