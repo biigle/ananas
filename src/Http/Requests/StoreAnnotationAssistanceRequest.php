@@ -37,8 +37,8 @@ class StoreAnnotationAssistanceRequest extends FormRequest
     public function rules()
     {
         return [
-            'annotation_id' => 'required|id|exists:image_annotations,id',
-            'receiver_id' => 'nullable|id|exists:users,id',
+            'annotation_id' => 'required|integer|exists:image_annotations,id',
+            'receiver_id' => 'nullable|integer|exists:users,id',
             'request_text' => 'required',
             'request_labels' => 'array',
         ];
