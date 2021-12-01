@@ -5,6 +5,7 @@ namespace Biigle\Tests\Modules\Ananas\Http\Controllers\Views;
 use ApiTestCase;
 use Biigle\Tests\ImageAnnotationTest;
 use Biigle\Tests\ImageTest;
+use Biigle\Tests\LabelTest;
 use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
 
 class AnnotationAssistanceRequestControllerTest extends ApiTestCase
@@ -64,6 +65,24 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $this->get('annotation-assistance-requests/99999')->assertStatus(404);
         $this->get("annotation-assistance-requests/{$request->id}")
             ->assertStatus(403);
+
+        $this->be($request->user);
+        $this->get("annotation-assistance-requests/{$request->id}")
+            ->assertStatus(200)
+            ->assertViewIs('ananas::show');
+
+        $request->closed_at = '2021-12-01';
+        $request->save();
+
+        $this->get("annotation-assistance-requests/{$request->id}")
+            ->assertStatus(200);
+    }
+
+    public function testShowClosed()
+    {
+        $request = AnanasTest::create([
+            'closed_at' => '2021-12-01',
+        ]);
 
         $this->be($request->user);
         $this->get("annotation-assistance-requests/{$request->id}")

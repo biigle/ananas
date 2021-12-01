@@ -131,7 +131,7 @@
                     @endif
                     @if (!$request->response_label || !$responseLabelExists)
                         <p>
-                            <a href="{{route('show-annotation', $request->annotation_id)}}" class="btn btn-default btn-block" title="View the annotation in the annotation tool">View in annotation tool</a>
+                            <a href="{{route('show-image-annotation', $request->annotation_id)}}" class="btn btn-default btn-block" title="View the annotation in the annotation tool">View in annotation tool</a>
                         </p>
                     @endif
                 </div>
