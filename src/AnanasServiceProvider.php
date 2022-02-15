@@ -5,7 +5,6 @@ namespace Biigle\Modules\Ananas;
 use Biigle\Http\Requests\UpdateUserSettings;
 use Biigle\Modules\Ananas\Observers\AnnotationAssistanceRequestObserver;
 use Biigle\Services\Modules;
-use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -71,10 +70,6 @@ class AnanasServiceProvider extends ServiceProvider
         });
 
         $this->commands('command.ananas.publish');
-
-        if (config('app.env') === 'testing') {
-            $this->registerEloquentFactoriesFrom(__DIR__.'/database/factories');
-        }
     }
 
     /**
@@ -87,16 +82,5 @@ class AnanasServiceProvider extends ServiceProvider
         return [
             'command.ananas.publish',
         ];
-    }
-
-    /**
-     * Register factories.
-     *
-     * @param  string  $path
-     * @return void
-     */
-    protected function registerEloquentFactoriesFrom($path)
-    {
-        $this->app->make(EloquentFactory::class)->load($path);
     }
 }
