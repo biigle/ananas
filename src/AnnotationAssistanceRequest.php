@@ -3,7 +3,9 @@
 namespace Biigle\Modules\Ananas;
 
 use Biigle\ImageAnnotation;
+use Biigle\Modules\Ananas\Database\Factories\AnnotationAssistanceRequestFactory;
 use Biigle\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -13,6 +15,8 @@ use Illuminate\Support\Str;
  */
 class AnnotationAssistanceRequest extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that should be casted to native types.
      *
@@ -86,5 +90,15 @@ class AnnotationAssistanceRequest extends Model
         }
 
         return;
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return AnnotationAssistanceRequestFactory::new();
     }
 }
