@@ -22,7 +22,7 @@ class AnanasServiceProvider extends ServiceProvider
     public function boot(Modules $modules, Router $router)
     {
         $this->loadViewsFrom(__DIR__.'/resources/views', 'ananas');
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/Database/migrations');
 
         $this->publishes([
             __DIR__.'/public/assets' => public_path('vendor/ananas'),
