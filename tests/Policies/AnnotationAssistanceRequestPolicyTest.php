@@ -1,6 +1,6 @@
 <?php
 
-namespace Biigle\TestsModules\Ananas\Policies;
+namespace Biigle\Tests\Modules\Ananas\Policies;
 
 use Biigle\Role;
 use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
