@@ -17,11 +17,11 @@ class UpdateUserSettingsTest extends ApiTestCase
         $this->putJson("/api/v1/users/my/settings", ['ananas_notifications' => 'email'])
             ->assertStatus(200);
 
-        $this->assertEquals('email', $this->user()->fresh()->getSettings('ananas_notifications'));
+        $this->assertSame('email', $this->user()->fresh()->getSettings('ananas_notifications'));
 
         $this->putJson("/api/v1/users/my/settings", ['ananas_notifications' => 'web'])
             ->assertStatus(200);
 
-        $this->assertEquals('web', $this->user()->fresh()->getSettings('ananas_notifications'));
+        $this->assertSame('web', $this->user()->fresh()->getSettings('ananas_notifications'));
     }
 }
