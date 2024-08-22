@@ -63,7 +63,7 @@ class AnnotationAssistanceRequestTest extends ModelTestCase
     public function testGenerateToken()
     {
         $token = AnnotationAssistanceRequest::generateToken();
-        $this->assertEquals(64, strlen($token));
+        $this->assertSame(64, strlen($token));
     }
 
     public function testGetResponseLabelAttribute()
@@ -74,6 +74,6 @@ class AnnotationAssistanceRequestTest extends ModelTestCase
         $this->model->response_label_id = 1;
         $this->assertNull($this->model->response_label);
         $this->model->response_label_id = 2;
-        $this->assertEquals(['id' => 2, 'name' => 'my label'], $this->model->response_label);
+        $this->assertSame(['id' => 2, 'name' => 'my label'], $this->model->response_label);
     }
 }

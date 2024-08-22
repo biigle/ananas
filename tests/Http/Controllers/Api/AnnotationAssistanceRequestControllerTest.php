@@ -50,9 +50,9 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $response->assertSuccessful();
 
         $assistanceRequest = AnnotationAssistanceRequest::first();
-        $this->assertEquals($annotation->id, $assistanceRequest->annotation_id);
-        $this->assertEquals('Hi Joe!', $assistanceRequest->request_text);
-        $this->assertEquals($this->editor()->id, $assistanceRequest->user_id);
+        $this->assertSame($annotation->id, $assistanceRequest->annotation_id);
+        $this->assertSame('Hi Joe!', $assistanceRequest->request_text);
+        $this->assertSame($this->editor()->id, $assistanceRequest->user_id);
         $labels = [
             [
                 'id' => $this->labelRoot()->id,
@@ -83,7 +83,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         ]);
         $response->assertSuccessful();
         $assistanceRequest = AnnotationAssistanceRequest::first();
-        $this->assertEquals($this->user()->id, $assistanceRequest->receiver_id);
+        $this->assertSame($this->user()->id, $assistanceRequest->receiver_id);
     }
 
     public function testStoreRateLimiting()
@@ -162,7 +162,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
             ])
             ->assertStatus(200);
 
-        $this->assertEquals('This is a stone.', $ananas->fresh()->response_text);
+        $this->assertSame('This is a stone.', $ananas->fresh()->response_text);
 
         $this->json('PUT', "/api/v1/annotation-assistance-requests/{$token}", [
                 'response_text' => 'This is a stone.',
@@ -186,7 +186,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
             ])
             ->assertStatus(200);
 
-        $this->assertEquals(9999, $ananas->fresh()->response_label_id);
+        $this->assertSame(9999, $ananas->fresh()->response_label_id);
 
         $ananas = AnanasTest::create(['request_labels' => [['id' => 9999]]]);
         $token = $ananas->token;
@@ -197,8 +197,8 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
             ])
             ->assertStatus(200);
 
-        $this->assertEquals('This is a stone.', $ananas->fresh()->response_text);
-        $this->assertEquals(9999, $ananas->fresh()->response_label_id);
+        $this->assertSame('This is a stone.', $ananas->fresh()->response_text);
+        $this->assertSame(9999, $ananas->fresh()->response_label_id);
     }
 
     public function testUpdateNotification()

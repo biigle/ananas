@@ -19,6 +19,6 @@ class ImageControllerTest extends ApiTestCase
 
         $response = $this->get("/api/v1/annotation-assistance-requests/{$token}/image");
         $response->assertStatus(200);
-        $this->assertEquals('image/jpeg', $response->headers->get('content-type'));
+        $this->assertSame('image/jpeg', $response->headers->get('content-type'));
     }
 }
