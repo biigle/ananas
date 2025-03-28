@@ -31,12 +31,9 @@
             :image="image"
             :annotations="annotations"
             :show-minimap="showMinimap"
+            :user-id="0"
             ref="canvas"
-            inline-template>
-            <div class="annotation-canvas">
-                <minimap v-if="showMinimap" :extent="extent" v-cloak></minimap>
-            </div>
-        </annotation-canvas>
+            ></annotation-canvas>
     </div>
     <sidebar open-tab="response" :show-buttons="false">
         <sidebar-tab name="response" icon="comments">
@@ -64,10 +61,20 @@
                 @endif
                 <p>Your response: <span v-if="hasPickedLabel" class="text-muted" v-cloak>(optional)</span></p>
                 <div class="form-group form-group--ananas">
-                    <textarea class="form-control" name="response_text" id="response_text" placeholder="Hi {{$request->user->firstname}}, I think this is..." v-model="responseText" :required="!hasPickedLabel" :disabled="hasDisabledControls"></textarea>
+                    <textarea
+                        class="form-control"
+                        name="response_text"
+                        id="response_text"
+                        placeholder="Hi {{$request->user->firstname}}, I think this is..."
+                        v-model="responseText"
+                        :required="!hasPickedLabel"
+                        :disabled="hasDisabledControls || null"
+                        ></textarea>
                 </div>
-                <p v-if="hasErrors" v-for="error in errors" class="text-danger" v-text="error" v-cloak></p>
-                <button v-if="!closed" type="submit" class="btn btn-success btn-block" :disabled="hasDisabledControls">Submit</button>
+                <div v-if="hasErrors" v-cloak>
+                    <p v-for="error in errors" class="text-danger" v-text="error"></p>
+                </div>
+                <button v-if="!closed" type="submit" class="btn btn-success btn-block" :disabled="hasDisabledControls || null">Submit</button>
                 <div v-else v-cloak class="panel panel-success">
                     <div class="panel-body text-success text-center">
                         <strong>Thank you!</strong>
@@ -77,4 +84,10 @@
         </sidebar-tab>
     </sidebar>
 </div>
+
+<script type="text/html" id="annotation-canvas-template">
+    <div class="annotation-canvas">
+        <minimap v-if="showMinimap" :extent="extent" v-cloak></minimap>
+    </div>
+</script>
 @endsection

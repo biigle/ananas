@@ -1,3 +1,24 @@
+<template>
+    <div class="ananas-assistance-request">
+        <button
+            v-if="isDisabled"
+            class="btn btn-default btn-block"
+            title="Please select a single annotation to make a new annotation assistance request"
+            disabled="disabled"
+            >
+            Request annotation assistance
+        </button>
+        <a
+            v-else
+            :href="href"
+            class="btn btn-default btn-block"
+            title="Make a new annotation assistance request for the selected annotation"
+            target="_blank"
+            >
+            Request annotation assistance
+        </a>
+    </div>
+</template>
 <script>
 /**
  * The plugin component showing a button to create a new annotation assistance request

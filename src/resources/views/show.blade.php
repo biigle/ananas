@@ -44,12 +44,9 @@
         <annotation-canvas
             :image="image"
             :annotations="annotations"
+            :user-id="0"
             ref="canvas"
-            inline-template>
-            <div class="annotation-canvas">
-                <minimap :extent="extent"></minimap>
-            </div>
-        </annotation-canvas>
+            ></annotation-canvas>
     </div>
     @if ($request->closed_at)
         <sidebar open-tab="response" v-cloak>
@@ -148,4 +145,10 @@
         @endif
     </sidebar>
 </div>
+
+<script type="text/html" id="annotation-canvas-template">
+    <div class="annotation-canvas">
+        <minimap v-if="showMinimap" :extent="extent" v-cloak></minimap>
+    </div>
+</script>
 @endsection
