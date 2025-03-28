@@ -1,7 +1,7 @@
-import './annotationsTabPlugins';
-import CreateForm from './createForm';
-import RespondContainer from './respondContainer';
-import ShowContainer from './showContainer';
+import './annotationsTabPlugins.js';
+import CreateForm from './createForm.vue';
+import RespondContainer from './respondContainer.vue';
+import ShowContainer from './showContainer.vue';
 
 biigle.$mount('ananas-respond-container', RespondContainer);
 biigle.$mount('ananas-show-container', ShowContainer);

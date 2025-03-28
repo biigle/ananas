@@ -1,7 +1,7 @@
 <script>
-import AnanasContainer from './mixins/ananasContainer';
-import {handleErrorResponse} from './import';
-import {AnnotationsApi} from './import';
+import AnanasContainer from './mixins/ananasContainer.vue';
+import {handleErrorResponse} from './import.js';
+import {AnnotationsApi} from './import.js';
 
 /**
  * View model for the annotation assistance show view

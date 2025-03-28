@@ -4,8 +4,8 @@
 @section('title', "Annotation Assistance Request")
 
 @push('scripts')
-<script src="{{ cachebust_asset('vendor/ananas/scripts/main.js') }}"></script>
-<script type="text/javascript">
+{{vite_hot(base_path('vendor/biigle/ananas/hot'), ['src/resources/assets/js/main.js'], 'vendor/ananas')}}
+<script type="module">
     biigle.$declare('annotations.imageFileUri', '{!! url("api/v1/annotation-assistance-requests/{$request->token}/image") !!}');
     biigle.$declare('annotations.tilesUri', '{{ $tilesUriTemplate }}');
     biigle.$declare('ananas.annotation', {!! $annotation !!});
@@ -14,7 +14,7 @@
 @endpush
 
 @push('styles')
-<link href="{{ cachebust_asset('vendor/ananas/styles/main.css') }}" rel="stylesheet">
+{{vite_hot(base_path('vendor/biigle/ananas/hot'), ['src/resources/assets/sass/main.scss'], 'vendor/ananas')}}
 @endpush
 
 @section('navbar')

@@ -25,7 +25,7 @@ class AnanasServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/Database/migrations');
 
         $this->publishes([
-            __DIR__.'/public/assets' => public_path('vendor/ananas'),
+            __DIR__.'/public' => public_path('vendor/ananas'),
         ], 'public');
 
         $router->group([

@@ -1,6 +1,6 @@
 <script>
-import AnanasApi from './api/ananas';
-import AnanasContainer from './mixins/ananasContainer';
+import AnanasApi from './api/ananas.js';
+import AnanasContainer from './mixins/ananasContainer.vue';
 
 /**
  * View model for the annotation assistance respond view
@@ -61,7 +61,7 @@ export default {
             this.closed = true;
         },
         clearErrors: function (response) {
-            Vue.set(this, 'errors', []);
+            this.errors = [];
 
             return response;
         },

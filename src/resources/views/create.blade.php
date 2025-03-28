@@ -3,8 +3,8 @@
 @section('title', 'New Annotation Assistance Request')
 
 @push('scripts')
-<script src="{{ cachebust_asset('vendor/ananas/scripts/main.js') }}"></script>
-<script type="text/javascript">
+{{vite_hot(base_path('vendor/biigle/ananas/hot'), ['src/resources/assets/js/main.js'], 'vendor/ananas')}}
+<script type="module">
     biigle.$declare('ananas.labelTrees', {!! $labelTrees !!});
     @if (old('request_labels'))
         biigle.$declare('ananas.oldLabels', {!! json_encode(old('request_labels')) !!});
@@ -16,7 +16,7 @@
 @endpush
 
 @push('styles')
-<link href="{{ cachebust_asset('vendor/ananas/styles/main.css') }}" rel="stylesheet">
+{{vite_hot(base_path('vendor/biigle/ananas/hot'), ['src/resources/assets/sass/main.scss'], 'vendor/ananas')}}
 @endpush
 
 @section('content')

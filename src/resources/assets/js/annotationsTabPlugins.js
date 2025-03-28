@@ -1,5 +1,5 @@
-import Plugin from './components/annotationsTabPlugin';
-import {AnnotationsTabPlugins} from './import';
+import Plugin from './components/annotationsTabPlugin.vue';
+import {AnnotationsTabPlugins} from './import.js';
 
 if (AnnotationsTabPlugins) {
     AnnotationsTabPlugins.assistanceRequest = Plugin;

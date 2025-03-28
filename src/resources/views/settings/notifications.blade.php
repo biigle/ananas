@@ -21,11 +21,11 @@
 </form>
 
 @push('scripts')
-<script type="text/javascript">
+<script type="module">
     biigle.$mount('ananas-notification-settings', {
         mixins: [biigle.$require('core.mixins.notificationSettings')],
         data: {
-            settings: '{!! $user->getSettings('ananas_notifications', config('user_storage.notifications.default_settings')) !!}',
+            settings: '{!! $user->getSettings('ananas_notifications', config('ananas.notifications.default_settings')) !!}',
             settingsKey: 'ananas_notifications',
         },
     });
