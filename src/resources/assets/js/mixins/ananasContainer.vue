@@ -1,10 +1,10 @@
 <script>
-import {AnnotationCanvasComponent} from '../import';
-import {ImagesStore} from '../import';
-import {LoaderMixin} from '../import';
-import {Messages} from '../import';
-import {SidebarComponent} from '../import';
-import {SidebarTabComponent} from '../import';
+import {AnnotationCanvasComponent} from '../import.js';
+import {ImagesStore} from '../import.js';
+import {LoaderMixin} from '../import.js';
+import {handleErrorResponse} from '../import.js';
+import {SidebarComponent} from '../import.js';
+import {SidebarTabComponent} from '../import.js';
 
 /**
  * A mixin for the annotation assistance respond and show view models
@@ -33,9 +33,6 @@ export default {
         focusAnnotation() {
             this.$refs.canvas.focusAnnotation(this.annotation, true);
         },
-        handleLoadingError(message) {
-            Messages.danger(message);
-        },
     },
     created() {
         this.annotation = biigle.$require('ananas.annotation');
@@ -45,7 +42,7 @@ export default {
         ImagesStore.fetchAndDrawImage(this.annotation.image_id)
             .then(this.setImageAndAnnotation)
             .then(this.focusAnnotation)
-            .catch(this.handleLoadingError)
+            .catch(handleErrorResponse)
             .finally(this.finishLoading);
     },
 };

@@ -1,8 +1,8 @@
 <script>
-import {handleErrorResponse} from './import';
-import {UsersApi} from './import';
-import {LabelTrees} from './import';
-import {Typeahead} from './import';
+import {handleErrorResponse} from './import.js';
+import {UsersApi} from './import.js';
+import {LabelTrees} from './import.js';
+import {Typeahead} from './import.js';
 
 /**
  * View model for the form to create a new assistance request
@@ -53,7 +53,7 @@ export default {
             response.data.forEach(function (user) {
                 user.name = user.firstname + ' ' + user.lastname;
             });
-            Vue.set(this, 'users', response.data);
+            this.users = response.data;
         },
         selectUser: function (user) {
             this.selectedUser = user;
@@ -72,7 +72,7 @@ export default {
             });
             this.flatLabels.forEach(function (label) {
                 if (idMap.hasOwnProperty(label.id)) {
-                    Vue.set(label, 'selected', true);
+                    label.selected = true;
                 }
             });
         }

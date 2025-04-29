@@ -1,3 +1,5 @@
+import { Resource } from '../import.js';
+
 /**
  * Resource for annotation assistance requests.
  *
@@ -11,10 +13,8 @@
  *
  * Delete an assistance request:
  * resource.delete({id: 1).then(...);
-
- * @type {Vue.resource}
  */
-export default Vue.resource('api/v1/annotation-assistance-requests{/id}', {}, {
+export default Resource('api/v1/annotation-assistance-requests{/id}', {}, {
     respond: {
         method: 'PUT',
         url: 'api/v1/annotation-assistance-requests{/token}',

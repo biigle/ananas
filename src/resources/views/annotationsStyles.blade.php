@@ -1,1 +1,1 @@
-<link href="{{ cachebust_asset('vendor/ananas/styles/main.css') }}" rel="stylesheet">
+{{vite_hot(base_path('vendor/biigle/ananas/hot'), ['src/resources/assets/sass/main.scss'], 'vendor/ananas')}}
