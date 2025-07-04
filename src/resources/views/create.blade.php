@@ -5,9 +5,9 @@
 @push('scripts')
 {{vite_hot(base_path('vendor/biigle/ananas/hot'), ['src/resources/assets/js/main.js'], 'vendor/ananas')}}
 <script type="module">
-    biigle.$declare('ananas.labelTrees', {!! $labelTrees !!});
+    biigle.$declare('ananas.labelTrees', {{ Js::from($labelTrees) }});
     @if (old('request_labels'))
-        biigle.$declare('ananas.oldLabels', {!! json_encode(old('request_labels')) !!});
+        biigle.$declare('ananas.oldLabels', {{ Js::from(old('request_labels')) }});
     @endif
     @if (old('receiver_id'))
         biigle.$declare('ananas.oldReceiverId', {{old('receiver_id')}});
