@@ -3,19 +3,19 @@
         <button
             v-if="isDisabled"
             class="btn btn-default btn-block"
-            title="Please select a single annotation to make a new annotation assistance request"
+            title="Please select a single annotation to consult a colleague about"
             disabled="disabled"
             >
-            Request annotation assistance
+            Consult a colleague
         </button>
         <a
             v-else
             :href="href"
             class="btn btn-default btn-block"
-            title="Make a new annotation assistance request for the selected annotation"
+            title="Consult a colleague with an annotation assistance request for the selected annotation"
             target="_blank"
             >
-            Request annotation assistance
+            Consult a colleague
         </a>
     </div>
 </template>
