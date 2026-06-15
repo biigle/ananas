@@ -1,12 +1,16 @@
 {
   "src/resources/assets/js/main.js": {
-    "file": "assets/main-B6sSH6X7.js",
+    "file": "assets/main-CCldsAx2.js",
     "name": "main",
     "src": "src/resources/assets/js/main.js",
     "isEntry": true
   },
   "src/resources/assets/sass/main.scss": {
-    "file": "assets/main-ECg4iZtg.css",
+    "file": "assets/main-D6pqwj2K.css",
+    "name": "main",
+    "names": [
+      "main.css"
+    ],
     "src": "src/resources/assets/sass/main.scss",
     "isEntry": true
   }
