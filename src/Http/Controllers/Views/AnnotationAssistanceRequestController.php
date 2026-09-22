@@ -38,9 +38,9 @@ class AnnotationAssistanceRequestController extends Controller
             // Array of all project IDs that the user and the image have in common
             // and where the user is editor, expert or admin.
             $projectIds = Project::inCommon($user, $annotation->image->volume_id, [
-                Role::editorId(),
-                Role::expertId(),
-                Role::adminId(),
+                ROLE::EDITOR->value,
+                ROLE::EXPERT->value,
+                ROLE::ADMIN->value,
             ])->pluck('id');
         }
 
@@ -71,12 +71,12 @@ class AnnotationAssistanceRequestController extends Controller
     {
         $request = AnnotationAssistanceRequest::findOrFail($id);
         $this->authorize('access', $request);
-        $request->load('annotation.image.volume', 'annotation.shape', 'receiver');
+        $request->load('annotation.image.volume', 'receiver');
 
         $annotation = collect($request->annotation->toArray())
             ->only('id', 'shape', 'points', 'image_id');
         // Preprocess the shape name for usage in the JS client.
-        $annotation['shape'] = $annotation['shape']['name'];
+        $annotation['shape'] = $request->annotation->shape->label();
 
         $responseLabelExists = Label::where('id', $request->response_label_id)->exists();
 
@@ -107,7 +107,7 @@ class AnnotationAssistanceRequestController extends Controller
     {
         $request = AnnotationAssistanceRequest::where('token', $token)
             ->whereNull('closed_at')
-            ->with('annotation.image.volume', 'annotation.shape')
+            ->with('annotation.image.volume')
             ->first();
 
         if (!$request) {
@@ -118,7 +118,7 @@ class AnnotationAssistanceRequestController extends Controller
         // Hide the actual annotation ID from the external user.
         $annotation['id'] = 0;
         // Preprocess the shape name for usage in the JS client.
-        $annotation['shape'] = $annotation['shape']['name'];
+        $annotation['shape'] = $request->annotation->shape->label();
 
         $tilesUriTemplate = Storage::disk(config('image.tiles.disk'))->url(':uuid/');
 
