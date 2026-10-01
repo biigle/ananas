@@ -38,9 +38,9 @@ class AnnotationAssistanceRequestController extends Controller
             // Array of all project IDs that the user and the image have in common
             // and where the user is editor, expert or admin.
             $projectIds = Project::inCommon($user, $annotation->image->volume_id, [
-                ROLE::EDITOR->value,
-                ROLE::EXPERT->value,
-                ROLE::ADMIN->value,
+                Role::EDITOR,
+                Role::EXPERT,
+                Role::ADMIN,
             ])->pluck('id');
         }
 
