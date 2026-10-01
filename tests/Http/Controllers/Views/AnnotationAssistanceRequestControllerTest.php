@@ -43,7 +43,7 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
             // Test if "secret" information like IDs is hidden from the view.
             ->assertViewHas('annotation', collect([
                 'id' => 0,
-                'shape' => $request->annotation->shape->name,
+                'shape' => $request->annotation->shape->label(),
                 'points' => $request->annotation->points,
             ]));
 
