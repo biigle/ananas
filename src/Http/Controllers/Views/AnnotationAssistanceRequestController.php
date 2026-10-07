@@ -2,13 +2,13 @@
 
 namespace Biigle\Modules\Ananas\Http\Controllers\Views;
 
+use Biigle\Enums\Role;
 use Biigle\Http\Controllers\Views\Controller;
 use Biigle\ImageAnnotation;
 use Biigle\Label;
 use Biigle\LabelTree;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Project;
-use Biigle\Role;
 use DB;
 use Illuminate\Http\Request;
 use Storage;

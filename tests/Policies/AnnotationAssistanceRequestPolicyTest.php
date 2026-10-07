@@ -2,7 +2,7 @@
 
 namespace Biigle\Tests\Modules\Ananas\Policies;
 
-use Biigle\Role;
+use Biigle\Enums\Role;
 use Biigle\Tests\Modules\Ananas\AnnotationAssistanceRequestTest as AnanasTest;
 use Biigle\Tests\UserTest;
 use TestCase;
