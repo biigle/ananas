@@ -2,10 +2,10 @@
 
 namespace Biigle\Modules\Ananas\Http\Requests;
 
+use Biigle\Enums\Role;
 use Biigle\Label;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Project;
-use Biigle\Role;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 

@@ -2,11 +2,11 @@
 
 namespace Biigle\Modules\Ananas\Http\Requests;
 
+use Biigle\Enums\Role;
 use Biigle\ImageAnnotation;
 use Biigle\Label;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Project;
-use Biigle\Role;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -62,7 +62,7 @@ class StoreAnnotationAssistanceRequest extends FormRequest
             $projectIds = Project::inCommon(
                 $this->user(),
                 $this->annotation->image->volume_id,
-                [Role::editorId(), Role::expertId(), Role::adminId()]
+                [Role::EDITOR, Role::EXPERT, Role::ADMIN]
             )->pluck('id');
 
             $labels = Label::select('id', 'name', 'color')
