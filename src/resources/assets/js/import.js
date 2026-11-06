@@ -1,4 +1,6 @@
 export let AnnotationCanvasComponent = biigle.$require('annotations.components.annotationCanvas');
+export let AnnotationGuideline = biigle.$require('core.models.AnnotationGuideline');
+export let AnnotationGuidelineSelector = biigle.$require('volumes.components.annotationGuidelineSelector');
 export let AnnotationsApi = biigle.$require('api.annotations');
 export let AnnotationsTabPlugins = biigle.$require('annotations.components.annotationsTabPlugins');
 export let handleErrorResponse = biigle.$require('handleErrorResponse');
