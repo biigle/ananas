@@ -3,6 +3,9 @@
 namespace Biigle\Tests\Modules\Ananas\Http\Controllers\Api;
 
 use ApiTestCase;
+use Biigle\AnnotationGuideline;
+use Biigle\AnnotationGuidelineLabel;
+use Biigle\Enums\Shape;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Modules\Ananas\Notifications\AnnotationAssistanceResponse as ResponseNotification;
 use Biigle\Tests\ImageAnnotationTest;
@@ -128,6 +131,129 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
         $response->assertStatus(422);
     }
 
+    public function testStoreGuidelineRequired()
+    {
+        $guideline = $this->createGuideline(['enforced' => true]);
+        $image = ImageTest::create(['volume_id' => $this->volume()->id]);
+        $annotation = ImageAnnotationTest::create(['image_id' => $image->id]);
+
+        $this->beEditor();
+        $this->postJson('/api/v1/annotation-assistance-requests', [
+                'annotation_id' => $annotation->id,
+                'request_text' => 'Hi Joe!',
+                'request_labels' => [$this->labelRoot()->id],
+            ])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors('guideline_id');
+
+        $this->postJson('/api/v1/annotation-assistance-requests', [
+                'annotation_id' => $annotation->id,
+                'request_text' => 'Hi Joe!',
+                'request_labels' => [$this->labelRoot()->id],
+                'guideline_id' => $guideline->id,
+            ])
+            ->assertSuccessful();
+    }
+
+    public function testStoreGuidelineWithoutLabels()
+    {
+        $this->createGuideline(['enforced' => true]);
+        $image = ImageTest::create(['volume_id' => $this->volume()->id]);
+        $annotation = ImageAnnotationTest::create(['image_id' => $image->id]);
+
+        $this->beEditor();
+        // Without suggested labels, the guideline is not relevant.
+        $this->postJson('/api/v1/annotation-assistance-requests', [
+                'annotation_id' => $annotation->id,
+                'request_text' => 'Hi Joe!',
+            ])
+            ->assertSuccessful();
+    }
+
+    public function testStoreGuidelineNotEnforced()
+    {
+        $guideline = $this->createGuideline(['enforced' => false]);
+        $image = ImageTest::create(['volume_id' => $this->volume()->id]);
+        $annotation = ImageAnnotationTest::create(['image_id' => $image->id]);
+
+        $this->beEditor();
+        $this->postJson('/api/v1/annotation-assistance-requests', [
+                'annotation_id' => $annotation->id,
+                'request_text' => 'Hi Joe!',
+                'request_labels' => [$this->labelRoot()->id],
+                'guideline_id' => $guideline->id,
+            ])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors('guideline_id');
+    }
+
+    public function testStoreGuidelineLabel()
+    {
+        $guideline = $this->createGuideline(['enforced' => true]);
+        AnnotationGuidelineLabel::factory()->create([
+            'annotation_guideline_id' => $guideline->id,
+            'label_id' => $this->labelRoot()->id,
+        ]);
+        $image = ImageTest::create(['volume_id' => $this->volume()->id]);
+        $annotation = ImageAnnotationTest::create(['image_id' => $image->id]);
+
+        $this->beEditor();
+        $this->postJson('/api/v1/annotation-assistance-requests', [
+                'annotation_id' => $annotation->id,
+                'request_text' => 'Hi Joe!',
+                'request_labels' => [$this->labelRoot()->id, $this->labelChild()->id],
+                'guideline_id' => $guideline->id,
+            ])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors('request_labels');
+
+        $this->postJson('/api/v1/annotation-assistance-requests', [
+                'annotation_id' => $annotation->id,
+                'request_text' => 'Hi Joe!',
+                'request_labels' => [$this->labelRoot()->id],
+                'guideline_id' => $guideline->id,
+            ])
+            ->assertSuccessful();
+    }
+
+    public function testStoreGuidelineShape()
+    {
+        $guideline = $this->createGuideline(['enforced' => true]);
+        AnnotationGuidelineLabel::factory()->create([
+            'annotation_guideline_id' => $guideline->id,
+            'label_id' => $this->labelRoot()->id,
+            'shape' => Shape::POINT->value,
+        ]);
+        AnnotationGuidelineLabel::factory()->create([
+            'annotation_guideline_id' => $guideline->id,
+            'label_id' => $this->labelChild()->id,
+            'shape' => Shape::CIRCLE->value,
+        ]);
+        $image = ImageTest::create(['volume_id' => $this->volume()->id]);
+        $annotation = ImageAnnotationTest::create([
+            'image_id' => $image->id,
+            'shape' => Shape::CIRCLE,
+        ]);
+
+        $this->beEditor();
+        $this->postJson('/api/v1/annotation-assistance-requests', [
+                'annotation_id' => $annotation->id,
+                'request_text' => 'Hi Joe!',
+                'request_labels' => [$this->labelRoot()->id],
+                'guideline_id' => $guideline->id,
+            ])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors('request_labels');
+
+        $this->postJson('/api/v1/annotation-assistance-requests', [
+                'annotation_id' => $annotation->id,
+                'request_text' => 'Hi Joe!',
+                'request_labels' => [$this->labelChild()->id],
+                'guideline_id' => $guideline->id,
+            ])
+            ->assertSuccessful();
+    }
+
     public function testStoreRedirect()
     {
         $image = ImageTest::create(['volume_id' => $this->volume()->id]);
@@ -244,5 +370,12 @@ class AnnotationAssistanceRequestControllerTest extends ApiTestCase
             ->assertSessionHas('message', 'Annotation assistance request was deleted');
 
         $this->assertNull($ananas->fresh());
+    }
+
+    protected function createGuideline(array $attrs = []): AnnotationGuideline
+    {
+        return AnnotationGuideline::factory()->create(array_merge([
+            'project_id' => $this->project()->id,
+        ], $attrs));
     }
 }

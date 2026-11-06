@@ -1,4 +1,5 @@
 <script>
+import GuidelineMixin from './mixins/guideline.js';
 import {handleErrorResponse} from './import.js';
 import {UsersApi} from './import.js';
 import {LabelTrees} from './import.js';
@@ -8,6 +9,7 @@ import {Typeahead} from './import.js';
  * View model for the form to create a new assistance request
  */
 export default {
+    mixins: [GuidelineMixin],
     components: {
         labelTrees: LabelTrees,
         typeahead: Typeahead,
@@ -17,6 +19,7 @@ export default {
             users: [],
             selectedUser: null,
             labelTrees: [],
+            annotationShape: null,
         };
     },
     computed: {
@@ -39,6 +42,31 @@ export default {
         },
         receiverName() {
             return this.selectedUser ? this.selectedUser.name : '';
+        },
+        // Labels that don't allow the shape of the annotation are not disabled in the
+        // label trees, so they are reported separately.
+        labelsInGuideline() {
+            return this.annotationGuideline?.labelIds ?? [];
+        },
+        enforceGuideline() {
+            return !!this.annotationGuideline?.isEnforced;
+        },
+        // Labels can still be selected if they don't allow the shape of the
+        // annotation or if they were selected before the guideline was changed.
+        disallowedSelectedLabels() {
+            return this.selectedLabels.filter(label => !this.isLabelAllowedByGuideline(label.id, this.annotationShape));
+        },
+        hasDisallowedSelectedLabels() {
+            return this.disallowedSelectedLabels.length > 0;
+        },
+        disallowedSelectedLabelNames() {
+            return this.disallowedSelectedLabels.map(label => label.name).join(', ');
+        },
+        // The guideline is only validated if labels are suggested.
+        missingRequiredGuideline() {
+            return this.mustUseAnnotationGuideline
+                && !this.annotationGuidelineId
+                && this.selectedLabels.length > 0;
         },
     },
     methods: {
@@ -92,6 +120,7 @@ export default {
         }
 
         this.labelTrees = biigle.$require('ananas.labelTrees');
+        this.annotationShape = biigle.$require('ananas.annotationShape');
     }
 };
 </script>
