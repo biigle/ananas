@@ -3,12 +3,14 @@
 namespace Biigle\Modules\Ananas\Http\Controllers\Views;
 
 use Biigle\Enums\Role;
+use Biigle\Enums\Shape;
 use Biigle\Http\Controllers\Views\Controller;
 use Biigle\ImageAnnotation;
 use Biigle\Label;
 use Biigle\LabelTree;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Project;
+use Biigle\Services\AnnotationGuidelineService;
 use DB;
 use Illuminate\Http\Request;
 use Storage;
@@ -19,10 +21,11 @@ class AnnotationAssistanceRequestController extends Controller
      * Create a new annotation assistance request.
      *
      * @param Request $request
+     * @param AnnotationGuidelineService $guidelineService
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, AnnotationGuidelineService $guidelineService)
     {
         $annotation = ImageAnnotation::findOrFail($request->input('annotation_id'));
         $this->authorize('add-annotation', $annotation->image);
@@ -54,20 +57,33 @@ class AnnotationAssistanceRequestController extends Controller
             })
             ->get();
 
+        $volumeId = $annotation->image->volume_id;
+        $annotationGuidelines = $guidelineService->getGuidelines($user, $volumeId)
+            ->load('labels', 'project:id,name');
+        $mustUseAnnotationGuideline = $annotationGuidelines->isNotEmpty()
+            && $guidelineService->mustUseGuideline($user, $volumeId);
+
         return view('ananas::create', [
             'annotation' => $annotation,
             'labelTrees' => $labelTrees,
+            'volumeId' => $volumeId,
+            'annotationShape' => $annotation->shape->label(),
+            'annotationGuidelines' => $annotationGuidelines,
+            'mustUseAnnotationGuideline' => $mustUseAnnotationGuideline,
+            'shapes' => Shape::pluckById(except: Shape::WHOLE_FRAME),
         ]);
     }
 
     /**
      * Show an assistance request.
      *
+     * @param Request $httpRequest
+     * @param AnnotationGuidelineService $guidelineService
      * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $httpRequest, AnnotationGuidelineService $guidelineService, $id)
     {
         $request = AnnotationAssistanceRequest::findOrFail($id);
         $this->authorize('access', $request);
@@ -87,12 +103,34 @@ class AnnotationAssistanceRequestController extends Controller
 
         $tilesUriTemplate = Storage::disk(config('image.tiles.disk'))->url(':uuid/');
 
+        $user = $httpRequest->user();
+        $volumeId = $request->annotation->image->volume_id;
+
+        // Guidelines are only needed to attach the response label. Guidelines that are
+        // not enforced are included anyway because the guideline selector would
+        // otherwise discard the stored guideline choice of the volume.
+        if ($responseLabelExists) {
+            $annotationGuidelines = $guidelineService->getGuidelines($user, $volumeId)
+                ->load('labels', 'project:id,name');
+            $mustUseAnnotationGuideline = $annotationGuidelines->isNotEmpty()
+                && $guidelineService->mustUseGuideline($user, $volumeId);
+        } else {
+            $annotationGuidelines = collect([]);
+            $mustUseAnnotationGuideline = false;
+        }
+
+        $shapes = Shape::pluckById(except: Shape::WHOLE_FRAME);
+
         return view('ananas::show', compact(
             'request',
             'annotation',
             'responseLabelExists',
             'existingLabels',
-            'tilesUriTemplate'
+            'tilesUriTemplate',
+            'volumeId',
+            'annotationGuidelines',
+            'mustUseAnnotationGuideline',
+            'shapes'
         ));
     }
 

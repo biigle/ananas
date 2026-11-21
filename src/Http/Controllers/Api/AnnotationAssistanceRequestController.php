@@ -34,6 +34,7 @@ class AnnotationAssistanceRequestController extends Controller
      *
      * @apiParam (Optional arguments) {Number} receiver_id ID of the Biigle user who should get an automatic notification on the assistance request.
      * @apiParam (Optional arguments) {Array} request_labels Array of label IDs that should be suggested to the receiver of the assistance request.
+     * @apiParam (Optional arguments) {Number} guideline_id ID of the enforced annotation guideline that the suggested labels must comply with. Required if the volume requires an enforced guideline and labels are suggested.
      *
      * @apiParamExample {String} Request example:
      * annotation_id: 123

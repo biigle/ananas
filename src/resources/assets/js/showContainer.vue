@@ -1,5 +1,6 @@
 <script>
 import AnanasContainer from './mixins/ananasContainer.vue';
+import GuidelineMixin from './mixins/guideline.js';
 import {handleErrorResponse} from './import.js';
 import {AnnotationsApi} from './import.js';
 
@@ -7,7 +8,7 @@ import {AnnotationsApi} from './import.js';
  * View model for the annotation assistance show view
  */
 export default {
-    mixins: [AnanasContainer],
+    mixins: [AnanasContainer, GuidelineMixin],
     data() {
         return {
             existingLabels: [],
@@ -26,14 +27,39 @@ export default {
 
             return false;
         },
+        // Guidelines that are not enforced have no effect on attaching the label.
+        hasEnforcedAnnotationGuidelines() {
+            return this.annotationGuidelines.some(g => g.isEnforced);
+        },
+        // The colleague could choose any label for the response.
+        suggestedLabelAllowed() {
+            return this.isLabelAllowedByGuideline(this.suggestedLabelId, this.annotation.shape);
+        },
+        attachTitle() {
+            if (!this.suggestedLabelAllowed) {
+                return 'The annotation guideline does not allow this label for the annotation';
+            }
+
+            return 'Attach the chosen label to the annotation';
+        },
     },
     methods: {
         attach() {
+            if (!this.suggestedLabelAllowed) {
+                return;
+            }
+
+            let payload = {
+                label_id: this.suggestedLabelId,
+                confidence: 1.0,
+            };
+
+            if (this.annotationGuidelineId) {
+                payload.guideline_id = this.annotationGuidelineId;
+            }
+
             this.startLoading();
-            AnnotationsApi.attachLabel({id: this.annotation.id}, {
-                    label_id: this.suggestedLabelId,
-                    confidence: 1.0,
-                })
+            AnnotationsApi.attachLabel({id: this.annotation.id}, payload)
                 .then(this.handleAttachSuccess, handleErrorResponse)
                 .finally(this.finishLoading);
         },

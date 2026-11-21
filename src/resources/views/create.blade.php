@@ -6,6 +6,11 @@
 {{vite_hot(base_path('vendor/biigle/ananas/hot'), ['src/resources/assets/js/main.js'], 'vendor/ananas')}}
 <script type="module">
     biigle.$declare('ananas.labelTrees', {!! $labelTrees !!});
+    biigle.$declare('ananas.volumeId', {{ $volumeId }});
+    biigle.$declare('ananas.annotationShape', @json($annotationShape));
+    biigle.$declare('ananas.annotationGuidelines', @json($annotationGuidelines));
+    biigle.$declare('ananas.mustUseAnnotationGuideline', @json($mustUseAnnotationGuideline));
+    biigle.$declare('ananas.availableShapes', {!! $shapes !!});
     @if (old('request_labels'))
         biigle.$declare('ananas.oldLabels', {!! json_encode(old('request_labels')) !!});
     @endif
@@ -53,7 +58,7 @@
                 @endif
             </div>
 
-            <div class="form-group{{ $errors->has('request_labels') ? ' has-error' : '' }}">
+            <div class="form-group{{ $errors->hasAny('request_labels', 'guideline_id') ? ' has-error' : '' }}">
                 <label for="request_labels">Labels to suggest to the receiver of the assistance request <span class="text-muted">(optional)</span></label>
                 <p v-if="hasTooManySelectedLabels" v-cloak class="text-info">Don't overwhelm the receiver of the assistance request with suggested labels. Pick only those you think most relevant.</p>
                 <div class="form-control request-labels-list" readonly>
@@ -67,14 +72,33 @@
                         Choose one or more labels below. The receiver of the assistance request will only see suggested labels, not all available labels.
                     </span>
                 @endif
+                <p v-if="hasDisallowedSelectedLabels" v-cloak class="text-danger">
+                    The annotation guideline does not allow these labels for the annotation: <span v-text="disallowedSelectedLabelNames"></span>.
+                </p>
+                <annotation-guideline-selector
+                    :model-value="annotationGuideline"
+                    :guidelines="annotationGuidelines"
+                    :must-use-guideline="mustUseAnnotationGuideline"
+                    :volume-id="volumeId"
+                    v-on:update:model-value="handleSelectedAnnotationGuideline"
+                    ></annotation-guideline-selector>
+                <input v-if="annotationGuidelineId" type="hidden" name="guideline_id" :value="annotationGuidelineId">
+                @if ($errors->has('guideline_id'))
+                    <span class="help-block">{{ $errors->first('guideline_id') }}</span>
+                @endif
                 <div class="request-labels-well well well-sm">
-                    <label-trees :trees="labelTrees" :multiselect="true"></label-trees>
+                    <label-trees
+                        :trees="labelTrees"
+                        :multiselect="true"
+                        :labels-in-guideline="labelsInGuideline"
+                        :enforce-guideline="enforceGuideline"
+                        ></label-trees>
                 </div>
             </div>
 
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <button type="reset" class="btn btn-default" title="Discard this annotation assistance request" v-on:click="close">Discard</button>
-            <button type="submit" class="btn btn-success pull-right" title="Create this annotation assistance request">Create</button>
+            <button type="submit" class="btn btn-success pull-right" title="Create this annotation assistance request" :disabled="hasDisallowedSelectedLabels || missingRequiredGuideline || null">Create</button>
         </form>
     </div>
 </div>

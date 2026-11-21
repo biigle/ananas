@@ -3,15 +3,19 @@
 namespace Biigle\Modules\Ananas\Http\Requests;
 
 use Biigle\Enums\Role;
+use Biigle\Http\Requests\Traits\ValidatesAnnotationGuideline;
 use Biigle\ImageAnnotation;
 use Biigle\Label;
 use Biigle\Modules\Ananas\AnnotationAssistanceRequest;
 use Biigle\Project;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class StoreAnnotationAssistanceRequest extends FormRequest
 {
+    use ValidatesAnnotationGuideline;
+
     /**
      * The annotation to create the request for.
      *
@@ -41,6 +45,7 @@ class StoreAnnotationAssistanceRequest extends FormRequest
             'receiver_id' => 'nullable|integer|exists:users,id',
             'request_text' => 'required',
             'request_labels' => 'array',
+            'guideline_id' => 'nullable|integer',
         ];
     }
 
@@ -98,7 +103,41 @@ class StoreAnnotationAssistanceRequest extends FormRequest
             if ($this->invalidLabels()) {
                 $validator->errors()->add('request_labels', 'Some request labels belong to label trees that are not available for the annotation.');
             }
+
+            $this->validateLabelsGuideline($validator);
         });
+    }
+
+    /**
+     * Check if the suggested labels are allowed by the annotation guideline.
+     */
+    protected function validateLabelsGuideline(Validator $validator): void
+    {
+        // Without suggested labels, the guideline is not relevant.
+        if (empty($this->input('request_labels')) || $validator->errors()->isNotEmpty()) {
+            return;
+        }
+
+        $guideline = $this->validateGuideline(
+            $validator,
+            $this->annotation->image->volume_id,
+            $this->integer('guideline_id') ?: null
+        );
+
+        if (is_null($guideline)) {
+            return;
+        }
+
+        $disallowed = collect($this->input('request_labels'))
+            ->filter(fn ($label) => !$guideline->allowsLabel($label['id'])
+                || !$guideline->allowsShape($this->annotation->shape, $label['id']))
+            ->pluck('name');
+
+        if ($disallowed->isEmpty()) {
+            return;
+        }
+
+        $validator->errors()->add('request_labels', 'The annotation guideline does not allow these labels for the annotation: '.$disallowed->join(', ').'.');
     }
 
     /**

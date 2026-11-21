@@ -17,6 +17,9 @@
         Each new assistance request requires a short text to describe your request or ask questions. Be sure not to write too much, so the receiver of your request does not have to spend too much time with it. If the receiver of the request should be another BIIGLE user, you can choose them here, too. Optionally, you can select one or more candidate labels to suggest to the receiver of the assistance request. This makes it even easier for them to respond, as they only have to select a candidate label and then submit the response. Be careful not to select too many candidate labels here, as well. Finally, click <button class="btn btn-success btn-xs">Create</button> and you will be redirected to the new assistance request.
     </p>
     <p>
+        If a project of the volume has an annotation guideline, the <button class="btn btn-default btn-xs"><i class="fa fa-clipboard-list"></i> Use Guideline</button> button above the label trees can be used to select the guideline. The choice is shared with the annotation tools of the volume. If the guideline is enforced, you can only suggest labels that are allowed by the guideline for the shape of the annotation. Read more about this in the <a href="{{route('manual-tutorials', ['projects', 'about'])}}#use-a-guideline">annotation guideline</a> section of the projects article.
+    </p>
+    <p>
         Each user can only create one annotation assistance request per minute. Be conservative when you send assistance requests to not overwhelm and annoy the people you are asking for help. If you have a few annotations with an uncertain label but which display the same thing, only send a single assistance request. Once you know the correct label you can attach it to the rest of the annotations yourself.
     </p>
     <p>
@@ -34,6 +37,9 @@
     </p>
     <p>
         If you suggested one or more labels to the receiver of the assistance request and they chose one of them, the <button class="btn btn-success btn-xs">Attach this label</button> button is displayed. Use this button to instantly attach the chosen label to the annotation. If you already attached the label or the label has been deleted in the meantime, the button will not be shown.
+    </p>
+    <p>
+        The receiver of the assistance request can choose any of the suggested labels, regardless of an annotation guideline. The "attach label" button is disabled if the selected guideline does not allow the chosen label for the shape of the annotation. In this case, use the annotation tool to attach another label.
     </p>
     <p>
         If the receiver of the assistance request only responded with text, use the <button class="btn btn-default btn-xs">View in annotation tool</button> button to open the annotation tool. You can then modify the labels of the annotation there.

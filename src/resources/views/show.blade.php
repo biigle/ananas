@@ -12,6 +12,10 @@
     biigle.$declare('ananas.userId', {!! $user->id !!});
     biigle.$declare('ananas.suggestedLabelId', {!! $request->response_label_id !!});
     biigle.$declare('ananas.labels', {!! $existingLabels !!});
+    biigle.$declare('ananas.volumeId', {{ $volumeId }});
+    biigle.$declare('ananas.annotationGuidelines', @json($annotationGuidelines));
+    biigle.$declare('ananas.mustUseAnnotationGuideline', @json($mustUseAnnotationGuideline));
+    biigle.$declare('ananas.availableShapes', {!! $shapes !!});
 </script>
 @endpush
 
@@ -123,7 +127,21 @@
                             @endif
                         </div>
                         @if ($responseLabelExists)
-                            <button v-if="!attachedSuggestedLabel" v-cloak type="button" class="btn btn-success btn-block" title="Attach the chosen label to the annotation" v-on:click="attach">Attach this label</button>
+                            <div v-if="!attachedSuggestedLabel" v-cloak>
+                                <annotation-guideline-selector
+                                    v-if="hasEnforcedAnnotationGuidelines"
+                                    :model-value="annotationGuideline"
+                                    :guidelines="annotationGuidelines"
+                                    :must-use-guideline="mustUseAnnotationGuideline"
+                                    :volume-id="volumeId"
+                                    :show-shapes="false"
+                                    v-on:update:model-value="handleSelectedAnnotationGuideline"
+                                    ></annotation-guideline-selector>
+                                <p v-if="!suggestedLabelAllowed" class="text-danger">
+                                    The annotation guideline does not allow this label for the annotation.
+                                </p>
+                                <button type="button" class="btn btn-success btn-block" :title="attachTitle" :disabled="!suggestedLabelAllowed || null" v-on:click="attach">Attach this label</button>
+                            </div>
                         @endif
                     @endif
                     @if (!$request->response_label || !$responseLabelExists)
